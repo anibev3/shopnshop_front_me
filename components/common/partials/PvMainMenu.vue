@@ -1083,67 +1083,102 @@
             </li>
 
             <li>
-                <nuxt-link to="/">Home</nuxt-link>
+                <nuxt-link to="/">Accueil</nuxt-link>
             </li>
 
             <li>
-                <nuxt-link to="/shop"> Shop </nuxt-link>
+                <nuxt-link to="/shop"> Articles </nuxt-link>
             </li>
 
             <li>
+                <a
+                    href="javascript:;"
+                    class="sub-menu-link sf-with-ul"
+                    :class="{ active: isPageItemActived }"
+                    >Pages
+                </a>
+
+                <ul>
+                    <li v-for="item in mainMenu.other" :key="item.title">
+                        <nuxt-link
+                            :to="item.url"
+                            :class="{ 'sub-menu-link': item.subPages }"
+                            >{{ item.title }}</nuxt-link
+                        >
+
+                        <ul v-if="item.subPages">
+                            <li
+                                v-for="subItem in item.subPages"
+                                :key="subItem.title"
+                            >
+                                <nuxt-link :to="subItem.url">{{
+                                    subItem.title
+                                }}</nuxt-link>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a
+                    href="javascript:;"
+                    class="sub-menu-link sf-with-ul"
+                    :class="{ active: isPageItemActived }"
+                    >En savoir plus</a
+                >
+
+                <ul>
+                    <li v-for="item in mainMenu.plus" :key="item.title">
+                        <nuxt-link
+                            :to="item.url"
+                            :class="{ 'sub-menu-link': item.subPages }"
+                            >{{ item.title }}</nuxt-link
+                        >
+
+                        <ul v-if="item.subPages">
+                            <li
+                                v-for="subItem in item.subPages"
+                                :key="subItem.title"
+                            >
+                                <nuxt-link :to="subItem.url">{{
+                                    subItem.title
+                                }}</nuxt-link>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="float-right phone">
+                <a href="javascript:;" class="d-flex align-items-center"
+                    ><i class="icon-phone-1"></i>+225 27 22 29 94 64</a
+                >
+            </li>
+            <li class="float-right">
+                <a
+                    href="javascript:;"
+                    class="d-inline-flex align-items-center sf-with-ul text-white"
+                    @click="openConsultationModal"
+                    style="background-color: black; border-radius: 6px"
+                >
+                    <!-- <i class="custom-icon-toggle-menu d-inline-table"></i
+                    > -->
+                    <span>PLANIFIER UNE CONSULTATION</span></a
+                >
+            </li>
+            <!-- <li class="float-right"><a href="javascript:;">FLASH DEALS</a></li> -->
+            <li class="float-right">
                 <nuxt-link
                     to="/product/default/beats-solo-hd-drenched-one"
                     class="sub-menu-link sf-with-ul"
                     :class="{ active: $route.path.indexOf('/product') > -1 }"
-                    >Products</nuxt-link
+                    >VENTE FLASH</nuxt-link
                 >
 
                 <div class="megamenu megamenu-fixed-width megamenu-3cols">
                     <div class="row">
-                        <div class="col-lg-4">
-                            <a href="javascript:;" class="nolink"
-                                >PRODUCT PAGES</a
-                            >
-
-                            <ul class="submenu">
-                                <li
-                                    v-for="item in mainMenu.product.pages"
-                                    :key="item.title"
-                                >
-                                    <nuxt-link :to="item.url">
-                                        {{ item.title }}
-                                        <span
-                                            class="tip tip-hot"
-                                            v-if="item.hot"
-                                            >Hot</span
-                                        >
-                                    </nuxt-link>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <a href="javascript:;" class="nolink"
-                                >PRODUCT LAYOUTS</a
-                            >
-
-                            <ul class="submenu">
-                                <li
-                                    v-for="item in mainMenu.product.layout"
-                                    :key="item.title"
-                                >
-                                    <nuxt-link :to="item.url">{{
-                                        item.title
-                                    }}</nuxt-link>
-                                </li>
-
-                                <li>
-                                    <a href="javascript:;">Build your own</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="col-lg-4 p-0">
+                        <div class="col-lg-12 p-0">
                             <div
                                 class="menu-banner menu-banner-2 position-relative"
                             >
@@ -1174,65 +1209,6 @@
                     </div>
                 </div>
             </li>
-
-            <li>
-                <a
-                    href="javascript:;"
-                    class="sub-menu-link sf-with-ul"
-                    :class="{ active: isPageItemActived }"
-                    >Pages</a
-                >
-
-                <ul>
-                    <li v-for="item in mainMenu.other" :key="item.title">
-                        <nuxt-link
-                            :to="item.url"
-                            :class="{ 'sub-menu-link': item.subPages }"
-                            >{{ item.title }}</nuxt-link
-                        >
-
-                        <ul v-if="item.subPages">
-                            <li
-                                v-for="subItem in item.subPages"
-                                :key="subItem.title"
-                            >
-                                <nuxt-link :to="subItem.url">{{
-                                    subItem.title
-                                }}</nuxt-link>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-
-            <li>
-                <a href="/https://1.envato.market/DdLk5" target="_blank"
-                    >Buy Porto</a
-                >
-            </li>
-
-            <li class="float-right phone">
-                <a href="javascript:;" class="d-flex align-items-center"
-                    ><i class="icon-phone-1"></i>1-800-234-5678</a
-                >
-            </li>
-            <li class="float-right">
-                <!-- <a href="https://1.envato.market/DdLk5" target="_blank"
-                    >NEW ARRIVALS</a
-                > -->
-
-                <a
-                    href="javascript:;"
-                    class="d-inline-flex align-items-center sf-with-ul text-white"
-                    @click="openConsultationModal"
-                    style="background-color: black; border-radius: 6px"
-                >
-                    <!-- <i class="custom-icon-toggle-menu d-inline-table"></i
-                    > -->
-                    <span>PLANIFIER UNE CONSULTATION</span></a
-                >
-            </li>
-            <li class="float-right"><a href="javascript:;">FLASH DEALS</a></li>
         </ul>
     </nav>
 </template>
@@ -1323,7 +1299,7 @@ export default {
             this.$modal.show(
                 () => import('~/components/features/modal/PvConsultationModal'),
                 {},
-                { width: '525', height: 'auto', adaptive: true }
+                { width: '600', height: 'auto', adaptive: true }
             );
         },
     },

@@ -43,7 +43,10 @@
             </div>
 
             <div class="wishlist-title">
-                <h2 class="p-2">My wishlist on Porto Shop {{ currentDemo }}</h2>
+                <h2 class="p-2">
+                    Mes favoris
+                    <!-- {{ currentDemo }} -->
+                </h2>
             </div>
             <div
                 class="wishlist-table-container"
@@ -227,7 +230,7 @@
                                     colspan="6"
                                     class="px-3 py-2 wishlist-empty wishlist-text"
                                 >
-                                    No products added to the wishlist
+                                    Aucun produit ajouté à la liste de souhaits
                                 </td>
                             </tr>
                             <tr class="border-0 py-0">
@@ -235,7 +238,7 @@
                                     <nuxt-link
                                         to="/shop"
                                         class="btn btn-go-shop"
-                                        >GO SHOP</nuxt-link
+                                        >ALLER AU CHOPPING</nuxt-link
                                     >
                                 </td>
                             </tr>

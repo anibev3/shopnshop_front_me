@@ -24,7 +24,7 @@
                     class="form-control"
                     name="search_term"
                     :id="'search_term' + getId"
-                    placeholder="Search..."
+                    placeholder="Rechercher quelque chose..."
                     required
                     v-model="search_term"
                     @input="searchProducts"

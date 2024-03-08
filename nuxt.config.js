@@ -93,9 +93,17 @@ export default {
         { src: '~/plugins/directives/animate.js', ssr: false },
         { src: '~/plugins/directives/parallax.js', ssr: false },
         { src: '~/plugins/directives/sticky.js', ssr: false },
+        { src: '~/plugins/vue2-slot-calendar.js', ssr: false },
+        { src: '~/plugins/v-calendar.js', ssr: false },
+        // { src: '~/plugins/antd.js', ssr: false },
+        // '~/plugins/antd.js',
     ],
 
-    buildModules: ['@nuxtjs/style-resources', 'cookie-universal-nuxt'],
+    buildModules: [
+        '@nuxtjs/style-resources',
+        'cookie-universal-nuxt',
+        // '@nuxtjs/vuetify',
+    ],
 
     modules: [
         '@nuxtjs/axios',
@@ -110,24 +118,25 @@ export default {
                     'DataTable',
                     'Dialog',
                     'Calendar',
+                    'Steps',
+                    'Toast',
+                    'Accordion',
+                    'AccordionTab',
                 ],
                 directives: ['Tooltip', 'Badge'],
             },
         ],
+        // '@nuxtjs-extra/ant-design-vue',
+        // [
+        //     '@nuxtjs-extra/ant-design-vue',
+        //     {
+        //         style: 'css', // available options: 'css', 'less'
+        //         useDayJs: false, // replace moment.js with day.js internally within 'ant-design-vue' for reducing package size
+        //     },
+        // ],
     ],
 
-    // primevue: {
-    //     usePrimeVue: true,
-    //     options: {
-    //         ripple: true,
-    //     },
-
-    //     components: {
-    //         includes: ['Button'],
-    //     },
-    // },
-
-    // css: ['primevue/resources/themes/aura-light-green/theme.css'],
+    // css: ['ant-design-vue/dist/antd.css'],
 
     router: {
         base: '/vue/porto/demo-36/',

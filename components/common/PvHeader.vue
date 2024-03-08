@@ -10,7 +10,8 @@
 
                         <div class="info-box-content">
                             <h4 class="text-transform-none text-white">
-                                FREE Express Shipping On Orders $99+
+                                Livraison express GRATUITE pour les commandes de
+                                1 000 000 FCFA et plus
                             </h4>
                         </div>
                     </div>

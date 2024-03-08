@@ -8,6 +8,7 @@
                             <i class="icon-home"></i>
                         </nuxt-link>
                     </li>
+
                     <li class="breadcrumb-item">
                         <nuxt-link to="/shop">Shop</nuxt-link>
                     </li>
@@ -37,24 +38,27 @@
             </div>
         </nav>
 
-        <div class="container pt-2">
-            <div class="product-single-container product-single-default">
-                <div class="row" v-if="product">
+        <div class="container">
+            <div
+                class="product-single-container product-single-default"
+                v-if="product"
+            >
+                <div class="row">
                     <div class="col-lg-5 col-md-6 product-single-gallery">
                         <pv-media-one :product="product"></pv-media-one>
                     </div>
 
                     <div class="col-lg-7 col-md-6 product-single-details">
-                        <pv-detail-one
+                        <pv-detail-two
                             :product="product"
                             :prev-product="prevProduct"
                             :next-product="nextProduct"
-                        ></pv-detail-one>
+                        ></pv-detail-two>
                     </div>
                 </div>
             </div>
 
-            <div class="skel-group" v-if="!product">
+            <div class="skel-group" v-else>
                 <div class="summary-before col-lg-5 col-md-6"></div>
                 <div class="summary entry-summary col-lg-7 col-md-6"></div>
                 <div class="tab-content col-lg-12 mb-7"></div>
@@ -64,23 +68,36 @@
 
             <pv-related-products
                 :products="relatedProducts"
+                class="mb-1"
             ></pv-related-products>
+
+            <hr class="mt-0 m-b-5" />
+
+            <div class="skeleton-body">
+                <pv-small-collection
+                    :featured-products="featuredProducts"
+                    :best-products="bestProducts"
+                    :latest-products="latestProducts"
+                    :top-rated-products="topRatedProducts"
+                ></pv-small-collection>
+            </div>
         </div>
     </main>
 </template>
 
 <script>
+import { VueTreeList, Tree } from 'vue-tree-list';
+import Api, { baseUrl, currentDemo } from '~/api';
 import PvMediaOne from '~/components/partials/product/media/PvMediaOne';
-import PvDetailOne from '~/components/partials/product/detail/PvDetailOne';
+import PvDetailTwo from '~/components/partials/product/detail/PvDetailTwo';
 import PvDescOne from '~/components/partials/product/description/PvDescOne';
 import PvRelatedProducts from '~/components/partials/product/PvRelatedProducts';
 import PvSmallCollection from '~/components/partials/product/PvSmallCollection';
-import Api, { baseUrl, currentDemo } from '~/api';
 
 export default {
     components: {
         PvMediaOne,
-        PvDetailOne,
+        PvDetailTwo,
         PvDescOne,
         PvRelatedProducts,
         PvSmallCollection,
@@ -95,7 +112,9 @@ export default {
             topRatedProducts: null,
             nextProduct: null,
             prevProduct: null,
+            baseUrl: baseUrl,
             loaded: false,
+            categoryList: [],
             productCategory: [],
         };
     },

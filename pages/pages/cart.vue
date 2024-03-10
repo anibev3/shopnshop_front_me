@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <ul
-            class="checkout-progress-bar d-flex justify-content-center flex-wrap"
+            class="checkout-progress-bar d-flex justify-content-center flex-wrap block"
         >
             <li class="active">
                 <a href="javascript:;">Panier</a>
@@ -10,7 +10,7 @@
                 <nuxt-link to="/pages/checkout">Vérification</nuxt-link>
             </li>
             <li class="disabled">
-                <a href="javascript:;">Order Complete</a>
+                <a href="javascript:;">Paiement</a>
             </li>
         </ul>
 

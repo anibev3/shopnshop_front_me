@@ -88,7 +88,7 @@
                         <nuxt-link
                             to="/pages/cart"
                             class="btn btn-gray btn-block view-cart"
-                            >View Cart</nuxt-link
+                            >Panier</nuxt-link
                         >
                         <nuxt-link
                             to="/pages/checkout"

@@ -19,7 +19,7 @@
                 }}</span>
             </div>
             <a href="javascript:;" class="rating-link"
-                >( {{ product.reviews }} Reviews )</a
+                >( {{ product.reviews }} Commentaires )</a
             >
         </div>
 
@@ -57,7 +57,7 @@
         </div>
 
         <div class="product-countdown-container-two mt-1" v-if="product.until">
-            <h5 class="daily-deal-title">Offer Ends In:</h5>
+            <h5 class="daily-deal-title">L'offre se termine dans :</h5>
             <pv-count-down
                 class="product-countdown countdown-compact"
                 :until="product.until"
@@ -282,10 +282,10 @@
                             href="javascript:;"
                             class="rating-link"
                             v-if="product.reviews > 0"
-                            >( {{ product.reviews }} Reviews )</a
+                            >( {{ product.reviews }} Commentaires )</a
                         >
                         <a href="javascript:;" class="rating-link" v-else
-                            >( There is no review yet. )</a
+                            >( Il n’y a pas encore de commentaires. )</a
                         >
                     </div>
                 </div>
@@ -370,13 +370,11 @@
                         title="Add to Wishlist AU PANIER"
                         @click="addCart"
                         :class="{ disabled: !isCartActive }"
-                        >Add to Wishlist AU PANIER</a
+                        >AJOUTER AU PANIER</a
                     >
 
-                    <nuxt-link
-                        to="/pages/cart"
-                        class="btn btn-gray view-cart d-none"
-                        >View cart</nuxt-link
+                    <nuxt-link to="/pages/cart" class="btn btn-gray view-cart"
+                        >Panier</nuxt-link
                     >
                 </div>
             </div>
@@ -384,8 +382,8 @@
 
         <hr class="divider mb-0 mt-0" />
 
-        <div class="product-single-share mb-3">
-            <label class="sr-only">Share:</label>
+        <div class="product-single-share mb-3 d-flex justify-content-between">
+            <label class="sr-only">Partager:</label>
 
             <div class="social-icons mr-2">
                 <a
@@ -422,7 +420,7 @@
                 v-if="isWishlisted"
             >
                 <i class="icon-wishlist-2"></i>
-                <span>Go to Wishlist</span>
+                <span>Ajouter au favoris</span>
             </nuxt-link>
 
             <a
@@ -433,7 +431,7 @@
                 v-if="!isWishlisted"
             >
                 <i class="icon-wishlist-2"></i>
-                <span>Add to Wishlist</span>
+                <span>Ajouter au favoris</span>
             </a>
         </div>
     </div>

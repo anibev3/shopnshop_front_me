@@ -334,7 +334,7 @@
                 <nuxt-link
                     to="/pages/cart"
                     class="btn btn-gray view-cart d-none"
-                    >View cart</nuxt-link
+                    >Panier</nuxt-link
                 >
 
                 <nuxt-link

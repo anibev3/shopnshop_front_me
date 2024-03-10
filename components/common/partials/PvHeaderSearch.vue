@@ -36,7 +36,7 @@
                         v-model="searchCategory"
                         @change="searchProducts"
                     >
-                        <option value>All Categories</option>
+                        <option value>Toute catégories</option>
                         <option value="fashion">Fashion</option>
                         <option value="women">- Women</option>
                         <option value="men">- Men</option>

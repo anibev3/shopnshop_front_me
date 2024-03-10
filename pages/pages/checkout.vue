@@ -18,7 +18,7 @@
             <template v-if="cartList.length > 0">
                 <div class="login-form-container">
                     <h4>
-                        Returning customer?
+                        <span>Vous n'êtes pas connecté</span>
                         <button
                             data-toggle="collapse"
                             data-target="#collapseOne"
@@ -26,8 +26,14 @@
                             aria-controls="collapseOne"
                             class="btn btn-link btn-toggle"
                             @click="loginOpened = !loginOpened"
+                            style="
+                                border: 1px solid rgb(132, 18, 132);
+                                background-color: rgb(132, 18, 132);
+                                padding: 3px 50px 3px 50px;
+                                color: white;
+                            "
                         >
-                            Login
+                            Se connecter
                         </button>
                     </h4>
 
@@ -36,17 +42,18 @@
                             <div class="feature-box-content">
                                 <form action="#" id="login-form">
                                     <p>
-                                        If you have shopped with us before,
-                                        please enter your details below. If you
-                                        are a new customer, please proceed to
-                                        the Billing & Shipping section.
+                                        Si vous avez déjà acheté chez nous,
+                                        veuillez saisir vos coordonnées
+                                        ci-dessous. Si vous êtes un nouveau
+                                        client, veuillez passer à la section
+                                        Facturation et expédition.
                                     </p>
 
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mb-0 pb-1">
-                                                    Username or email
+                                                    Email
                                                     <span class="required"
                                                         >*</span
                                                     >
@@ -62,7 +69,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mb-0 pb-1">
-                                                    Password
+                                                    Mot de passe
                                                     <span class="required"
                                                         >*</span
                                                     >
@@ -77,7 +84,7 @@
                                     </div>
 
                                     <button type="submit" class="btn">
-                                        LOGIN
+                                        SE CONNECTER
                                     </button>
 
                                     <div class="form-footer mb-1">
@@ -93,14 +100,14 @@
                                                 class="custom-control-label mb-0"
                                                 for="lost-password"
                                             >
-                                                Remember me
+                                                Se souvenir de moi
                                             </label>
                                         </div>
 
                                         <nuxt-link
                                             to="/pages/forgot-password"
                                             class="forget-password"
-                                            >Lost your password?</nuxt-link
+                                            >Mot de passe oublié ?</nuxt-link
                                         >
                                     </div>
                                 </form>
@@ -111,7 +118,7 @@
 
                 <div class="checkout-discount">
                     <h4>
-                        Have a coupon?
+                        Vous avez un coupon ?
                         <button
                             data-toggle="collapse"
                             data-target="#collapseTwo"
@@ -120,7 +127,7 @@
                             class="btn btn-link btn-toggle"
                             @click="codeOpened = !codeOpened"
                         >
-                            ENTER YOUR CODE
+                            ENTREZ VOTRE COUPON
                         </button>
                     </h4>
 
@@ -128,8 +135,8 @@
                         <div class="feature-box">
                             <div class="feature-box-content">
                                 <p>
-                                    If you have a coupon code, please apply it
-                                    below.
+                                    Si vous avez un code promo, veuillez
+                                    l'appliquer ci-dessous.
                                 </p>
 
                                 <form action="#">
@@ -137,7 +144,7 @@
                                         <input
                                             type="text"
                                             class="form-control form-control-sm w-auto"
-                                            placeholder="Coupon code"
+                                            placeholder="Code coupon"
                                             required
                                         />
                                         <div class="input-group-append">
@@ -145,7 +152,7 @@
                                                 class="btn btn-sm mt-0"
                                                 type="submit"
                                             >
-                                                Apply Coupon
+                                                Appliquer le code
                                             </button>
                                         </div>
                                     </div>
@@ -159,7 +166,9 @@
                     <div class="col-lg-7">
                         <ul class="checkout-steps">
                             <li>
-                                <h2 class="step-title">Billing details</h2>
+                                <h2 class="step-title">
+                                    Détails de la facturation
+                                </h2>
 
                                 <form action="#" id="checkout-form">
                                     <div class="row">

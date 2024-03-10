@@ -8,7 +8,7 @@
                     @click.prevent="mmenuAddHandler"
                 >
                     <i class="custom-icon-toggle-menu d-inline-table"></i
-                    ><span>ALL DEPARTMENTS</span></a
+                    ><span>TOUTE CATEGORIES</span></a
                 >
                 <div
                     class="menu-depart-overlay"
@@ -1125,7 +1125,7 @@
                     href="javascript:;"
                     class="sub-menu-link sf-with-ul"
                     :class="{ active: isPageItemActived }"
-                    >En savoir plus</a
+                    >Plus</a
                 >
 
                 <ul>

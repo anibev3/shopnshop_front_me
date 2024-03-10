@@ -12,7 +12,7 @@
                     <li class="breadcrumb-item">
                         <nuxt-link to="/shop">Shop</nuxt-link>
                     </li>
-                    <li class="breadcrumb-item" v-if="loaded">
+                    <li class="breadcrumb-item d-none d-lg-block" v-if="loaded">
                         <nuxt-link
                             :to="{
                                 path: '/shop',

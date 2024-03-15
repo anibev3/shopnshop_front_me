@@ -28,45 +28,80 @@
                     required
                     v-model="search_term"
                     @input="searchProducts"
+                    style="border-radius: 10px 0px 0px 10px"
                 />
                 <div class="select-custom">
+                    <!-- <select
+                        :id="'searchCategory' + getId"
+                        name="searchCategory"
+                        v-model="searchCategory"
+                        @change="searchProducts"
+                    >
+                        <option value>Tout</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="women">&nbsp;&nbsp;&nbsp;- Women</option>
+                        <option value="men">&nbsp;&nbsp;&nbsp;- Men</option>
+                        <option value="jewellery">
+                            &nbsp;&nbsp;&nbsp;- Jewellery
+                        </option>
+                        <option value="kids">
+                            &nbsp;&nbsp;&nbsp;- Kids Fashion
+                        </option>
+                        <option value="electronics">Electronics</option>
+                        <option value="smart-tvs">
+                            &nbsp;&nbsp;&nbsp;- Smart TVs
+                        </option>
+                        <option value="cameras">
+                            &nbsp;&nbsp;&nbsp;- Cameras
+                        </option>
+                        <option value="games">&nbsp;&nbsp;&nbsp;- Games</option>
+                        <option value="home-garden">Home &amp; Garden</option>
+                        <option value="motors">Motors</option>
+                        <option value="cars-and-trucks">
+                            &nbsp;&nbsp;&nbsp;- Cars and Trucks
+                        </option>
+                        <option value="motorcycles-powersports">
+                            &nbsp;&nbsp;&nbsp;- Motorcycles &amp; Powersports
+                        </option>
+                        <option value="accessories">
+                            &nbsp;&nbsp;&nbsp;- Parts &amp; Accessories
+                        </option>
+                        <option value="boats">&nbsp;&nbsp;&nbsp;- Boats</option>
+                        <option value="supplies">
+                            &nbsp;&nbsp;&nbsp;- Auto Tools &amp; Supplies
+                        </option>
+                    </select> -->
+
                     <select
                         :id="'searchCategory' + getId"
                         name="searchCategory"
                         v-model="searchCategory"
                         @change="searchProducts"
                     >
-                        <option value>Toute catégories</option>
-                        <option value="fashion">Fashion</option>
-                        <option value="women">- Women</option>
-                        <option value="men">- Men</option>
-                        <option value="jewellery">- Jewellery</option>
-                        <option value="kids">- Kids Fashion</option>
-                        <option value="electronics">Electronics</option>
-                        <option value="smart-tvs">- Smart TVs</option>
-                        <option value="cameras">- Cameras</option>
-                        <option value="games">- Games</option>
-                        <option value="home-garden">Home &amp; Garden</option>
-                        <option value="motors">Motors</option>
-                        <option value="cars-and-trucks">
-                            - Cars and Trucks
-                        </option>
-                        <option value="motorcycles-powersports">
-                            - Motorcycles &amp; Powersports
-                        </option>
-                        <option value="accessories">
-                            - Parts &amp; Accessories
-                        </option>
-                        <option value="boats">- Boats</option>
-                        <option value="supplies">
-                            - Auto Tools &amp; Supplies
-                        </option>
+                        <option value>Tout</option>
+                        {{
+                            categoryList
+                        }}
+                        <optgroup
+                            v-for="category in categoryList"
+                            :label="category.name"
+                            :key="category.uuid"
+                        >
+                            <option
+                                v-for="subCategory in category.sub_categories"
+                                :value="subCategory.slug"
+                                :key="subCategory.uuid"
+                            >
+                                {{ subCategory.name }}
+                            </option>
+                        </optgroup>
                     </select>
                 </div>
                 <button
                     class="btn icon-magnifier p-0"
                     title="search"
                     type="submit"
+                    style="border-radius: 0px 10px 10px 0px"
                 ></button>
 
                 <div class="live-search-list">
@@ -141,7 +176,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Api, { baseUrl, currentDemo } from '~/api';
+import Api, { baseUrl, baseUrl2, currentDemo, apiEndpoints } from '~/api';
 
 export default {
     data: function () {
@@ -150,11 +185,15 @@ export default {
             suggestions: [],
             timeouts: [],
             baseUrl: baseUrl,
+            baseUrl2: baseUrl2,
+            apiEndpoints: apiEndpoints,
             currentDemo: currentDemo,
             searchCategory: '',
+            categoryList: [],
         };
     },
     mounted: function () {
+        this.getCategoryFunction();
         document
             .querySelector('body')
             .addEventListener('click', this.closeSearchForm);
@@ -165,6 +204,20 @@ export default {
         },
     },
     methods: {
+        getCategoryFunction() {
+            Api.get(`${baseUrl2}${apiEndpoints.getCategories}`)
+                .then((response) => {
+                    console.log(response);
+                    this.categoryList = response?.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            console.log(
+                'EXPECTION DE LA BASE URL',
+                `${baseUrl2}${apiEndpoints.getCategories}`
+            );
+        },
         searchProducts: function () {
             if (this.search_term.length > 2) {
                 var search_term = this.search_term;
@@ -274,6 +327,11 @@ export default {
             });
         },
         submitSearchForm: function (e) {
+            // console.log('LA VALEUR DE e: ', {
+            //     search_term: this.search_term,
+            //     category: this.searchCategory,
+            // });
+            // return;
             this.closeSearchForm();
             this.$router.push({
                 path: '/shop',

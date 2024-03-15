@@ -4,6 +4,7 @@
             <li class="menu-item" :class="{ show: isDepart }">
                 <a
                     href="javascript:;"
+                    style="background-color: black"
                     class="d-inline-flex align-items-center sf-with-ul text-white"
                     @click.prevent="mmenuAddHandler"
                 >
@@ -20,62 +21,83 @@
                     >
                         <li>
                             <a href="javascript:;" class="sf-with-ul"
-                                ><i class="icon-category-fashion"></i>Fashion</a
+                                ><i class="icon-category-fashion"></i>Mode
+                                Femme</a
                             >
 
                             <div
                                 class="megamenu megamenu-fixed-width megamenu-one"
                             >
                                 <div class="row">
-                                    <div class="col-lg-3 mb-1 pb-2">
+                                    <div class="col-lg-4 mb-1 pb-2">
                                         <a
                                             href="javascript:;"
                                             class="nolink pl-0"
-                                            >WOMAN</a
+                                            >VETEMENTS</a
                                         >
                                         <ul class="submenu">
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Top & Blouses</nuxt-link
+                                                    >Tous les
+                                                    vêtements</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Accessories</nuxt-link
+                                                    >Activewear</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop">
+                                                    Maillots de bain & vêtements
+                                                    de plage</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Dresses & Skirts</nuxt-link
+                                                    >Manteaux</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Shoes & Boots</nuxt-link
-                                                >
-                                            </li>
-                                        </ul>
-
-                                        <a
-                                            href="javascript:;"
-                                            class="nolink pl-0"
-                                            >JEWELLERY</a
-                                        >
-                                        <ul class="submenu">
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Sweaters</nuxt-link
+                                                    >Denim</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Heels & Sandals</nuxt-link
+                                                    >Robes</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Jeans & Shorts</nuxt-link
+                                                    >Vestes</nuxt-link
                                                 >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Maille</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Lingerie & vêtements de
+                                                    nuit
+                                                </nuxt-link>
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop">
+                                                    Tenues de ski</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Hauts
+                                                </nuxt-link>
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Pantalons
+                                                </nuxt-link>
                                             </li>
                                         </ul>
                                     </div>
@@ -83,28 +105,60 @@
                                         <a
                                             href="javascript:;"
                                             class="nolink pl-0"
-                                            >MAN</a
+                                            >CHAUSSURES</a
                                         >
                                         <ul class="submenu">
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Accessories</nuxt-link
+                                                    >Toutes les
+                                                    chaussures</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Watch Fashion</nuxt-link
+                                                    >Ballerines</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Tees, Knits &
-                                                    Polos</nuxt-link
+                                                    >Bottes &
+                                                    bottines</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >KOKA</nuxt-link
+                                                    >Espadrilles</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Tongs &
+                                                    claquettes</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Mocassins</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Mules</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Escarpins</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sandales</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Baskets</nuxt-link
                                                 >
                                             </li>
                                         </ul>
@@ -112,27 +166,30 @@
                                         <a
                                             href="javascript:;"
                                             class="nolink pl-0"
-                                            >KIDS FASHION</a
+                                            >ACCESSORIES</a
                                         >
                                         <ul class="submenu">
                                             <li>
-                                                <nuxt-link to="/shop"
-                                                    >Casual Shoes</nuxt-link
+                                                <nuxt-link to="/shop">
+                                                    Tous les
+                                                    accessoires</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Spring & Autumn</nuxt-link
+                                                    >Ceintures &
+                                                    Gants</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Winter Sneakers</nuxt-link
+                                                    >Lunettes &
+                                                    montures</nuxt-link
                                                 >
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-lg-5 p-0 d-lg-block d-none">
+                                    <!-- <div class="col-lg-5 p-0 d-lg-block d-none">
                                         <div class="menu-banner menu-banner-2">
                                             <figure>
                                                 <img
@@ -151,6 +208,92 @@
                                                 </h4>
                                             </div>
                                         </div>
+                                    </div> -->
+                                    <div class="col-lg-4">
+                                        <a
+                                            href="javascript:;"
+                                            class="nolink pl-0"
+                                            >SACS</a
+                                        >
+                                        <ul class="submenu">
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Tous les sacs</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sacs à dos</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sacs de plage</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sacs seau</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Pochettes</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Mini sacs</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sacs à
+                                                    bandoulière</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sacs porté
+                                                    épaule</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sacs cabas</nuxt-link
+                                                >
+                                            </li>
+                                        </ul>
+
+                                        <a
+                                            href="javascript:;"
+                                            class="nolink pl-0"
+                                            >Joaillerie</a
+                                        >
+                                        <ul class="submenu">
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Toute la
+                                                    joaillerie</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Bracelets fins</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Bagues fines</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Montres de
+                                                    prestige</nuxt-link
+                                                >
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div class="col-lg-12 d-lg-block d-none">
                                         <div class="partners-container row">
@@ -211,8 +354,8 @@
                         </li>
                         <li>
                             <a href="javascript:;" class="sf-with-ul"
-                                ><i class="icon-category-electronics"></i
-                                >Electronics</a
+                                ><i class="icon-boy-broad-smile"></i>Mode
+                                Homme</a
                             >
 
                             <div
@@ -223,40 +366,60 @@
                                         <a
                                             href="javascript:;"
                                             class="nolink pl-0"
-                                            >ACCESSORIES</a
+                                            >VÊTEMENTS</a
                                         >
                                         <ul class="submenu">
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Cables &
-                                                    Adaperts</nuxt-link
+                                                    >Tous les
+                                                    vêtements</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Electronic
-                                                    Cigarettes</nuxt-link
+                                                    >Activewear</nuxt-link
+                                                >
+                                            </li>
+
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Manteaux</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Batteries</nuxt-link
+                                                    >Jeans</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Chargers</nuxt-link
+                                                    >Polos</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Home Electronic</nuxt-link
+                                                    >Pre-owned</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Bags & Cases</nuxt-link
+                                                    >Chemises
+                                                </nuxt-link>
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop">
+                                                    Shorts</nuxt-link
                                                 >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Costumes
+                                                </nuxt-link>
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Pantalons
+                                                </nuxt-link>
                                             </li>
                                         </ul>
                                     </div>
@@ -265,32 +428,60 @@
                                         <a
                                             href="javascript:;"
                                             class="nolink pl-0"
-                                            >AUDIO & VIDEO</a
+                                            >CHAUSSURES</a
                                         >
                                         <ul class="submenu">
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Televisions</nuxt-link
+                                                    >Bottines</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Projectors</nuxt-link
+                                                    >Richelieus</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >TV peceivers</nuxt-link
+                                                    >Derbies</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Audio Amplifier</nuxt-link
+                                                    >Espadrilles</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >TV Sticks</nuxt-link
+                                                    >Tongs &
+                                                    claquettes</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Mocassins</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Chaussures à
+                                                    boucles</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Chaussures
+                                                    Oxford</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sandales</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Baskets</nuxt-link
                                                 >
                                             </li>
                                         </ul>
@@ -300,37 +491,54 @@
                                         <a
                                             href="javascript:;"
                                             class="nolink pl-0"
-                                            >CAMERA & PHOTO</a
+                                            >SACS</a
                                         >
                                         <ul class="submenu">
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Digital Cameras</nuxt-link
+                                                    >Tous les sacs</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Camcorders</nuxt-link
+                                                    >Sacs à dos</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Camera Drones</nuxt-link
+                                                    >Sacs banane</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Action Cameras</nuxt-link
+                                                    >Pochettes</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Photo Supplies</nuxt-link
+                                                    >Sacs ordinateur</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Camera & Photo</nuxt-link
+                                                    >Sacs fourre-tout</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sacs à
+                                                    bandoulière</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sacs porté
+                                                    épaule</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Sacs cabas</nuxt-link
                                                 >
                                             </li>
                                         </ul>
@@ -340,36 +548,59 @@
                                         <a
                                             href="javascript:;"
                                             class="nolink pl-0"
-                                            >LAPTOPS</a
+                                            >ACCESSOIRES</a
                                         >
                                         <ul class="submenu">
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Caming Laptops</nuxt-link
+                                                    >Tous les
+                                                    accessoires</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Ultraslim
-                                                    Laptops</nuxt-link
+                                                    >Ceintures</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Laptop
-                                                    Accessories</nuxt-link
+                                                    >Gants & Écharpes</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Laptop Bags &
-                                                    Cases</nuxt-link
+                                                    >Chapeaux, bonnets &
+                                                    casquettes</nuxt-link
                                                 >
                                             </li>
                                             <li>
                                                 <nuxt-link to="/shop"
-                                                    >Tablet
-                                                    Accessories</nuxt-link
+                                                    >Lunettes de
+                                                    soleil</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Cravates & nœuds
+                                                    papillon</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Portefeuilles &
+                                                    porte-cartes</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Accessoires
+                                                    pre-owned</nuxt-link
+                                                >
+                                            </li>
+                                            <li>
+                                                <nuxt-link to="/shop"
+                                                    >Accessoires
+                                                    responsables</nuxt-link
                                                 >
                                             </li>
                                         </ul>
@@ -475,7 +706,345 @@
                         </li>
                         <li>
                             <a href="javascript:;" class="sf-with-ul"
-                                ><i class="icon-category-gifts"></i>Gifts</a
+                                ><i class="icon-smiling-baby"></i>Mode Enfant</a
+                            >
+
+                            <div
+                                class="megamenu megamenu-fixed-width megamenu-four megamenu-product"
+                            >
+                                <div class="row">
+                                    <div id="accordion">
+                                        <div class="card card-accordion">
+                                            <a
+                                                href="#"
+                                                class="card-header"
+                                                :class="{
+                                                    expanded: toggleState[0],
+                                                    collapsed: !toggleState[0],
+                                                }"
+                                                @click.prevent="changeToggle(0)"
+                                            >
+                                                Bébé (0-36 mois)
+                                            </a>
+
+                                            <vue-slide-toggle
+                                                :open="toggleState[0]"
+                                            >
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div
+                                                            class="col-lg-4 mb-0 pb-2"
+                                                        >
+                                                            <a
+                                                                href="javascript:;"
+                                                                class="nolink pl-0"
+                                                                >PETITE FILLE</a
+                                                            >
+                                                            <ul
+                                                                class="submenu pb-0"
+                                                            >
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Accessoires</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Chaussures</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Tous
+                                                                        les
+                                                                        vêtements</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Vêtements
+                                                                        pour
+                                                                        bébé</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Manteaux</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Robes</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Vestes</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Shorts</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Jupes</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Maillots
+                                                                        de
+                                                                        bain</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Pantalons
+                                                                        de
+                                                                        jogging</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Pantalons</nuxt-link
+                                                                    >
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <a
+                                                                href="javascript:;"
+                                                                class="nolink pl-0 pt-2"
+                                                                >PETIT GARÇON</a
+                                                            >
+                                                            <ul
+                                                                class="submenu pb-0"
+                                                            >
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Accessoires</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Chaussures</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Tous
+                                                                        les
+                                                                        vêtements</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Vêtements
+                                                                        pour
+                                                                        bébé</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Manteaux</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Vestes</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Shorts</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Maillots
+                                                                        de
+                                                                        bain</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Pantalons
+                                                                        de
+                                                                        jogging</nuxt-link
+                                                                    >
+                                                                </li>
+                                                                <li>
+                                                                    <nuxt-link
+                                                                        to="/shop"
+                                                                        >Pantalons</nuxt-link
+                                                                    >
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div
+                                                            class="col-lg-5 d-lg-block d-none menu-product"
+                                                        >
+                                                            <pv-carousel
+                                                                class="swiper-carousel swiper-theme show-nav-hover nav-outer dots-small"
+                                                                :options="
+                                                                    homeSidebarSlider
+                                                                "
+                                                                v-if="
+                                                                    products &&
+                                                                    products.length >
+                                                                        0
+                                                                "
+                                                            >
+                                                                <pv-product-four
+                                                                    :product="
+                                                                        products[7]
+                                                                    "
+                                                                    class="swiper-slide"
+                                                                    :isDeal="
+                                                                        true
+                                                                    "
+                                                                ></pv-product-four>
+                                                                <pv-product-four
+                                                                    :product="
+                                                                        products[12]
+                                                                    "
+                                                                    class="swiper-slide"
+                                                                ></pv-product-four>
+                                                            </pv-carousel>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </vue-slide-toggle>
+                                        </div>
+
+                                        <div class="card card-accordion">
+                                            <a
+                                                href="#"
+                                                class="card-header"
+                                                :class="{
+                                                    expanded: toggleState[1],
+                                                    collapsed: !toggleState[1],
+                                                }"
+                                                @click.prevent="changeToggle(1)"
+                                            >
+                                                Enfant (2-12 ans)
+                                            </a>
+
+                                            <vue-slide-toggle
+                                                :open="toggleState[1]"
+                                            >
+                                                <div class="card-body">
+                                                    <p>
+                                                        Lorem ipsum dolor sit
+                                                        amet, consectetur
+                                                        adipiscing elit.
+                                                        Curabitur eget leo at
+                                                        velit imperdiet varius.
+                                                        In eu ipsum vitae velit
+                                                        congue iaculis vitae at
+                                                        risus. Nullam tortor
+                                                        nunc, bibendum vitae
+                                                        semper a, volutpat eget
+                                                        massa. Lorem ipsum dolor
+                                                        sit amet, consectetur
+                                                        adipiscing elit. Integer
+                                                        fringilla, orci sit amet
+                                                        posuere auctor, orci
+                                                        eros pellentesque odio,
+                                                        nec pellentesque erat
+                                                        ligula nec massa. Aenean
+                                                        consequat lorem ut felis
+                                                        ullamcorper posuere
+                                                        gravida tellus faucibus.
+                                                        Maecenas dolor elit,
+                                                        pulvinar eu vehicula eu,
+                                                        consequat et lacus. Duis
+                                                        et purus ipsum. In
+                                                        auctor mattis ipsum id
+                                                        molestie. Donec risus
+                                                        nulla, fringilla a
+                                                        rhoncus vitae, semper a
+                                                        massa. Vivamus
+                                                        ullamcorper, enim sit
+                                                        amet consequat laoreet,
+                                                        tortor tortor dictum
+                                                        urna, ut egestas urna
+                                                        ipsum nec libero. Nulla
+                                                        justo leo, molestie vel
+                                                        tempor nec, egestas at
+                                                        massa. Aenean pulvinar,
+                                                        felis porttitor iaculis
+                                                        pulvinar, odio orci
+                                                        sodales odio, ac
+                                                        pulvinar felis quam sit.
+                                                    </p>
+                                                </div>
+                                            </vue-slide-toggle>
+                                        </div>
+
+                                        <div class="card card-accordion">
+                                            <a
+                                                href="#"
+                                                class="card-header"
+                                                :class="{
+                                                    expanded: toggleState[2],
+                                                    collapsed: !toggleState[2],
+                                                }"
+                                                @click.prevent="changeToggle(2)"
+                                                >Adolescent (13-16 ans)
+                                            </a>
+
+                                            <vue-slide-toggle
+                                                :open="toggleState[2]"
+                                            >
+                                                <div class="card-body">
+                                                    <p>
+                                                        Lorem ipsum dolor sit
+                                                        amet, consectetur
+                                                        adipiscing elit.
+                                                        Curabitur eget leo at
+                                                        velit imperdiet varius.
+                                                        In eu ipsum vitae velit
+                                                        congue iaculis vitae at
+                                                        risus. Nullam tortor
+                                                        nunc, bibendum vitae
+                                                        semper a, volutpat eget
+                                                        massa.
+                                                    </p>
+                                                </div>
+                                            </vue-slide-toggle>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- <li>
+                            <a href="javascript:;" class="sf-with-ul"
+                                ><i class="icon-category-gifts"></i
+                                >Nouveautés</a
                             >
 
                             <div
@@ -591,10 +1160,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                        <li>
+                        </li> -->
+                        <!-- <li>
                             <a href="javascript:;" class="sf-with-ul"
-                                ><i class="icon-category-garden"></i>Home &
+                                ><i class="icon-boy-broad-smile"></i>Home &
                                 Garden</a
                             >
 
@@ -905,179 +1474,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="sf-with-ul"
-                                ><i class="icon-cat-sport"></i>Sports</a
-                            >
-
-                            <div
-                                class="megamenu megamenu-fixed-width megamenu-four megamenu-product"
-                            >
-                                <div class="row">
-                                    <div class="col-lg-4 mb-0 pb-2">
-                                        <a
-                                            href="javascript:;"
-                                            class="nolink pl-0"
-                                            >SPORTS</a
-                                        >
-                                        <ul class="submenu pb-0">
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Sports & Fitness</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Boating &
-                                                    Sailing</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Clothing</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Exercise &
-                                                    Fitness</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Golf</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Hunting &
-                                                    Fishing</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Leisure Sports</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Running</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Swiming</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Team Sports</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Tennis</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Other Sports</nuxt-link
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <a
-                                            href="javascript:;"
-                                            class="nolink pl-0 pt-2"
-                                            >SHOP BY PRICE</a
-                                        >
-                                        <ul class="submenu mb-1">
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Under $25</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >$25 to $50</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >$50 to $100</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >$100 to $200</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >$250 $ Above</nuxt-link
-                                                >
-                                            </li>
-                                        </ul>
-
-                                        <a
-                                            href="javascript:;"
-                                            class="nolink pl-0"
-                                            >SHOP BY NRAND</a
-                                        >
-                                        <ul class="submenu pb-0">
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Brooks</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Adidas</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Nike</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Asics</nuxt-link
-                                                >
-                                            </li>
-                                            <li>
-                                                <nuxt-link to="/shop"
-                                                    >Puma</nuxt-link
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div
-                                        class="col-lg-5 d-lg-block d-none menu-product"
-                                    >
-                                        <pv-carousel
-                                            class="swiper-carousel swiper-theme show-nav-hover nav-outer dots-small"
-                                            :options="homeSidebarSlider"
-                                            v-if="
-                                                products && products.length > 0
-                                            "
-                                        >
-                                            <pv-product-four
-                                                :product="products[7]"
-                                                class="swiper-slide"
-                                                :isDeal="true"
-                                            ></pv-product-four>
-                                            <pv-product-four
-                                                :product="products[12]"
-                                                class="swiper-slide"
-                                            ></pv-product-four>
-                                        </pv-carousel>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </li>
@@ -1086,8 +1483,17 @@
                 <nuxt-link to="/">Accueil</nuxt-link>
             </li>
 
-            <li>
+            <!-- <li>
                 <nuxt-link to="/shop"> Articles </nuxt-link>
+            </li> -->
+            <li>
+                <nuxt-link to="/shop"> MODE FEMME </nuxt-link>
+            </li>
+            <li>
+                <nuxt-link to="/shop"> MODE HOMME </nuxt-link>
+            </li>
+            <li>
+                <nuxt-link to="/shop"> MODE ENFANT </nuxt-link>
             </li>
 
             <li>
@@ -1120,7 +1526,7 @@
                 </ul>
             </li>
 
-            <li>
+            <!-- <li>
                 <a
                     href="javascript:;"
                     class="sub-menu-link sf-with-ul"
@@ -1148,7 +1554,7 @@
                         </ul>
                     </li>
                 </ul>
-            </li>
+            </li> -->
 
             <li class="float-right phone">
                 <a href="javascript:;" class="d-flex align-items-center"
@@ -1160,7 +1566,10 @@
                     href="javascript:;"
                     class="d-inline-flex align-items-center sf-with-ul text-white"
                     @click="openConsultationModal"
-                    style="background-color: black; border-radius: 6px"
+                    style="
+                        background-color: rgb(132, 18, 132);
+                        border-radius: 6px;
+                    "
                 >
                     <!-- <i class="custom-icon-toggle-menu d-inline-table"></i
                     > -->
@@ -1168,7 +1577,7 @@
                 >
             </li>
             <!-- <li class="float-right"><a href="javascript:;">FLASH DEALS</a></li> -->
-            <li class="float-right">
+            <!-- <li class="float-right">
                 <nuxt-link
                     to="/product/default/beats-solo-hd-drenched-one"
                     class="sub-menu-link sf-with-ul"
@@ -1208,11 +1617,13 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li> -->
         </ul>
     </nav>
 </template>
 <script>
+import Vue from 'vue';
+import { VueSlideToggle } from 'vue-slide-toggle';
 import { mainMenu } from '~/utils/data/menu';
 import Api, { baseUrl } from '~/api';
 import PvSmallProduct from '~/components/features/product/PvSmallProduct';
@@ -1225,6 +1636,7 @@ export default {
         PvCarousel,
         PvSmallProduct,
         PvProductFour,
+        VueSlideToggle,
     },
     data: function () {
         return {
@@ -1232,6 +1644,7 @@ export default {
             isDepart: false,
             products: [],
             homeSidebarSlider: homeSidebarSlider,
+            toggleState: [true, false, false, false, false],
         };
     },
     computed: {
@@ -1274,6 +1687,12 @@ export default {
             .catch((error) => ({ error: JSON.stringify(error) }));
     },
     methods: {
+        changeToggle: function (index) {
+            let tmp = this.toggleState[index];
+            this.toggleState.fill(false);
+            this.toggleState[index] = !tmp;
+            this.toggleState = [...this.toggleState];
+        },
         mmenuAddHandler: function (e) {
             this.isDepart = !this.isDepart;
             if (

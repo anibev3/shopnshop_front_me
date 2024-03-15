@@ -307,6 +307,12 @@ export default {
     },
     methods: {
         getProducts: function () {
+            console.log('LES INFORMATIONS / ', {
+                ...this.$route.query,
+                demo: currentDemo,
+                order_by: this.orderBy,
+                per_page: this.itemsPerPage,
+            });
             this.products = null;
             this.totalCount = 0;
             Api.get(`${baseUrl}/shop`, {

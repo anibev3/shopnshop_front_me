@@ -118,8 +118,6 @@ export default {
     },
     computed: {
         lightBoxMedia: function () {
-            console.log("VOICI LA REPONSE DE L'API");
-
             let pictures = [];
             for (let i = 0; i < this.posts.length; i++) {
                 pictures.push(this.posts[i].picture[0]);

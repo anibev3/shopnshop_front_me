@@ -10,11 +10,11 @@
                     <i class="icon-envolope"></i>
                     <div class="widget-info-content">
                         <h5 class="widget-newsletter-title mb-0">
-                            Subscribe To Our Newsletter
+                            Abonnez-vous à notre newsletter
                         </h5>
                         <p class="widget-newsletter-content mb-0">
-                            Get all the latest information on Events, Sales and
-                            Offers.
+                            Obtenez toutes les dernières informations sur les
+                            événements, les ventes et Des offres.
                         </p>
                     </div>
                 </div>
@@ -25,18 +25,18 @@
                         <input
                             type="email"
                             class="form-control mb-0"
-                            placeholder="Your E-mail Address"
+                            placeholder="Entrez votre adresse email"
                             size="40"
                             required
                         />
                         <button type="submit" class="btn btn-primary btn-sm">
-                            Subscribe Now!
+                            Abonnez-vous maintenant!
                         </button>
                     </div>
                 </form>
             </div>
 
-            <div class="footer-top">
+            <div class="footer-top d-none d-lg-block">
                 <div class="row">
                     <div class="col-md-6 col-lg-3">
                         <div class="widget">
@@ -244,10 +244,10 @@
 				</div>
 			</div> -->
             <div
-                class="footer-bottom d-sm-flex align-items-center justify-content-center"
+                class="footer-bottom d-sm-flex align-items-center justify-content-center d-none d-md-block"
             >
                 <span class="footer-copyright"
-                    >Porto eCommerce. © 2021. All Rights Reserved</span
+                    >Sherylux eCommerce. © 2023. All Rights Reserved</span
                 >
             </div>
         </div>

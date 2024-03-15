@@ -136,7 +136,9 @@
     }
 
     .container {
-        padding: 3.9rem 3.6rem 4.7rem;
+        // padding: 3.9rem 3.6rem 4.7rem;
+        padding: -0.09999999999999964rem 3.6rem 4.7rem;
+        border-radius: 12px;
     }
 
     .title {

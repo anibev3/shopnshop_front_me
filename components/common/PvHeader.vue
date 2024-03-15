@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <div class="header-top">
+        <!-- <div class="header-top">
             <div class="container bg-dark text-white">
                 <div class="header-left d-none d-sm-block">
                     <div
@@ -96,9 +96,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="header-middle sticky-header mobile-sticky">
+        <div
+            class="header-middle sticky-header mobile-sticky"
+            style="background-color: black; color: white"
+        >
             <div class="container">
                 <div class="header-left col-lg-2 w-auto pl-0">
                     <button
@@ -110,7 +113,7 @@
                     </button>
                     <nuxt-link to="/" class="logo">
                         <img
-                            src="~/static/images/logo-black.png"
+                            src="~/static/images/logo-white.png"
                             class="w-100"
                             width="200"
                             height="50"
@@ -129,10 +132,12 @@
                         title="login"
                     >
                         <div class="header-user">
-                            <i class="icon-user-2"></i>
+                            <i class="icon-user-2" style="color: white"></i>
                             <div class="header-userinfo">
-                                <span>Bienvenu</span>
-                                <h4 class="mb-0">Se connecter</h4>
+                                <span style="color: white">Bienvenu</span>
+                                <h4 class="mb-0" style="color: white">
+                                    Se connecter
+                                </h4>
                             </div>
                         </div>
                     </a>
@@ -207,7 +212,14 @@ export default {
             this.$modal.show(
                 () => import('~/components/features/modal/PvLoginModal'),
                 {},
-                { width: '525', height: 'auto', adaptive: true }
+                {
+                    // style: {
+                    // 'max-width': '40rem',
+                    width: '400',
+                    height: 'auto',
+                    // },
+                    adaptive: true,
+                }
             );
         },
         showMobileMenu: function () {

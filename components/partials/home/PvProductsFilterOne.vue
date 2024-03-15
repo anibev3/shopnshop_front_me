@@ -12,7 +12,7 @@
                         class="col-lg-3 pr-lg-3 pr-sm-0 col-sm-6 order-1 order-sm-0 d-none d-lg-block"
                     >
                         <div class="shop-list h-100">
-                            <h4 class="text-center">LUX SECOND MAIN</h4>
+                            <h4 class="text-center">LUXE SECONDE MAIN</h4>
 
                             <ul
                                 class="nav nav-tabs flex-sm-column border-0"

@@ -1,4 +1,7 @@
-import { apiEndpoints, baseUrl } from '../../api/index';
+import axios from 'axios';
+
+import { apiEndpoints, baseUrl2, constant } from '../../api/index';
+import { encryptAndStoreData } from '../../utils/storage/crypto.service';
 // État initial
 export function state() {
     return {
@@ -21,25 +24,20 @@ export const actions = {
     // Action pour inscrire un utilisateur
     async registerUser({ commit }, userData) {
         try {
-            console.log(
-                'LA VALEUR DE USERDATA :::::::::::::::> ',
+            console.log('LA VALEUR DE USERDATA :::::::::::::::> ', userData);
+            const response = await axios.post(
+                `${baseUrl2}${apiEndpoints.register}`,
                 userData,
-                apiEndpoints,
-                baseUrl
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
             );
-            // Effectuez une requête API pour l'inscription de l'utilisateur
-            // Une fois l'inscription réussie, appelez la mutation setUser avec les données utilisateur
-            // const response = await axios.post(
-            //     `${baseUrl}${apiEndpoints.login}`,
-            //     userData,
-            //     {
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //     }
-            // );
+            console.log('REGISTER RESPONSE', response);
+            encryptAndStoreData(constant.USER_TOKEN, response.accessToken);
             // commit('setUser', response.data.user);
-            commit('setUser', userData);
+            commit('setUser', true);
         } catch (error) {
             console.error("Erreur lors de l'inscription :", error);
         }

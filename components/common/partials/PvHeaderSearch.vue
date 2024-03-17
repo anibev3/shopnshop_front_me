@@ -31,47 +31,6 @@
                     style="border-radius: 10px 0px 0px 10px"
                 />
                 <div class="select-custom">
-                    <!-- <select
-                        :id="'searchCategory' + getId"
-                        name="searchCategory"
-                        v-model="searchCategory"
-                        @change="searchProducts"
-                    >
-                        <option value>Tout</option>
-                        <option value="fashion">Fashion</option>
-                        <option value="women">&nbsp;&nbsp;&nbsp;- Women</option>
-                        <option value="men">&nbsp;&nbsp;&nbsp;- Men</option>
-                        <option value="jewellery">
-                            &nbsp;&nbsp;&nbsp;- Jewellery
-                        </option>
-                        <option value="kids">
-                            &nbsp;&nbsp;&nbsp;- Kids Fashion
-                        </option>
-                        <option value="electronics">Electronics</option>
-                        <option value="smart-tvs">
-                            &nbsp;&nbsp;&nbsp;- Smart TVs
-                        </option>
-                        <option value="cameras">
-                            &nbsp;&nbsp;&nbsp;- Cameras
-                        </option>
-                        <option value="games">&nbsp;&nbsp;&nbsp;- Games</option>
-                        <option value="home-garden">Home &amp; Garden</option>
-                        <option value="motors">Motors</option>
-                        <option value="cars-and-trucks">
-                            &nbsp;&nbsp;&nbsp;- Cars and Trucks
-                        </option>
-                        <option value="motorcycles-powersports">
-                            &nbsp;&nbsp;&nbsp;- Motorcycles &amp; Powersports
-                        </option>
-                        <option value="accessories">
-                            &nbsp;&nbsp;&nbsp;- Parts &amp; Accessories
-                        </option>
-                        <option value="boats">&nbsp;&nbsp;&nbsp;- Boats</option>
-                        <option value="supplies">
-                            &nbsp;&nbsp;&nbsp;- Auto Tools &amp; Supplies
-                        </option>
-                    </select> -->
-
                     <select
                         :id="'searchCategory' + getId"
                         name="searchCategory"
@@ -208,15 +167,15 @@ export default {
             Api.get(`${baseUrl2}${apiEndpoints.getCategories}`)
                 .then((response) => {
                     console.log(response);
-                    this.categoryList = response?.data;
+                    this.categoryList = response?.data.data;
+                    console.log(
+                        'EXPECTION DE LA BASE URL',
+                        response?.data?.data
+                    );
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            console.log(
-                'EXPECTION DE LA BASE URL',
-                `${baseUrl2}${apiEndpoints.getCategories}`
-            );
         },
         searchProducts: function () {
             if (this.search_term.length > 2) {

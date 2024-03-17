@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1 class="product-title">{{ product.name }}</h1>
-
         <pv-product-nav
             v-if="isProductNav"
             :prev-product="prevProduct"
@@ -25,16 +24,21 @@
                 >( {{ product.reviews }} Reviews )</a
             >
             <a href="javascript:;" class="rating-link" v-else
-                >( There is no review yet. )</a
+                >( Il n'y a pas encore de commentaire. )</a
             >
         </div>
 
         <hr class="short-divider" />
 
-        <div class="price-box" v-if="product.price" key="singlePrice">
+        <div
+            class="price-box"
+            v-if="product.price && product.variants.length === 0"
+            key="singlePrice"
+        >
+            <!-- <h4>111111111111111</h4> -->
             <template v-if="!product.is_sale">
                 <span class="new-price"
-                    >${{ product.price | priceFormat }}</span
+                    >${{ product.price.min | priceFormat }}</span
                 >
             </template>
 
@@ -49,6 +53,7 @@
         </div>
 
         <div class="price-box" v-else>
+            <!-- <h4>22222222222222</h4> -->
             <template v-if="minPrice !== maxPrice">
                 <span class="new-price"
                     >${{ minPrice | priceFormat }} &ndash; ${{
@@ -63,7 +68,7 @@
         </div>
 
         <div class="product-countdown-container-two mt-1" v-if="product.until">
-            <h5 class="daily-deal-title">Offer Ends In:</h5>
+            <h5 class="daily-deal-title">L'offre prend fin dans :</h5>
             <pv-count-down
                 class="product-countdown countdown-compact"
                 :until="product.until"
@@ -99,7 +104,7 @@
                 </strong>
             </li>
 
-            <li v-if="product.product_tags.length > 0">
+            <!-- <li v-if="product.product_tags.length > 0">
                 TAGS:
                 <strong>
                     <nuxt-link
@@ -114,7 +119,7 @@
                         >
                     </nuxt-link>
                 </strong>
-            </li>
+            </li> -->
         </ul>
 
         <div
@@ -299,7 +304,7 @@
                 title="Add to Wishlist AU PANIER"
                 @click="addCart"
                 :class="{ disabled: !isCartActive }"
-                >Add to Wishlist AU PANIER</a
+                >Ajouter au panier</a
             >
 
             <nuxt-link to="/pages/cart" class="btn btn-gray view-cart d-none"
@@ -361,6 +366,81 @@
                 <span>Add to Wishlist</span>
             </a>
         </div>
+        <!-- ---------------------------------------------------------------------- -->
+        <div>
+            <button v-if="selectedVariant" @click="resetSelection">
+                Réinitialiser
+            </button>
+            <br />
+            <div
+                v-for="(variant, index) in product.variants"
+                :key="'variant-' + index"
+                class="variant-container"
+                @click="variant.quantity > 0 && selectVariant(variant)"
+                :class="{
+                    'selected-variant': isSelectedVariant(variant),
+                    'out-of-stock': variant.quantity === 0,
+                }"
+            >
+                <div class="variant-details d-flex justify-content-between">
+                    <p
+                        :style="{
+                            padding: '5px 10px',
+                            // border: `1px solid {variant.options[0].value}`,
+                            borderRadius: '5px',
+                            backgroundColor: variant.options[0].value,
+                            color: 'white',
+                            fontWeight: 'bold',
+                        }"
+                    >
+                        {{ variant.options[0].value }}
+                    </p>
+                    <p style="margin: 10px"></p>
+                    <p
+                        :style="{
+                            padding: '5px 10px',
+                            border: '1px solid gray',
+                            borderRadius: '5px',
+                            fontWeight: 'bold',
+                        }"
+                    >
+                        {{ variant.options[1].value }}
+                    </p>
+                    <p style="margin: 10px"></p>
+
+                    <p
+                        :style="{
+                            padding: '5px 10px',
+                            border: '1px solid gray',
+                            borderRadius: '5px',
+                            fontWeight: 'bold',
+                        }"
+                    >
+                        {{ variant.price | priceFormat }}
+                    </p>
+                    <p style="margin: 10px"></p>
+
+                    <p
+                        :style="{
+                            padding: '5px 10px',
+                            border: '1px solid gray',
+                            borderRadius: '5px',
+                            fontWeight: 'bold',
+                        }"
+                    >
+                        <strong>Qté:</strong>
+                        {{ variant.quantity }}
+                    </p>
+                </div>
+                <p
+                    style="margin-top: 10px; margin-bottom: 10px; color: red"
+                    v-if="variant.quantity === 0"
+                    class="out-of-stock-message"
+                >
+                    Rupture de stock
+                </p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -410,6 +490,7 @@ export default {
                 type: Boolean,
                 default: true,
             },
+            selectedVariant: null,
         };
     },
     watch: {
@@ -447,14 +528,19 @@ export default {
             }
         },
         isCartActive: function () {
-            if (this.product.stock < parseInt(this.qty)) return false;
+            if (this.selectedVariant !== null) {
+                if (this.selectedVariant.quantity < parseInt(this.qty))
+                    return false;
+            }
             if (this.product.variants.length === 0) return true;
-            if (this.curSize.name !== null && this.curColor.name !== null)
-                return true;
-            if (this.curColor.name !== null && this.vSizes.length === 0)
-                return true;
-            if (this.curSize.name !== null && this.vColors.length === 0)
-                return true;
+            // if (this.curSize.name !== null && this.curColor.name !== null)
+            //     return true;
+            // if (this.curColor.name !== null && this.vSizes.length === 0)
+            //     return true;
+            // if (this.curSize.name !== null && this.vColors.length === 0)
+            //     return true;
+            if (this.selectedVariant !== null) return true;
+
             return false;
         },
         isWishlisted: function () {
@@ -480,56 +566,81 @@ export default {
         this.getFlag();
     },
     mounted: function () {
-        if (this.product.variants && !this.product.price) {
+        console.log('DEMARAGE');
+        if (
+            this.product.variants.length > 0
+            // && !this.product.price
+        ) {
+            console.log('DEMARAGE 1');
+
             this.minPrice = this.product.variants[0].price;
+            console.log('DEMARAGE 2', this.minPrice);
 
             this.product.variants.forEach((item) => {
                 let itemPrice = item.sale_price ? item.sale_price : item.price;
                 if (this.minPrice > itemPrice) this.minPrice = itemPrice;
                 if (this.maxPrice < itemPrice) this.maxPrice = itemPrice;
             });
+            console.log('DEMARAGE 3', this.minPrice);
+            console.log('DEMARAGE 4', this.maxPrice);
         }
 
         if (this.product.variants.length > 0) {
-            if (this.product.variants[0].size[0])
-                this.product.variants.forEach((item) => {
-                    if (
-                        this.vSizes.findIndex(
-                            (vsize) => vsize.name === item.size[0].size_name
-                        ) === -1
-                    )
-                        this.vSizes.push({
-                            name: item.size[0].size_name,
-                            text: item.size[0].size,
-                            image: item.size[0].size_thumbnail,
-                        });
-                });
+            console.log('DEMARAGE 5');
 
-            if (this.product.variants[0].colors[0])
-                this.product.variants.forEach((item) => {
-                    if (
-                        this.vColors.findIndex(
-                            (vColor) =>
-                                vColor.name === item.colors[0].color_name
-                        ) === -1
-                    )
-                        this.vColors.push({
-                            name: item.colors[0].color_name,
-                            text: item.colors[0].color,
-                            image: item.colors[0].color_thumbnail,
-                        });
-                });
+            // if (this.product.variants[0].size[0])
+            //     this.product.variants.forEach((item) => {
+            //         console.log('DEMARAGE 88');
+            //         if (
+            //             this.vSizes.findIndex(
+            //                 (vsize) => vsize.name === item.size[0].size_name
+            //             ) === -1
+            //         )
+            //             this.vSizes.push({
+            //                 name: item.size[0].size_name,
+            //                 text: item.size[0].size,
+            //                 image: item.size[0].size_thumbnail,
+            //             });
+            //     });
+
+            // if (this.product.variants[0].colors[0])
+            //     this.product.variants.forEach((item) => {
+            //         if (
+            //             this.vColors.findIndex(
+            //                 (vColor) =>
+            //                     vColor.name === item.colors[0].color_name
+            //             ) === -1
+            //         )
+            //             this.vColors.push({
+            //                 name: item.colors[0].color_name,
+            //                 text: item.colors[0].color,
+            //                 image: item.colors[0].color_thumbnail,
+            //             });
+            //     });
         }
     },
     methods: {
         ...mapActions('cart', ['addToCart']),
         ...mapActions('wishlist', ['addToWishlist']),
+        selectVariant(variant) {
+            // Mettre à jour l'état de l'option sélectionnée
+            this.selectedVariant = variant;
+        },
+        isSelectedVariant(variant) {
+            // Vérifier si la variante est sélectionnée
+            return this.selectedVariant === variant;
+        },
+        resetSelection() {
+            // Réinitialiser la sélection
+            this.selectedVariant = null;
+        },
         plusQty: function () {
             if (this.qty < this.product.stock) this.qty++;
         },
         minusQty: function () {
             if (this.qty > 1) this.qty--;
         },
+
         addCart: function () {
             if (this.isCartActive) {
                 let saledProduct;
@@ -538,44 +649,49 @@ export default {
                     if (this.product.price)
                         saledPrice = this.product.sale_price
                             ? this.product.sale_price
-                            : this.product.price;
+                            : this.product.price.min;
                     else {
-                        saledPrice = this.product.variants[this.curIndex]
-                            .sale_price
-                            ? this.product.variants[this.curIndex].sale_price
-                            : this.product.variants[this.curIndex].price;
+                        // saledPrice = this.product.variants[this.curIndex]
+                        //     .sale_price
+                        //     ? this.product.variants[this.curIndex].sale_price
+                        //     : this.product.variants[this.curIndex].price;
+
+                        saledPrice = this.selectedVariant.price;
                     }
 
-                    let saledName;
-                    if (this.curColor.name && this.curSize.name) {
-                        saledName =
-                            this.curColor.name.charAt(0).toUpperCase() +
-                            this.curColor.name.slice(1) +
-                            ', ' +
-                            this.curSize.name;
-                    }
-                    if (!this.curColor.name) {
-                        saledName = this.curSize.name;
-                    }
-                    if (!this.curSize.name) {
-                        saledName =
-                            this.curColor.name.charAt(0).toUpperCase() +
-                            this.curColor.name.slice(1);
-                    }
+                    // let saledName;
+                    // if (this.curColor.name && this.curSize.name) {
+                    //     saledName =
+                    //         this.curColor.name.charAt(0).toUpperCase() +
+                    //         this.curColor.name.slice(1) +
+                    //         ', ' +
+                    //         this.curSize.name;
+                    // }
+                    // if (!this.curColor.name) {
+                    //     saledName = this.curSize.name;
+                    // }
+                    // if (!this.curSize.name) {
+                    //     saledName =
+                    //         this.curColor.name.charAt(0).toUpperCase() +
+                    //         this.curColor.name.slice(1);
+                    // }
 
                     saledProduct = {
                         ...this.product,
                         qty: this.qty,
-                        name: this.product.name + ' - ' + saledName,
+                        name: this.product.name,
+                        //  + ' - ' + saledName,
                         price: saledPrice,
                     };
                 } else {
                     saledProduct = {
                         ...this.product,
                         qty: this.qty,
-                        price: this.product.sale_price
-                            ? this.product.sale_price
-                            : this.product.price,
+                        price:
+                            // this.product.sale_price
+                            //     ? this.product.sale_price
+                            //     :
+                            this.product.price.min,
                     };
                 }
 
@@ -654,3 +770,28 @@ export default {
     },
 };
 </script>
+<style scoped>
+.variant-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.variant-container h3 {
+    margin-top: 0;
+}
+
+.variant-details p {
+    margin: 5px 0;
+}
+
+.variant-details p strong {
+    font-weight: bold;
+}
+
+.selected-variant {
+    border: 3px solid blue; /* Exemple de bordure épaisse */
+    border-color: blue; /* Exemple de couleur de bordure différente */
+}
+</style>

@@ -24,10 +24,28 @@ const endpoints = {
     register: '/auth/register',
     getUser: '/user',
     getCategories: '/categories',
+    municipalities: '/municipalities',
+    country: '/countries',
+    city: '/cities',
+    user: '/auth/user',
+    storeCart: '/carts',
+    userCart: '/cart/user',
+    products: '/products',
+    product: '/products/',
+    wishlist: '/wishlist',
     // Ajoutez d'autres endpoints selon vos besoins
+};
+
+const storageConstant = {
+    USER_TOKEN: '0001',
+    USER_DATA: '0002',
 };
 
 // Exportez l'objet contenant les endpoints
 export const apiEndpoints = {
     ...endpoints,
+};
+
+export const constant = {
+    ...storageConstant,
 };

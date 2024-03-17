@@ -19,13 +19,17 @@
                     </div>
                     <div class="tab-content">
                         <div v-if="activeTab === 'login'">
-                            <form action="#" class="mb-0">
+                            <br />
+                            <p v-if="loginMessage">{{ loginMessage }}</p>
+                            <!-- <br /> -->
+                            <form @submit.prevent="submitLogin" class="mb-0">
                                 <label for="login-email">
                                     Adresse e-mail
                                     <!-- <span class="required">*</span> -->
                                 </label>
 
                                 <input
+                                    v-model="loginData.email"
                                     type="email"
                                     class="form-input form-wide mb-2"
                                     id="login-email"
@@ -37,6 +41,7 @@
                                 </label>
 
                                 <input
+                                    v-model="loginData.password"
                                     type="password"
                                     class="form-input form-wide mb-2"
                                     id="login-password"
@@ -103,8 +108,46 @@
 
                                 <input
                                     type="text"
-                                    v-model="registrationData.name"
+                                    v-model="registrationData.last_name"
                                     class="form-input form-wide mb-2"
+                                    id="login-email"
+                                    required
+                                />
+
+                                <label for="login-email">
+                                    Prenom
+                                    <!-- <span class="required">*</span> -->
+                                </label>
+
+                                <input
+                                    type="text"
+                                    v-model="registrationData.first_name"
+                                    class="form-input form-wide mb-2"
+                                    id="login-email"
+                                    required
+                                />
+
+                                <label for="login-email">
+                                    Date de naissance
+                                    <!-- <span class="required">*</span> -->
+                                </label>
+
+                                <input
+                                    type="date"
+                                    v-model="registrationData.birth_date"
+                                    class="form-input form-wide mb-2"
+                                    id="login-email"
+                                    required
+                                />
+                                <label for="login-email">
+                                    Contact
+                                    <!-- <span class="required">*</span> -->
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="form-input form-wide mb-2"
+                                    v-model="registrationData.call_phone"
                                     id="login-email"
                                     required
                                 />
@@ -120,6 +163,100 @@
                                     id="login-email"
                                     required
                                 />
+
+                                <div class="select-custom">
+                                    <label>
+                                        Pays
+                                        <abbr class="required" title="required"
+                                            >*</abbr
+                                        >
+                                    </label>
+
+                                    <select
+                                        v-model="selectedCountry"
+                                        @change="updateCities"
+                                        class="form-control"
+                                    >
+                                        <option
+                                            value=""
+                                            unselectable
+                                            selected="selected"
+                                        >
+                                            Sélectionner un pays
+                                        </option>
+                                        <option
+                                            v-for="country in countries"
+                                            :value="country.uuid"
+                                        >
+                                            {{ country.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="select-custom">
+                                    <label>
+                                        Ville
+                                        <abbr class="required" title="required"
+                                            >*</abbr
+                                        >
+                                    </label>
+
+                                    <select
+                                        v-model="selectedCity"
+                                        @change="updateMunicipalities"
+                                        class="form-control"
+                                    >
+                                        <option value="">
+                                            Sélectionner une ville
+                                        </option>
+                                        <option
+                                            v-for="city in cities"
+                                            :value="city.uuid"
+                                        >
+                                            {{ city.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="select-custom">
+                                    <label>
+                                        Commune/Quartier
+                                        <abbr class="required" title="required"
+                                            >*</abbr
+                                        >
+                                    </label>
+
+                                    <select
+                                        v-model="
+                                            registrationData.municipality_uuid
+                                        "
+                                        class="form-control"
+                                    >
+                                        <option value="">
+                                            Sélectionner une municipalité
+                                        </option>
+                                        <option
+                                            v-for="municipality in municipalities"
+                                            :value="municipality.uuid"
+                                        >
+                                            {{ municipality.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <label for="login-email">
+                                    Adresse
+                                    <!-- <span class="required">*</span> -->
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-input form-wide mb-2"
+                                    v-model="registrationData.address"
+                                    id="login-email"
+                                    required
+                                />
+
                                 <label for="login-password">
                                     Mot de passe
                                     <!-- <span class="required">*</span> -->
@@ -130,6 +267,19 @@
                                     class="form-input form-wide mb-2"
                                     id="login-password"
                                     v-model="registrationData.password"
+                                    required
+                                />
+
+                                <label for="login-password">
+                                    Confirmer le mot de passe
+                                    <!-- <span class="required">*</span> -->
+                                </label>
+
+                                <input
+                                    type="password"
+                                    class="form-input form-wide mb-2"
+                                    id="login-password"
+                                    v-model="registrationData.c_password"
                                     required
                                 />
 
@@ -202,40 +352,172 @@
 
 <script>
 // session.vue
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
+import Api, { baseUrl2, apiEndpoints, constant } from '~/api';
+import {
+    encryptAndStoreData,
+    isLoggedIn,
+    retrieveAndDecryptData,
+} from '../../../utils/storage/crypto.service';
 
 export default {
     data() {
         return {
             activeTab: 'login', // Onglet actif par défaut
-
+            municipality_list: [],
+            country_list: [],
+            city_list: [],
+            loginMessage: '',
             registrationData: {
-                name: '',
+                email: '',
+                last_name: '',
+                first_name: '',
+                birth_date: '',
+                address: '',
+                call_phone: '',
+                whatsapp_number: '0102030405',
+                password: '',
+                c_password: '',
+                municipality_uuid: '',
+            },
+            userData: null,
+            loginData: {
                 email: '',
                 password: '',
             },
+            countries: [], // Pour stocker les pays
+            selectedCountry: null, // Pour stocker le pays sélectionné
+            cities: [], // Pour stocker les villes en fonction du pays sélectionné
+            selectedCity: null, // Pour stocker la ville sélectionnée
+            municipalities: [], // Pour stocker les municipalités en fonction de la ville sélectionnée
+            selectedMunicipality: null, // Pour stocker la municipalité sélectionnée
         };
     },
     computed: {
         ...mapState(['user']), // Utilisez l'état global de l'application dans vos computed
+        ...mapGetters('session', ['isLoggedIn']), // Importez le getter isLoggedIn du module Vuex
     },
     methods: {
         ...mapActions('session', ['registerUser']),
         async submitRegistration() {
             try {
-                // console.log(this.registrationData);
+                console.log(this.registrationData);
                 await this.registerUser(this.registrationData); // Appel de l'action registerUser avec les données du formulaire
-                // Rediriger l'utilisateur après une inscription réussie si nécessaire
+                if (this.isLoggedIn) {
+                    // this.$router.push({ name: 'login' });
+                    // Changer l'onglet actif pour 'login'
+                    this.activeTab = 'login';
+                    // Afficher un message dans le tab de login
+                    this.loginMessage =
+                        'Inscription réussie! Veuillez vous connecter.';
+                }
             } catch (error) {
                 // Gérer les erreurs d'inscription
                 console.error("Erreur lors de l'inscription :", error);
             }
         },
+
+        async submitLogin() {
+            try {
+                Api.post(`${baseUrl2}${apiEndpoints.login}`, this.loginData)
+                    .then(async (response) => {
+                        const token = response.data.accessToken;
+                        encryptAndStoreData(constant.USER_TOKEN, token);
+                        await this.getUserData(token);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } catch (error) {
+                console.error(
+                    "Erreur lors du chargement des données depuis l'API :",
+                    error
+                );
+            }
+        },
+
+        async getUserData(token) {
+            try {
+                Api.get(`${baseUrl2}${apiEndpoints.user}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(async (response) => {
+                        console.log(response.data);
+                        this.userData = response.data;
+                        encryptAndStoreData(constant.USER_DATA, response.data);
+                        window.location.reload();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } catch (error) {
+                console.error(
+                    "Erreur lors du chargement des données depuis l'API :",
+                    error
+                );
+            }
+        },
+
+        // Fonction pour charger les données depuis votre API
+        async loadDataFromAPI() {
+            try {
+                Api.get(`${baseUrl2}${apiEndpoints.country}`)
+                    .then((response) => {
+                        this.countries = response?.data?.data;
+                        console.log('COUNTRY LIST :', this.countries);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } catch (error) {
+                console.error(
+                    "Erreur lors du chargement des données depuis l'API :",
+                    error
+                );
+            }
+        },
+        // Fonction pour mettre à jour les villes en fonction du pays sélectionné
+        updateCities() {
+            if (this.selectedCountry) {
+                const selectedCountry = this.countries.find(
+                    (country) => country.uuid === this.selectedCountry
+                );
+                this.cities = selectedCountry.cities;
+            } else {
+                this.cities = []; // Réinitialiser les villes si aucun pays n'est sélectionné
+            }
+            this.selectedCity = null; // Réinitialiser la sélection de la ville
+            this.municipalities = []; // Réinitialiser les municipalités
+            this.selectedMunicipality = null; // Réinitialiser la sélection de la municipalité
+        },
+        // Fonction pour mettre à jour les municipalités en fonction de la ville sélectionnée
+        updateMunicipalities() {
+            if (this.selectedCity) {
+                const selectedCity = this.cities.find(
+                    (city) => city.uuid === this.selectedCity
+                );
+                this.municipalities = selectedCity.municipalities;
+            } else {
+                this.municipalities = []; // Réinitialiser les municipalités si aucune ville n'est sélectionnée
+            }
+            this.selectedMunicipality = null; // Réinitialiser la sélection de la municipalité
+        },
+    },
+    mounted() {
+        this.loadDataFromAPI(); // Appeler la fonction pour charger les données depuis votre API lors du montage du composant
     },
 };
 </script>
 
 <style scoped>
+select {
+    height: 42px !important;
+    border-radius: 10px !important;
+    border-color: #1c1818;
+}
 label {
     font-size: 1.4rem;
     color: black;

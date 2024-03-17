@@ -39,7 +39,12 @@
 <script>
 import PvMediaOne from '~/components/partials/product/media/PvMediaOne';
 import PvDetailOne from '~/components/partials/product/detail/PvDetailOne';
-import Respository, { baseUrl, currentDemo } from '~/api';
+import Respository, {
+    baseUrl,
+    baseUrl2,
+    apiEndpoints,
+    currentDemo,
+} from '~/api';
 
 export default {
     components: {
@@ -60,11 +65,13 @@ export default {
     },
     methods: {
         getProduct: function () {
-            Respository.get(`${baseUrl}/products/${this.slug}`, {
+            Respository.get(`${baseUrl2}${apiEndpoints.product}${this.slug}`, {
                 params: { demo: currentDemo, quick_view: true },
             })
                 .then((response) => {
-                    this.product = response.data.product;
+                    this.product = response.data.data;
+
+                    console.log('YO YO', this.product);
                 })
                 .catch((error) => ({ error: JSON.stringify(error) }));
         },

@@ -17,7 +17,7 @@
                 ></div>
 
                 <pv-product-five
-                    :product="products[8]"
+                    :product="products[5]"
                     v-else
                 ></pv-product-five>
             </div>

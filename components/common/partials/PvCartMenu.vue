@@ -53,13 +53,11 @@
                                     :to="'/product/default/' + product.slug"
                                 >
                                     <img
-                                        v-lazy="
-                                            `${baseUrl}${product.small_pictures[0].url}`
-                                        "
+                                        v-lazy="`${product.pictures[0]}`"
                                         alt="product"
-                                        :width="product.small_pictures[0].width"
-                                        :height="
-                                            product.small_pictures[0].height
+                                        width="150"
+                                        height="
+                                            150
                                         "
                                     />
                                 </nuxt-link>
@@ -98,7 +96,9 @@
                     </div>
                 </template>
 
-                <p v-else class="cart-empty-text">No products in the cart.</p>
+                <p v-else class="cart-empty-text">
+                    Aucun produit dans le panier
+                </p>
             </div>
         </div>
     </div>

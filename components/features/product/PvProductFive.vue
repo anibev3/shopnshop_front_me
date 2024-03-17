@@ -1,13 +1,30 @@
 <template>
     <div class="product-default deal-product" v-if="product">
         <figure>
-            <nuxt-link :to="`/product/default/${product.slug}`">
+            <!-- <nuxt-link :to="`/product/default/${product.slug}`">
                 <img
                     v-for="(item, index) in product.large_pictures.slice(0, 1)"
                     :key="`deal-product-${index}`"
                     :src="`${baseUrl}${item.url}`"
                     alt="large-picture"
                     width="450"
+                    height="450"
+                />
+            </nuxt-link> -->
+
+            <nuxt-link
+                v-if="
+                    product && product.pictures && product.pictures.length > 0
+                "
+                :to="`/product/default/${product.slug}`"
+            >
+                <img
+                    v-for="(item, index) in product.pictures.slice(0, 2)"
+                    :key="`related-large-${index}`"
+                    :src="`${item}`"
+                    alt="large-picture"
+                    width="450"
+                    v-lazy="`${item}`"
                     height="450"
                 />
             </nuxt-link>
@@ -59,10 +76,14 @@
                 </div>
             </div>
 
-            <div class="price-box" v-if="product.price" key="singlePrice">
+            <div
+                class="price-box"
+                v-if="product.price && product.variants.length === 0"
+                key="singlePrice"
+            >
                 <template v-if="!product.is_sale">
                     <span class="product-price"
-                        >${{ product.price | priceFormat }}</span
+                        >${{ product.price.min | priceFormat }}</span
                     >
                 </template>
 
@@ -183,21 +204,31 @@ export default {
         },
     },
     mounted: function () {
+        console.log('JE SI', this.product);
         if (this.product.is_sale && this.product.price) {
             this.discount =
-                ((this.product.price - this.product.sale_price) /
-                    this.product.price) *
+                ((this.product.price.min - this.product.sale_price) /
+                    this.product.price.min) *
                 100;
             this.discount = parseInt(this.discount);
         }
 
-        if (!this.product.price) {
+        if (
+            this.product.variants.length > 0
+            // && !this.product.price
+        ) {
+            console.log('DEMARAGE 1');
+
             this.minPrice = this.product.variants[0].price;
+            console.log('DEMARAGE 2', this.minPrice);
+
             this.product.variants.forEach((item) => {
-                let itemPrice = item.is_sale ? item.sale_price : item.price;
+                let itemPrice = item.sale_price ? item.sale_price : item.price;
                 if (this.minPrice > itemPrice) this.minPrice = itemPrice;
                 if (this.maxPrice < itemPrice) this.maxPrice = itemPrice;
             });
+            console.log('DEMARAGE 3', this.minPrice);
+            console.log('DEMARAGE 4', this.maxPrice);
         }
     },
     methods: {
@@ -244,3 +275,9 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.product-details {
+    margin-top: 3.4rem !important;
+}
+</style>

@@ -15,7 +15,9 @@
 
             <pv-banner-section></pv-banner-section>
 
-            <pv-special-collection :products="products"></pv-special-collection>
+            <pv-special-collection
+                :products="exclusivityProducts"
+            ></pv-special-collection>
         </div>
 
         <pv-products-filter-one></pv-products-filter-one>
@@ -82,9 +84,10 @@ import {
     getProductsByAttri,
     getTopSellingProducts,
     getTopRatedProducts,
+    filterProductsByCollection,
 } from '~/utils/service';
 import { getCookie } from '~/utils';
-import Api, { baseUrl } from '~/api';
+import Api, { baseUrl, baseUrl2, constant, apiEndpoints } from '~/api';
 
 export default {
     components: {
@@ -109,9 +112,11 @@ export default {
     data: function () {
         return {
             products: [],
+            products_: [],
             posts: [],
             featuredProducts: [],
             newProducts: [],
+            exclusivityProducts: [],
             bestProducts: [],
             topRatedProducts: [],
         };
@@ -134,12 +139,12 @@ export default {
         },
     },
     mounted: function () {
-        console.log("VOICI LA REPONSE DE L'API");
+        this.getProducts();
 
         Api.get(`${baseUrl}/demo36`)
             .then((response) => {
                 this.products = response.data.products;
-                console.log("VOICI LA REPONSE DE L'API", response);
+                console.log('111111', this.products);
                 this.posts = response.data.posts;
                 this.featuredProducts = getProductsByAttri(
                     response.data.products
@@ -180,9 +185,20 @@ export default {
         clearTimeout(this.timerId);
     },
     methods: {
+        getProducts() {
+            Api.get(`${baseUrl2}${apiEndpoints.products}`)
+                .then((response) => {
+                    this.products_ = response.data.data;
+                    console.log('111111222', this.products_);
+                    this.exclusivityProducts = filterProductsByCollection(
+                        this.products_,
+                        'exclusivites'
+                    );
+                    console.log('exclu', this.exclusivityProducts);
+                })
+                .catch((error) => ({ error: JSON.stringify(error) }));
+        },
         toggleSidebar: function () {
-            console.log("VOICI LA REPONSE DE L'API");
-
             let body = document.querySelector('body');
             if (body.classList.contains('sidebar-opened')) {
                 body.classList.remove('sidebar-opened');

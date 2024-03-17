@@ -130,6 +130,7 @@
                         @click="openLoginModal"
                         class="d-lg-block d-none"
                         title="login"
+                        v-if="!isConnected"
                     >
                         <div class="header-user">
                             <i class="icon-user-2" style="color: white"></i>
@@ -137,6 +138,22 @@
                                 <span style="color: white">Bienvenu</span>
                                 <h4 class="mb-0" style="color: white">
                                     Se connecter
+                                </h4>
+                            </div>
+                        </div>
+                    </a>
+                    <a
+                        href="javascript:;"
+                        class="d-lg-block d-none"
+                        title="login"
+                        v-if="isConnected"
+                    >
+                        <div class="header-user">
+                            <i class="icon-user-2" style="color: white"></i>
+                            <div class="header-userinfo">
+                                <span style="color: white">Bienvenu</span>
+                                <h4 class="mb-0" style="color: white">
+                                    {{ userData.name }}
                                 </h4>
                             </div>
                         </div>
@@ -173,6 +190,11 @@ import PvMainMenu from '~/components/common/partials/PvMainMenu';
 import PvCartMenu from '~/components/common/partials/PvCartMenu';
 import PvHeaderSearch from '~/components/common/partials/PvHeaderSearch';
 import { mapGetters } from 'vuex';
+import {
+    retrieveAndDecryptData,
+    isLoggedIn,
+} from '../../utils/storage/crypto.service';
+import { constant } from '~/api';
 
 document.querySelector('body').classList.add('loaded');
 
@@ -188,12 +210,15 @@ export default {
                 type: Boolean,
                 default: true,
             },
+            isConnected: false,
+            userData: null,
         };
     },
     computed: {
         ...mapGetters('wishlist', ['wishList']),
     },
     mounted: function () {
+        this.userStatus();
         let items = document.querySelectorAll('.menu-vertical > li');
         items.forEach((item) => {
             item.addEventListener('mouseenter', this.mouseOverHandler);
@@ -208,6 +233,10 @@ export default {
         });
     },
     methods: {
+        userStatus() {
+            this.isConnected = isLoggedIn();
+            this.userData = retrieveAndDecryptData(constant.USER_DATA);
+        },
         openLoginModal: function () {
             this.$modal.show(
                 () => import('~/components/features/modal/PvLoginModal'),

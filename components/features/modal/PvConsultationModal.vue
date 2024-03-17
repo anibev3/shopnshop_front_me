@@ -453,7 +453,7 @@
                                     </tbody>
                                     <tbody v-else>
                                         <p class="cart-empty-text ml-3">
-                                            No products in the cart.
+                                            Aucun produit dans le panier
                                         </p>
                                     </tbody>
                                     <tfoot>

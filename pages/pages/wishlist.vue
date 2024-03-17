@@ -76,13 +76,12 @@
                                         class="product-image"
                                     >
                                         <img
-                                            :src="`${baseUrl}${product.small_pictures[0].url}`"
+                                            :src="`${product.pictures[0]}`"
                                             alt="product"
-                                            :width="
-                                                product.small_pictures[0].width
+                                            width=" 150
                                             "
-                                            :height="
-                                                product.small_pictures[0].height
+                                            height="
+                                            150
                                             "
                                         />
                                     </nuxt-link>
@@ -106,13 +105,16 @@
 
                             <td
                                 class="price-box"
-                                v-if="product.price"
+                                v-if="
+                                    product.price &&
+                                    product.variants.length === 0
+                                "
                                 key="singlePrice"
                             >
                                 <template v-if="!product.is_sale">
                                     <span class="new-price"
                                         >${{
-                                            product.price | priceFormat
+                                            product.price.min | priceFormat
                                         }}</span
                                     >
                                 </template>
@@ -155,7 +157,7 @@
                             </td>
 
                             <td>
-                                <span class="stock-status">In stock</span>
+                                <span class="stock-status">En stock</span>
                             </td>
                             <td class="action">
                                 <a
@@ -164,7 +166,7 @@
                                     @click="openQuickview(product)"
                                     title="Quick View"
                                     key="singleCart"
-                                    >Quick View</a
+                                    >Aperçu</a
                                 >
 
                                 <button
@@ -172,7 +174,7 @@
                                     @click="addCart(product)"
                                     v-if="product.variants.length === 0"
                                 >
-                                    Add to Wishlist AU PANIER
+                                    AJOUTER AU PANIER
                                 </button>
 
                                 <nuxt-link
@@ -238,7 +240,7 @@
                                     <nuxt-link
                                         to="/shop"
                                         class="btn btn-go-shop"
-                                        >ALLER AU CHOPPING</nuxt-link
+                                        >ALLER AU SHOPPING</nuxt-link
                                     >
                                 </td>
                             </tr>
@@ -283,15 +285,35 @@ export default {
                 let minPrice = 0,
                     maxPrice = 0;
 
-                if (!product.price) {
+                // if (!product.price) {
+                //     minPrice = product.variants[0].price;
+                //     product.variants.forEach((item) => {
+                //         let itemPrice = item.is_sale
+                //             ? item.sale_price
+                //             : item.price;
+                //         if (minPrice > itemPrice) minPrice = itemPrice;
+                //         if (maxPrice < itemPrice) maxPrice = itemPrice;
+                //     });
+                // }
+
+                if (
+                    product.variants.length > 0
+                    // && !this.product.price
+                ) {
+                    console.log('DEMARAGE 1');
+
                     minPrice = product.variants[0].price;
+                    console.log('DEMARAGE 2', minPrice);
+
                     product.variants.forEach((item) => {
-                        let itemPrice = item.is_sale
+                        let itemPrice = item.sale_price
                             ? item.sale_price
                             : item.price;
                         if (minPrice > itemPrice) minPrice = itemPrice;
                         if (maxPrice < itemPrice) maxPrice = itemPrice;
                     });
+                    console.log('DEMARAGE 3', minPrice);
+                    console.log('DEMARAGE 4', maxPrice);
                 }
 
                 return [

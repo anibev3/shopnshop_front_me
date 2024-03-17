@@ -1,14 +1,27 @@
 <template>
     <div class="product-default inner-quickview inner-icon">
         <figure class="img-effect">
-            <nuxt-link :to="`/product/default/${product.slug}`">
+            <!-- <nuxt-link :to="`/product/default/${product.slug}`">
                 <img
-                    v-for="(item, index) in product.large_pictures.slice(0, 2)"
+                    v-for="(item, index) in product.pictures.slice(0, 2)"
                     :key="`related-large-${index}`"
                     v-lazy="`${baseUrl}${item.url}`"
                     alt="large-picture"
-                    :width="item.width"
-                    :height="item.height"
+                 
+                />
+            </nuxt-link> -->
+
+            <nuxt-link
+                v-if="
+                    product && product.pictures && product.pictures.length > 0
+                "
+                :to="`/product/default/${product.slug}`"
+            >
+                <img
+                    v-for="(item, index) in product.pictures.slice(0, 2)"
+                    :key="`related-large-${index}`"
+                    v-lazy="`${item}`"
+                    alt="large-picture"
                 />
             </nuxt-link>
 
@@ -129,7 +142,7 @@
             <div class="price-box" v-if="product.price" key="singlePrice">
                 <template v-if="!product.is_sale">
                     <span class="product-price"
-                        >${{ product.price | priceFormat }}</span
+                        >${{ product.price.min | priceFormat }}</span
                     >
                 </template>
 
@@ -200,27 +213,38 @@ export default {
         },
     },
     mounted: function () {
+        // console.log('LE PRODUIT :::::::::::> ', product_);
         if (this.product.is_sale && this.product.price) {
             this.discount =
-                ((this.product.price - this.product.sale_price) /
-                    this.product.price) *
+                ((this.product.pricemin - this.product.sale_price) /
+                    this.product.price.min) *
                 100;
             this.discount = parseInt(this.discount);
         }
 
-        if (!this.product.price) {
+        if (
+            this.product.variants.length > 0
+            // && !this.product.price
+        ) {
+            console.log('DEMARAGE 1');
+
             this.minPrice = this.product.variants[0].price;
+            console.log('DEMARAGE 2', this.minPrice);
+
             this.product.variants.forEach((item) => {
-                let itemPrice = item.is_sale ? item.sale_price : item.price;
+                let itemPrice = item.sale_price ? item.sale_price : item.price;
                 if (this.minPrice > itemPrice) this.minPrice = itemPrice;
                 if (this.maxPrice < itemPrice) this.maxPrice = itemPrice;
             });
+            console.log('DEMARAGE 3', this.minPrice);
+            console.log('DEMARAGE 4', this.maxPrice);
         }
     },
     methods: {
         ...mapActions('wishlist', ['addToWishlist']),
         ...mapActions('cart', ['addToCart']),
         openQuickview: function () {
+            console.log(this.product.slug);
             this.$modal.show(
                 () => import('~/components/features/product/PvQuickview'),
                 { slug: this.product.slug },

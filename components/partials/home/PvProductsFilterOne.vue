@@ -252,6 +252,7 @@
 import PvProductThree from '~/components/features/product/PvProductThree';
 import PvTabs from '~/components/features/PvTabs';
 import Api, { baseUrl, currentDemo } from '~/api';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {
@@ -267,11 +268,27 @@ export default {
     mounted: function () {
         this.setFilterRoute();
     },
+    computed: {
+        ...mapGetters('product', [
+            'GET_PRODUCTS',
+            'GET_EXCLU_PRODUCTS',
+            'GET_SECOND_HAND_PRODUCTS',
+            'GET_NEW_PRODUCTS',
+            'GET_LAST_CHANCE_PRODUCTS',
+            'GET_TOP_RATING_PRODUCTS',
+        ]),
+    },
+    // created() {
+    //     this.get_products();
+    // },
     methods: {
-        setFilterRoute: function (e) {
+        ...mapActions('product', ['get_products', 'get_categories']),
+
+        setFilterRoute: async function (e) {
             this.products = [];
             if (e) {
                 this.category = e.currentTarget.getAttribute('data-category');
+                console.log('categori', this.category);
 
                 e.currentTarget.parentNode
                     .querySelector('.active')
@@ -279,13 +296,21 @@ export default {
                 e.currentTarget.querySelector('a').classList.add('active');
             }
 
-            Api.get(`${baseUrl}/shop`, {
-                params: { category: this.category, demo: currentDemo },
-            })
-                .then((response) => {
-                    this.products = response.data.products;
-                })
-                .catch((error) => ({ error: JSON.stringify(error) }));
+            // Attendre que get_products soit résolu
+            await this.get_products();
+
+            // Maintenant, vous pouvez accéder aux produits après qu'ils ont été chargés
+            this.products = this.GET_SECOND_HAND_PRODUCTS;
+
+            console.log('prod', this.products);
+
+            // Api.get(`${baseUrl}/shop`, {
+            //     params: { category: this.category, demo: currentDemo },
+            // })
+            //     .then((response) => {
+            //         this.products = response.data.products;
+            //     })
+            //     .catch((error) => ({ error: JSON.stringify(error) }));
         },
     },
 };

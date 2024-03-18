@@ -1,5 +1,10 @@
+// Importez axios pour effectuer des requêtes HTTP
 import axios from 'axios';
-import { apiEndpoints } from '~/api';
+import Api, { constant, apiEndpoints, baseUrl2 } from '~/api';
+import {
+    isLoggedIn,
+    retrieveAndDecryptData,
+} from '../../utils/storage/crypto.service';
 
 // Cart
 export const ADD_TO_CART = 'ADD_TO_CART';
@@ -41,40 +46,47 @@ export const actions = {
 
     addToCart: async function ({ commit }, payload) {
         try {
-            // {
-            //     "user_id": 10,
-            //     "cartItems": [
-            //         {
-            //             "variant_id": 39,
-            //             "quantity": 1
-            //         },
-            //         {
-            //             "variant_id": 47,
-            //             "quantity": 3
-            //         }
+            const isConnected = isLoggedIn();
+            let userData = null;
+            if (isConnected) {
+                userData = retrieveAndDecryptData(constant.USER_DATA);
+                let product_id = null;
 
-            //     ]
-            // }
-            console.log('LA VALEUR DE LA CART ::::::::::::::>  ', payload);
-            commit(ADD_TO_CART, payload);
+                if (payload.product.variants.length > 0) {
+                    product_id = payload.product.selectedVariant.uuid;
+                } else {
+                    product_id = payload.product.uuid;
+                }
 
-            // const response = await axios.post(apiEndpoints.storeCart, payload);
+                const formData = {
+                    user_id: userData.uuid,
+                    cartItems: [
+                        {
+                            variant_id: product_id,
+                            quantity: payload.product.qty ?? 1,
+                        },
+                    ],
+                };
 
-            // if (response.status === 200) {
-            //     commit(ADD_TO_CART, { product: payload.product });
-            // this._vm.$notify({
-            //     group: 'addCartSuccess',
-            //     text: `Le produit a été ajouté à votre panier !`,
-            //     data: payload.product,
-            // });
-            // } else {
-            //     console.error(
-            //         "Erreur lors de l'ajout au panier :",
-            //         response.statusText
-            //     );
-            // }
+                // await Api.post(`${baseUrl2}${apiEndpoints.cart}`, formData)
+                //     .then((response) => {
+                //         console.log('USER DATA 2', response);
+                commit(ADD_TO_CART, payload);
+                this._vm.$notify({
+                    group: 'addCartSuccess',
+                    text: `a été ajouté à votre panier !`,
+                    data: payload.product,
+                });
+                // })
+                // .catch((error) => {
+                //     console.log('USER DATA 3', error);
+                // });
+                return;
+            }
+            console.log('USER DATA 2', response);
         } catch (error) {
-            console.error("Erreur lors de l'ajout au panier :", error);
+            console.error("Erreur lors de l'ajout aux favoris :", error);
+            // Gérez les erreurs d'ajout aux favoris si nécessaire
         }
     },
     removeFromCart: function ({ commit }, payload) {

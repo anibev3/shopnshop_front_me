@@ -15,11 +15,11 @@
                             :to="'/product/default' + props.item.data.slug"
                         >
                             <img
-                                :src="`${baseUrl}${props.item.data.small_pictures[0].url}`"
+                                :src="`${props.item.data.pictures[0]}`"
                                 alt="product"
-                                :width="props.item.data.small_pictures[0].width"
-                                :height="
-                                    props.item.data.small_pictures[0].height
+                                width="150"
+                                height="
+                                    150
                                 "
                             />
                         </nuxt-link>

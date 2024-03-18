@@ -28,11 +28,14 @@ const endpoints = {
     country: '/countries',
     city: '/cities',
     user: '/auth/user',
-    storeCart: '/carts',
+    cart: '/carts',
     userCart: '/cart/user',
     products: '/products',
     product: '/products/',
     wishlist: '/wishlist',
+    brands: '/brands',
+    billing: '/billing',
+    shiping: '/add_shipping',
     // Ajoutez d'autres endpoints selon vos besoins
 };
 

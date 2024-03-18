@@ -682,6 +682,7 @@ export default {
                         name: this.product.name,
                         //  + ' - ' + saledName,
                         price: saledPrice,
+                        selectedVariant: this.selectedVariant,
                     };
                 } else {
                     saledProduct = {

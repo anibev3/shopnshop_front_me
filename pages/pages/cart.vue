@@ -44,14 +44,12 @@
                                             class="product-image"
                                         >
                                             <img
-                                                :src="`${baseUrl}${product.small_pictures[0].url}`"
-                                                :width="
-                                                    product.small_pictures[0]
-                                                        .width
+                                                :src="`${product.pictures[0]}`"
+                                                width="
+                                                    150
                                                 "
-                                                :height="
-                                                    product.small_pictures[0]
-                                                        .height
+                                                height="
+                                                    150
                                                 "
                                                 alt="product"
                                             />

@@ -1,5 +1,6 @@
 export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 export const REMOVE_FROM_WISHLIST = 'REMOVE_FROM_WISHLIST';
+export const SET_WISHLIST = 'SET_WISHLIST';
 // Importez axios pour effectuer des requêtes HTTP
 import axios from 'axios';
 import Api, { constant, apiEndpoints, baseUrl2 } from '~/api';
@@ -19,6 +20,27 @@ export const getters = {
 };
 
 export const actions = {
+    // removeFromWishlist: function ({ commit }, payload) {
+    //     console.log('WISHLIST DELETE', payload);
+    //     const payload_ = {
+    //         product: {
+    //             uuid: payload,
+    //         },
+    //     };
+    //     this.addToWishlist(payload_);
+    //     // commit(REMOVE_FROM_WISHLIST, payload);
+    // },
+
+    removeFromWishlist: async function ({ dispatch }, payload) {
+        console.log('WISHLIST DELETE', payload);
+        const payload_ = {
+            product: {
+                uuid: payload,
+            },
+        };
+        await dispatch('addToWishlist', payload_);
+        window.location.reload();
+    },
     addToWishlist: async function ({ commit }, payload) {
         try {
             const isConnected = isLoggedIn();
@@ -37,16 +59,37 @@ export const actions = {
                     .catch((error) => {
                         console.log('USER DATA 3', error);
                     });
-                return;
             }
-            console.log('USER DATA 2', response);
         } catch (error) {
             console.error("Erreur lors de l'ajout aux favoris :", error);
-            // Gérez les erreurs d'ajout aux favoris si nécessaire
         }
     },
-    removeFromWishlist: function ({ commit }, payload) {
-        commit(REMOVE_FROM_WISHLIST, payload);
+
+    // ------------------------------------------------------------------------
+    async getWishlist({ commit }) {
+        try {
+            const isConnected = isLoggedIn();
+            if (isConnected) {
+                const userData = retrieveAndDecryptData(constant.USER_DATA);
+
+                await Api.get(
+                    `${baseUrl2}${apiEndpoints.wishlist}/${userData.uuid}`
+                )
+                    .then((response) => {
+                        const data = response.data.data.items;
+                        console.log('La liste des : >>>>>>>>>>>', data);
+                        commit(SET_WISHLIST, data);
+                    })
+                    .catch((error) => {
+                        console.log('USER DATA 3', error);
+                    });
+            }
+        } catch (error) {
+            console.error(
+                "Erreur lors de la récupération de la wishlist de l'utilisateur :",
+                error
+            );
+        }
     },
 };
 
@@ -62,5 +105,9 @@ export const mutations = {
     [REMOVE_FROM_WISHLIST](state, payload) {
         let index = state.data.findIndex((item) => item.id === payload.id);
         state.data.splice(index, 1);
+    },
+
+    [SET_WISHLIST](state, wishlist) {
+        state.data = wishlist;
     },
 };

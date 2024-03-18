@@ -14,9 +14,8 @@
             <pv-service-section></pv-service-section>
 
             <pv-banner-section></pv-banner-section>
-
             <pv-special-collection
-                :products="exclusivityProducts"
+                :products="GET_EXCLU_PRODUCTS"
             ></pv-special-collection>
         </div>
 
@@ -27,7 +26,7 @@
                 <pv-category-section-two></pv-category-section-two>
 
                 <pv-products-collection-one
-                    :products="products"
+                    :products="GET_NEW_PRODUCTS"
                 ></pv-products-collection-one>
 
                 <!-- <pv-category-section-three></pv-category-section-three>
@@ -39,16 +38,19 @@
                 <pv-banner-section-two></pv-banner-section-two>
 
                 <pv-category-section-four
-                    :products="products"
-                    v-if="products && products.length > 0"
+                    :products="GET_NEW_PRODUCTS"
+                    :newProducts="GET_NEW_PRODUCTS"
+                    :best-products="GET_SECOND_HAND_PRODUCTS"
+                    :top-rated-products="GET_TOP_RATING_PRODUCTS"
+                    v-if="GET_NEW_PRODUCTS && GET_NEW_PRODUCTS.length > 0"
                 ></pv-category-section-four>
 
-                <pv-brand-section></pv-brand-section>
+                <pv-brand-section :brands="GET_BRANDS"></pv-brand-section>
 
                 <pv-products-collection-three
-                    :newProducts="newProducts"
-                    :best-products="bestProducts"
-                    :top-rated-products="topRatedProducts"
+                    :newProducts="GET_NEW_PRODUCTS"
+                    :best-products="GET_SECOND_HAND_PRODUCTS"
+                    :top-rated-products="GET_TOP_RATING_PRODUCTS"
                 ></pv-products-collection-three>
 
                 <pv-feature-section></pv-feature-section>
@@ -80,14 +82,9 @@ import PvProductsCollectionFour from '~/components/partials/home/PvProductsColle
 import PvCategorySectionThree from '~/components/partials/home/PvCategorySectionThree';
 import PvCategorySectionFour from '~/components/partials/home/PvCategorySectionFour';
 
-import {
-    getProductsByAttri,
-    getTopSellingProducts,
-    getTopRatedProducts,
-    filterProductsByCollection,
-} from '~/utils/service';
 import { getCookie } from '~/utils';
 import Api, { baseUrl, baseUrl2, constant, apiEndpoints } from '~/api';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {
@@ -122,6 +119,15 @@ export default {
         };
     },
     computed: {
+        ...mapGetters('product', [
+            'GET_PRODUCTS',
+            'GET_EXCLU_PRODUCTS',
+            'GET_SECOND_HAND_PRODUCTS',
+            'GET_NEW_PRODUCTS',
+            'GET_LAST_CHANCE_PRODUCTS',
+            'GET_TOP_RATING_PRODUCTS',
+        ]),
+        ...mapGetters('brand', ['GET_BRANDS']),
         lightBoxMedia: function () {
             let pictures = [];
             for (let i = 0; i < this.posts.length; i++) {
@@ -138,30 +144,11 @@ export default {
             }, []);
         },
     },
+    created() {
+        this.get_products();
+        this.get_brands();
+    },
     mounted: function () {
-        this.getProducts();
-
-        Api.get(`${baseUrl}/demo36`)
-            .then((response) => {
-                this.products = response.data.products;
-                console.log('111111', this.products);
-                this.posts = response.data.posts;
-                this.featuredProducts = getProductsByAttri(
-                    response.data.products
-                );
-                this.newProducts = getProductsByAttri(
-                    response.data.products,
-                    'is_new'
-                );
-                this.bestProducts = getTopSellingProducts(
-                    response.data.products
-                );
-                this.topRatedProducts = getTopRatedProducts(
-                    response.data.products
-                );
-            })
-            .catch((error) => ({ error: JSON.stringify(error) }));
-
         this.timerId = setTimeout(() => {
             if (
                 this.$route.path === '/' &&
@@ -185,19 +172,8 @@ export default {
         clearTimeout(this.timerId);
     },
     methods: {
-        getProducts() {
-            Api.get(`${baseUrl2}${apiEndpoints.products}`)
-                .then((response) => {
-                    this.products_ = response.data.data;
-                    console.log('111111222', this.products_);
-                    this.exclusivityProducts = filterProductsByCollection(
-                        this.products_,
-                        'exclusivites'
-                    );
-                    console.log('exclu', this.exclusivityProducts);
-                })
-                .catch((error) => ({ error: JSON.stringify(error) }));
-        },
+        ...mapActions('product', ['get_products', 'get_categories']),
+        ...mapActions('brand', ['get_brands']),
         toggleSidebar: function () {
             let body = document.querySelector('body');
             if (body.classList.contains('sidebar-opened')) {

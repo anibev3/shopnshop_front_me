@@ -297,12 +297,6 @@ import PvTabs from '~/components/features/PvTabs';
 import PvCarousel from '~/components/features/PvCarousel';
 import { productSliderTwo } from '~/utils/data/carousel';
 
-import {
-    getProductsByAttri,
-    getTopSellingProducts,
-    getTopRatedProducts,
-} from '~/utils/service';
-
 export default {
     components: {
         PvSmallProduct,
@@ -314,19 +308,16 @@ export default {
     data: function () {
         return {
             productSliderTwo: productSliderTwo,
-            newProducts: [],
-            bestProducts: [],
-            topRatedProducts: [],
+            // newProducts: [],
+            // bestProducts: [],
+            // topRatedProducts: [],
         };
     },
     props: {
         products: Array,
-    },
-    created: function () {
-        console.log(this.products);
-        this.newProducts = getProductsByAttri(this.products, 'is_new');
-        this.bestProducts = getTopSellingProducts(this.products);
-        this.topRatedProducts = getTopRatedProducts(this.products);
+        bestProducts: Array,
+        topRatedProducts: Array,
+        newProducts: Array,
     },
 };
 </script>

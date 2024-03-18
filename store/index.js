@@ -24,6 +24,20 @@ import {
     mutations as productMutations,
 } from './products/product';
 
+import {
+    state as brandState,
+    getters as brandGetters,
+    actions as brandActions,
+    mutations as brandMutations,
+} from './prefs/brand';
+
+import {
+    state as billingState,
+    getters as billingGetters,
+    actions as billingActions,
+    mutations as billingMutations,
+} from './prefs/billing';
+
 export const state = () => ({
     // Votre état global ici
 });
@@ -68,5 +82,20 @@ export const modules = {
         getters: productGetters,
         actions: productActions,
         mutations: productMutations,
+    },
+
+    brand: {
+        namespaced: true,
+        state: brandState,
+        getters: brandGetters,
+        actions: brandActions,
+        mutations: brandMutations,
+    },
+    billing: {
+        namespaced: true,
+        state: billingState,
+        getters: billingGetters,
+        actions: billingActions,
+        mutations: billingMutations,
     },
 };

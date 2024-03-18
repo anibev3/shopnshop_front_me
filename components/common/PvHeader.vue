@@ -142,8 +142,8 @@
                             </div>
                         </div>
                     </a>
-                    <a
-                        href="javascript:;"
+                    <nuxt-link
+                        to="/pages/account"
                         class="d-lg-block d-none"
                         title="login"
                         v-if="isConnected"
@@ -157,7 +157,7 @@
                                 </h4>
                             </div>
                         </div>
-                    </a>
+                    </nuxt-link>
 
                     <nuxt-link
                         to="/pages/wishlist"
@@ -189,7 +189,7 @@
 import PvMainMenu from '~/components/common/partials/PvMainMenu';
 import PvCartMenu from '~/components/common/partials/PvCartMenu';
 import PvHeaderSearch from '~/components/common/partials/PvHeaderSearch';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import {
     retrieveAndDecryptData,
     isLoggedIn,
@@ -225,6 +225,9 @@ export default {
             item.addEventListener('mouseleave', this.mouseLeaveHandler);
         });
     },
+    created() {
+        this.getWishlist();
+    },
     destroyed: function () {
         let items = document.querySelectorAll('.menu-vertical > li');
         items.forEach((item) => {
@@ -233,6 +236,7 @@ export default {
         });
     },
     methods: {
+        ...mapActions('wishlist', ['getWishlist']),
         userStatus() {
             this.isConnected = isLoggedIn();
             this.userData = retrieveAndDecryptData(constant.USER_DATA);

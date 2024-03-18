@@ -43,10 +43,7 @@
             </div>
 
             <div class="wishlist-title">
-                <h2 class="p-2">
-                    Mes favoris
-                    <!-- {{ currentDemo }} -->
-                </h2>
+                <h2 class="p-2">Mes favoris</h2>
             </div>
             <div
                 class="wishlist-table-container"
@@ -72,11 +69,14 @@
                             <td>
                                 <figure class="product-image-container">
                                     <nuxt-link
-                                        :to="'/product/default/' + product.slug"
+                                        :to="
+                                            '/product/default/' +
+                                            product.product.slug
+                                        "
                                         class="product-image"
                                     >
                                         <img
-                                            :src="`${product.pictures[0]}`"
+                                            :src="`${product.product.pictures[0]}`"
                                             alt="product"
                                             width=" 150
                                             "
@@ -97,8 +97,11 @@
                             <td>
                                 <h5 class="product-title">
                                     <nuxt-link
-                                        :to="'/product/default/' + product.slug"
-                                        >{{ product.name }}</nuxt-link
+                                        :to="
+                                            '/product/default/' +
+                                            product.product.slug
+                                        "
+                                        >{{ product.product.name }}</nuxt-link
                                     >
                                 </h5>
                             </td>
@@ -106,15 +109,16 @@
                             <td
                                 class="price-box"
                                 v-if="
-                                    product.price &&
-                                    product.variants.length === 0
+                                    product.product.price &&
+                                    product.product.variants.length === 0
                                 "
                                 key="singlePrice"
                             >
-                                <template v-if="!product.is_sale">
+                                <template v-if="!product.product.is_sale">
                                     <span class="new-price"
                                         >${{
-                                            product.price.min | priceFormat
+                                            product.product.price.min
+                                                | priceFormat
                                         }}</span
                                     >
                                 </template>
@@ -122,12 +126,13 @@
                                 <template v-else>
                                     <span class="new-price"
                                         >${{
-                                            product.sale_price | priceFormat
+                                            product.product.sale_price
+                                                | priceFormat
                                         }}</span
                                     >
                                     <span class="old-price"
                                         >${{
-                                            product.price | priceFormat
+                                            product.product.price | priceFormat
                                         }}</span
                                     >
                                 </template>
@@ -135,14 +140,19 @@
 
                             <td class="price-box" v-else>
                                 <template
-                                    v-if="product.minPrice !== product.maxPrice"
+                                    v-if="
+                                        product.product.minPrice !==
+                                        product.product.maxPrice
+                                    "
                                 >
                                     <span class="new-price"
                                         >${{
-                                            product.minPrice | priceFormat
+                                            product.product.minPrice
+                                                | priceFormat
                                         }}
                                         &ndash; ${{
-                                            product.maxPrice | priceFormat
+                                            product.product.maxPrice
+                                                | priceFormat
                                         }}</span
                                     >
                                 </template>
@@ -150,7 +160,8 @@
                                 <template v-else>
                                     <span class="new-price"
                                         >${{
-                                            product.minPrice | priceFormat
+                                            product.product.minPrice
+                                                | priceFormat
                                         }}</span
                                     >
                                 </template>
@@ -163,7 +174,7 @@
                                 <a
                                     href="javascript:;"
                                     class="btn btn-quickview mt-1 mt-md-0"
-                                    @click="openQuickview(product)"
+                                    @click="openQuickview(product.product)"
                                     title="Quick View"
                                     key="singleCart"
                                     >Aperçu</a
@@ -172,13 +183,16 @@
                                 <button
                                     class="btn btn-dark btn-add-cart product-type-simple btn-shop"
                                     @click="addCart(product)"
-                                    v-if="product.variants.length === 0"
+                                    v-if="product.product.variants.length === 0"
                                 >
                                     AJOUTER AU PANIER
                                 </button>
 
                                 <nuxt-link
-                                    :to="'/product/default/' + product.slug"
+                                    :to="
+                                        '/product/default/' +
+                                        product.product.slug
+                                    "
                                     class="btn btn-dark btn-add-cart btn-shop"
                                     v-else
                                     >SELECT OPTION</nuxt-link
@@ -277,35 +291,25 @@ export default {
         this.makeCartItems();
     },
     methods: {
-        ...mapActions('wishlist', ['removeFromWishlist']),
+        ...mapActions('wishlist', ['removeFromWishlist', 'getWishlist']),
         ...mapActions('cart', ['addToCart']),
         makeCartItems: function () {
             this.wishItems = this.wishList;
+            console.log('LES WISHLIST', this.wishItems);
             this.wishItems = this.wishList.reduce((acc, product) => {
                 let minPrice = 0,
                     maxPrice = 0;
-
-                // if (!product.price) {
-                //     minPrice = product.variants[0].price;
-                //     product.variants.forEach((item) => {
-                //         let itemPrice = item.is_sale
-                //             ? item.sale_price
-                //             : item.price;
-                //         if (minPrice > itemPrice) minPrice = itemPrice;
-                //         if (maxPrice < itemPrice) maxPrice = itemPrice;
-                //     });
-                // }
-
+                console.log('WISHLIST_PRODUCT', product.product);
                 if (
-                    product.variants.length > 0
+                    product.product.variants.length > 0
                     // && !this.product.price
                 ) {
                     console.log('DEMARAGE 1');
 
-                    minPrice = product.variants[0].price;
+                    minPrice = product.product.variants[0].price;
                     console.log('DEMARAGE 2', minPrice);
 
-                    product.variants.forEach((item) => {
+                    product.product.variants.forEach((item) => {
                         let itemPrice = item.sale_price
                             ? item.sale_price
                             : item.price;
@@ -345,7 +349,7 @@ export default {
             document.querySelector('.cart-message.carted').style.display =
                 'block';
             this.addToCart({ product: product });
-            this.removeFromWishlist({ id: product.id });
+            this.removeFromWishlist({ id: product.product.uuid });
         },
         removeWishlist: function (product) {
             this.currentProduct = product;
@@ -353,7 +357,7 @@ export default {
                 'none';
             document.querySelector('.cart-message.removed').style.display =
                 'block';
-            this.removeFromWishlist({ id: product.id });
+            this.removeFromWishlist({ id: product.product.uuid });
         },
     },
 };

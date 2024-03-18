@@ -20,7 +20,7 @@
                         class="menu menu-vertical sf-arrows d-block no-superfish"
                     >
                         <li
-                            v-for="category in categoryList"
+                            v-for="category in GET_CATEGORIES"
                             :key="category.uuid"
                         >
                             <a href="javascript:;" class="sf-with-ul">
@@ -215,6 +215,8 @@ import PvCarousel from '~/components/features/PvCarousel';
 import PvProductFour from '~/components/features/product/PvProductFour';
 import { homeSidebarSlider } from '~/utils/data/carousel';
 
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
     components: {
         PvCarousel,
@@ -232,7 +234,11 @@ export default {
             categoryList: [],
         };
     },
+    created() {
+        this.get_categories();
+    },
     computed: {
+        ...mapGetters('product', ['GET_CATEGORIES']),
         isPageItemActived: function () {
             let exItems = ['blog', 'about-us', 'contact-us'];
 
@@ -260,33 +266,11 @@ export default {
             this.isDepart = false;
         },
     },
-    mounted: function () {
-        this.getCategoryFunction(),
-            Api.get(`${baseUrl}/demo36`)
-                .then((response) => {
-                    this.products = response.data.products;
-                    this.posts = response.data.posts;
-                    this.featuredProducts = getProductsByAttri(
-                        response.data.products
-                    );
-                })
-                .catch((error) => ({ error: JSON.stringify(error) }));
-    },
+    // mounted() {
+    // this.getCategoryFunction(), this.get_categories();
+    // },
     methods: {
-        getCategoryFunction() {
-            Api.get(`${baseUrl2}${apiEndpoints.getCategories}`)
-                .then((response) => {
-                    console.log(response);
-                    this.categoryList = response?.data.data;
-                    console.log(
-                        'CATEGORY DANS MENU ::::::::::> :',
-                        this.categoryList
-                    );
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
+        ...mapActions('product', ['get_categories']),
         changeToggle: function (index) {
             let tmp = this.toggleState[index];
             this.toggleState.fill(false);

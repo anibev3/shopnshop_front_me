@@ -20,17 +20,6 @@ export const getters = {
 };
 
 export const actions = {
-    // removeFromWishlist: function ({ commit }, payload) {
-    //     console.log('WISHLIST DELETE', payload);
-    //     const payload_ = {
-    //         product: {
-    //             uuid: payload,
-    //         },
-    //     };
-    //     this.addToWishlist(payload_);
-    //     // commit(REMOVE_FROM_WISHLIST, payload);
-    // },
-
     removeFromWishlist: async function ({ dispatch }, payload) {
         console.log('WISHLIST DELETE', payload);
         const payload_ = {
@@ -39,9 +28,9 @@ export const actions = {
             },
         };
         await dispatch('addToWishlist', payload_);
-        window.location.reload();
+        // window.location.reload();
     },
-    addToWishlist: async function ({ commit }, payload) {
+    addToWishlist: async function ({ commit, dispatch }, payload) {
         try {
             const isConnected = isLoggedIn();
             let userData = null;
@@ -54,7 +43,8 @@ export const actions = {
 
                 await Api.post(`${baseUrl2}${apiEndpoints.wishlist}`, formData)
                     .then((response) => {
-                        commit(ADD_TO_WISHLIST, payload);
+                        // commit(ADD_TO_WISHLIST, payload);
+                        return dispatch('getWishlist');
                     })
                     .catch((error) => {
                         console.log('USER DATA 3', error);

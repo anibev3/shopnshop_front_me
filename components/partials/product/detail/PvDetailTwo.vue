@@ -27,91 +27,183 @@
 
         <div class="price-box" v-if="product.price" key="singlePrice">
             <template v-if="!product.is_sale">
-                <span class="new-price"
-                    >${{ product.price | priceFormat }}</span
-                >
+                <span class="new-price">{{
+                    numberWithSpaces(product.price)
+                }}</span>
             </template>
 
             <template v-else>
-                <span class="new-price"
-                    >${{ product.sale_price | priceFormat }}</span
-                >
-                <span class="old-price"
-                    >${{ product.price | priceFormat }}</span
-                >
+                <span class="new-price">{{
+                    numberWithSpaces(product.sale_price)
+                }}</span>
+                <span class="old-price">{{
+                    numberWithSpaces(product.price)
+                }}</span>
             </template>
         </div>
 
         <div class="price-box" v-else>
-            <template v-if="minPrice !== maxPrice">
-                <span class="new-price"
-                    >${{ minPrice | priceFormat }} &ndash; ${{
-                        maxPrice | priceFormat
-                    }}</span
-                >
+            <template v-if="product.interval_price">
+                <span class="new-price">{{
+                    intervalNumberWithSpaces(product.interval_price)
+                }}</span>
             </template>
 
-            <template v-else>
+            <!-- <template v-else>
                 <span class="new-price">${{ minPrice | priceFormat }}</span>
-            </template>
+            </template> -->
         </div>
 
         <div class="product-countdown-container-two mt-1" v-if="product.until">
             <h5 class="daily-deal-title">L'offre se termine dans :</h5>
-            <pv-count-down
+            <!-- <pv-count-down
                 class="product-countdown countdown-compact"
                 :until="product.until"
                 :label-short="true"
-            ></pv-count-down>
+            ></pv-count-down> -->
         </div>
 
-        <div class="product-desc" v-if="product.short_description">
-            <p>{{ product.short_description }}</p>
+        <div class="product-desc" v-if="product.description">
+            <p v-html="formatDescription(product.description)"></p>
         </div>
 
-        <ul class="single-info-list">
-            <li v-if="product.sku">
-                SKU:
-                <strong>{{ product.sku }}</strong>
-            </li>
+        <div class="row">
+            <div class="col-md-5">
+                <ul class="single-info-list">
+                    <li v-if="product.sku">
+                        SKU:
+                        <strong>{{ product.sku }}</strong>
+                    </li>
 
-            <li>
-                CATEGORY:
-                <strong>
-                    <nuxt-link
-                        :to="{ path: '/shop', query: { category: item.slug } }"
-                        class="product-category"
-                        v-for="(item, index) in product.product_categories"
-                        :key="'product-category-' + index"
+                    <li>
+                        CATEGORY:
+                        <strong>
+                            <nuxt-link
+                                :to="{
+                                    path: '/shop',
+                                    query: { category: item.slug },
+                                }"
+                                class="product-category"
+                                v-for="(
+                                    item, index
+                                ) in product.product_categories"
+                                :key="'product-category-' + index"
+                            >
+                                {{ item.name }}
+                                <template
+                                    v-if="
+                                        index <
+                                        product.product_categories.length - 1
+                                    "
+                                    >,</template
+                                >
+                            </nuxt-link>
+                        </strong>
+                    </li>
+
+                    <li v-if="product.tags.length > 0">
+                        TAGS:
+                        <strong>
+                            <nuxt-link
+                                :to="{
+                                    path: '/shop',
+                                    query: { tag: item.slug },
+                                }"
+                                class="product-category"
+                                v-for="(item, index) in product.tags"
+                                :key="'product-category-' + index"
+                            >
+                                #{{ item.name }}
+                                <template v-if="index < product.tags.length - 1"
+                                    >,</template
+                                >
+                            </nuxt-link>
+                        </strong>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-7">
+                <!-- ---------------------------------------------------------------------- -->
+                <div>
+                    <button v-if="selectedVariant" @click="resetSelection">
+                        Réinitialiser
+                    </button>
+                    <div
+                        class="text-center"
+                        style="font-size: 12px"
+                        v-if="product.variants.length > 0"
                     >
-                        {{ item.name }}
-                        <template
-                            v-if="index < product.product_categories.length - 1"
-                            >,</template
-                        >
-                    </nuxt-link>
-                </strong>
-            </li>
-
-            <li v-if="product.product_tags.length > 0">
-                TAGS:
-                <strong>
-                    <nuxt-link
-                        :to="{ path: '/shop', query: { tag: item.slug } }"
-                        class="product-category"
-                        v-for="(item, index) in product.product_tags"
-                        :key="'product-category-' + index"
+                        <strong>VARIANTS</strong>
+                    </div>
+                    <p
+                        class="text-center"
+                        style="margin-bottom: 0.2rem; font-size: 10px"
+                        v-if="product.variants.length > 0"
                     >
-                        {{ item.name }}
-                        <template v-if="index < product.product_tags.length - 1"
-                            >,</template
+                        Sélectionner une variante
+                    </p>
+                    <div class="scrollable-div">
+                        <div
+                            v-for="(variant, index) in product.variants"
+                            :key="'variant-' + index"
+                            class="variant-container"
+                            @click="
+                                variant.quantity > 0 && selectVariant(variant)
+                            "
+                            :class="{
+                                'selected-variant': isSelectedVariant(variant),
+                                'out-of-stock': variant.quantity === 0,
+                            }"
                         >
-                    </nuxt-link>
-                </strong>
-            </li>
-        </ul>
+                            <div class="variant-details">
+                                <p
+                                    :style="{
+                                        padding: '7px 7px',
+                                        // border: `1px solid {variant.options[0].value}`,
+                                        borderRadius: '5px',
+                                        backgroundColor:
+                                            variant.options[0].value,
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                    }"
+                                ></p>
+                                <p style="margin: 10px"></p>
+                                <p
+                                    :style="{
+                                        padding: '7px 7px',
+                                        border: '1px solid #ebe4e4',
+                                        borderRadius: '5px',
+                                        fontWeight: 'bold',
+                                        alignItems: 'center',
+                                    }"
+                                    class="d-flex justify-content-around"
+                                >
+                                    <span>{{ variant.options[1].value }}</span>
+                                    -
+                                    <span>
+                                        {{ numberWithSpaces(variant.price) }}
+                                    </span>
 
-        <div
+                                    <img
+                                        src="https://cdn-icons-png.flaticon.com/512/5359/5359700.png"
+                                        alt=""
+                                        style="width: 11%"
+                                        v-if="variant.quantity === 0"
+                                    />
+
+                                    <span v-if="variant.quantity > 0">
+                                        <strong>Qté:</strong>
+                                        {{ variant.quantity }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div
             class="product-filters-container"
             v-if="product.variants.length > 0"
         >
@@ -215,13 +307,13 @@
                     >
                 </vue-slide-toggle>
             </div>
-        </div>
+        </div> -->
 
         <div class="sticky-cart-header sticky-header">
             <div class="container">
                 <div class="sticky-img mr-4">
                     <img
-                        :src="baseUrl + product.small_pictures[0].url"
+                        :src="product.pictures[0]"
                         :width="50"
                         :height="50"
                         alt="product"
@@ -238,37 +330,35 @@
                             key="singlePrice"
                         >
                             <template v-if="!product.is_sale">
-                                <span class="product-price"
-                                    >${{ product.price | priceFormat }}</span
-                                >
+                                <span class="product-price">{{
+                                    numberWithSpaces(product.price)
+                                }}</span>
                             </template>
 
                             <template v-else>
-                                <span class="product-price"
-                                    >${{
-                                        product.sale_price | priceFormat
-                                    }}</span
-                                >
-                                <span class="old-price"
-                                    >${{ product.price | priceFormat }}</span
-                                >
+                                <span class="product-price">{{
+                                    numberWithSpaces(product.sale_price)
+                                }}</span>
+                                <span class="old-price">{{
+                                    numberWithSpaces(product.price)
+                                }}</span>
                             </template>
                         </div>
 
                         <div class="price-box" v-else>
-                            <template v-if="minPrice !== maxPrice">
-                                <span class="product-price"
-                                    >${{ minPrice | priceFormat }} &ndash; ${{
-                                        maxPrice | priceFormat
-                                    }}</span
-                                >
+                            <template v-if="product.interval_price">
+                                <span class="product-price">{{
+                                    intervalNumberWithSpaces(
+                                        product.interval_price
+                                    )
+                                }}</span>
                             </template>
 
-                            <template v-else>
+                            <!-- <template v-else>
                                 <span class="product-price"
                                     >${{ minPrice | priceFormat }}</span
                                 >
-                            </template>
+                            </template> -->
                         </div>
                     </div>
                     <div class="ratings-container">
@@ -292,20 +382,19 @@
 
                 <div class="product-action">
                     <vue-slide-toggle
-                        :open="isPriceShow"
-                        v-if="product.variants.length > 0"
+                        :open="(isPriceShow = true)"
+                        v-if="product.variants.length === 0"
                     >
                         <div
                             class="price-box product-filtered-price"
-                            v-if="minPrice === maxPrice || product.price"
                             key="samePrice"
                         >
                             <span class="product-stock"
-                                >{{ product.stock }} in stock</span
+                                >{{ product.stock }} en stock</span
                             >
                         </div>
 
-                        <div class="price-box product-filtered-price" v-else>
+                        <!-- <div class="price-box product-filtered-price" v-else>
                             <template
                                 v-if="product.variants[curIndex].sale_price"
                             >
@@ -333,7 +422,7 @@
                                     }}</span
                                 >
                             </template>
-                        </div>
+                        </div> -->
                     </vue-slide-toggle>
 
                     <div class="product-single-qty">
@@ -443,6 +532,10 @@ import { VueSlideToggle } from 'vue-slide-toggle';
 import { baseUrl } from '~/api/index';
 import PvProductNav from '~/components/partials/product/PvProductNav';
 import PvCountDown from '~/components/features/PvCountDown';
+import {
+    priceFormatService,
+    intervalPriceFormatService,
+} from '~/utils/service';
 
 export default {
     components: {
@@ -479,6 +572,7 @@ export default {
                 image: null,
             },
             tIndex: 0,
+            selectedVariant: null,
         };
     },
     computed: {
@@ -511,14 +605,19 @@ export default {
             }
         },
         isCartActive: function () {
-            if (this.product.stock < parseInt(this.qty)) return false;
+            if (this.selectedVariant !== null) {
+                if (this.selectedVariant.quantity < parseInt(this.qty))
+                    return false;
+            }
             if (this.product.variants.length === 0) return true;
-            if (this.curSize.name !== null && this.curColor.name !== null)
-                return true;
-            if (this.curColor.name !== null && this.vSizes.length === 0)
-                return true;
-            if (this.curSize.name !== null && this.vColors.length === 0)
-                return true;
+            // if (this.curSize.name !== null && this.curColor.name !== null)
+            //     return true;
+            // if (this.curColor.name !== null && this.vSizes.length === 0)
+            //     return true;
+            // if (this.curSize.name !== null && this.vColors.length === 0)
+            //     return true;
+            if (this.selectedVariant !== null) return true;
+
             return false;
         },
         isWishlisted: function () {
@@ -541,46 +640,54 @@ export default {
         },
     },
     mounted: function () {
-        if (this.product.variants && !this.product.price) {
+        if (
+            this.product.variants.length > 0
+            // && !this.product.price
+        ) {
+            console.log('DEMARAGE 1');
+
             this.minPrice = this.product.variants[0].price;
+            console.log('DEMARAGE 2', this.minPrice);
 
             this.product.variants.forEach((item) => {
                 let itemPrice = item.sale_price ? item.sale_price : item.price;
                 if (this.minPrice > itemPrice) this.minPrice = itemPrice;
                 if (this.maxPrice < itemPrice) this.maxPrice = itemPrice;
             });
+            console.log('DEMARAGE 3', this.minPrice);
+            console.log('DEMARAGE 4', this.maxPrice);
         }
 
-        if (this.product.variants.length > 0) {
-            if (this.product.variants[0].size[0])
-                this.product.variants.forEach((item) => {
-                    if (
-                        this.vSizes.findIndex(
-                            (vsize) => vsize.name === item.size[0].size_name
-                        ) === -1
-                    )
-                        this.vSizes.push({
-                            name: item.size[0].size_name,
-                            text: item.size[0].size,
-                            image: item.size[0].size_thumbnail,
-                        });
-                });
+        // if (this.product.variants.length > 0) {
+        //     if (this.product.variants[0].size[0])
+        //         this.product.variants.forEach((item) => {
+        //             if (
+        //                 this.vSizes.findIndex(
+        //                     (vsize) => vsize.name === item.size[0].size_name
+        //                 ) === -1
+        //             )
+        //                 this.vSizes.push({
+        //                     name: item.size[0].size_name,
+        //                     text: item.size[0].size,
+        //                     image: item.size[0].size_thumbnail,
+        //                 });
+        //         });
 
-            if (this.product.variants[0].colors[0])
-                this.product.variants.forEach((item) => {
-                    if (
-                        this.vColors.findIndex(
-                            (vColor) =>
-                                vColor.name === item.colors[0].color_name
-                        ) === -1
-                    )
-                        this.vColors.push({
-                            name: item.colors[0].color_name,
-                            text: item.colors[0].color,
-                            image: item.colors[0].color_thumbnail,
-                        });
-                });
-        }
+        //     if (this.product.variants[0].colors[0])
+        //         this.product.variants.forEach((item) => {
+        //             if (
+        //                 this.vColors.findIndex(
+        //                     (vColor) =>
+        //                         vColor.name === item.colors[0].color_name
+        //                 ) === -1
+        //             )
+        //                 this.vColors.push({
+        //                     name: item.colors[0].color_name,
+        //                     text: item.colors[0].color,
+        //                     image: item.colors[0].color_thumbnail,
+        //                 });
+        //         });
+        // }
 
         window.addEventListener('scroll', this.stickyCartHandler, {
             passive: true,
@@ -607,35 +714,30 @@ export default {
                 let saledProduct;
                 if (this.product.variants.length > 0) {
                     let saledPrice;
-                    if (this.product.price)
-                        saledPrice = this.product.sale_price
-                            ? this.product.sale_price
-                            : this.product.price;
-                    else {
-                        saledPrice = this.product.variants[this.curIndex]
-                            .sale_price
-                            ? this.product.variants[this.curIndex].sale_price
-                            : this.product.variants[this.curIndex].price;
-                    }
+                    // if (this.product.price)
+                    //     saledPrice = this.product.sale_price
+                    //         ? this.product.sale_price
+                    //         : this.product.price.min;
+                    // else {
+                    saledPrice = this.selectedVariant.price;
+                    // }
                     saledProduct = {
                         ...this.product,
                         qty: this.qty,
-                        name:
-                            this.product.name +
-                            ' - ' +
-                            this.curColor.name.charAt(0).toUpperCase() +
-                            this.curColor.name.slice(1) +
-                            ', ' +
-                            this.curSize.name,
+                        name: this.product.name,
+                        //  + ' - ' + saledName,
                         price: saledPrice,
+                        selectedVariant: this.selectedVariant,
                     };
                 } else {
                     saledProduct = {
                         ...this.product,
                         qty: this.qty,
-                        price: this.product.sale_price
-                            ? this.product.sale_price
-                            : this.product.price,
+                        price:
+                            // this.product.sale_price
+                            //     ? this.product.sale_price
+                            //     :
+                            this.product.price,
                     };
                 }
 
@@ -760,6 +862,68 @@ export default {
                 }
             }
         },
+        numberWithSpaces(price) {
+            return priceFormatService(price);
+        },
+        intervalNumberWithSpaces(intervalPrice) {
+            return intervalPriceFormatService(intervalPrice);
+        },
+
+        formatDescription(description) {
+            // Appliquer la mise en forme spécifique à la description
+            description = description.replace(
+                /\*\*([^*]+)\*\*/g,
+                '<strong>$1</strong>'
+            ); // Mise en gras entre ** **
+            description = description.replace(/\n\n/g, '<br>'); // Saut de ligne
+            description = description.replace(
+                /([^\n:]+)\s*:\s*([^\n]+)/g,
+                '<strong>$1:</strong> $2<br>'
+            ); // Mise en gras pour les colonnes et leurs valeurs
+            return description;
+        },
+        selectVariant(variant) {
+            // Mettre à jour l'état de l'option sélectionnée
+            this.selectedVariant = variant;
+        },
+        isSelectedVariant(variant) {
+            // Vérifier si la variante est sélectionnée
+            return this.selectedVariant === variant;
+        },
+        resetSelection() {
+            // Réinitialiser la sélection
+            this.selectedVariant = null;
+        },
     },
 };
 </script>
+<style scoped>
+.variant-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    padding: 4px;
+}
+
+.variant-container h3 {
+    margin-top: 0;
+}
+
+.variant-details p {
+    margin: 5px 0;
+}
+
+.variant-details p strong {
+    font-weight: bold;
+}
+
+.selected-variant {
+    border: 3px solid rgb(0, 0, 0); /* Exemple de bordure épaisse */
+    border-color: rgb(0, 0, 0); /* Exemple de couleur de bordure différente */
+}
+
+.scrollable-div {
+    max-height: 183px;
+    overflow-y: auto;
+}
+</style>

@@ -2,24 +2,24 @@
     <div
         class="product-single-container product-single-default product-quick-view mb-0 custom-scrollbar skeleton-body"
     >
-        <div class="quickview-wrap product" v-if="!product">
+        <div class="quickview-wrap product" v-if="!GET_PRODUCT">
             <div class="skel-group">
                 <div class="col-lg-6 summary-before"></div>
                 <div class="col-lg-6 summary entry-summary"></div>
             </div>
         </div>
 
-        <div class="row" v-if="product">
+        <div class="row" v-if="GET_PRODUCT">
             <div class="col-md-6 product-single-gallery mb-md-0">
                 <pv-media-one
-                    :product="product"
+                    :product="GET_PRODUCT"
                     :is-magnify="false"
                 ></pv-media-one>
             </div>
 
             <div class="col-md-6 product-single-details mb-0">
                 <pv-detail-one
-                    :product="product"
+                    :product="GET_PRODUCT"
                     :is-product-nav="false"
                 ></pv-detail-one>
             </div>
@@ -45,6 +45,7 @@ import Respository, {
     apiEndpoints,
     currentDemo,
 } from '~/api';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {
@@ -60,20 +61,16 @@ export default {
             currentDemo: currentDemo,
         };
     },
+    computed: {
+        ...mapGetters('product', ['GET_PRODUCT']),
+    },
     mounted: function () {
-        this.getProduct();
+        this.getProduct_(this.slug);
     },
     methods: {
-        getProduct: function () {
-            Respository.get(`${baseUrl2}${apiEndpoints.product}${this.slug}`, {
-                params: { demo: currentDemo, quick_view: true },
-            })
-                .then((response) => {
-                    this.product = response.data.data;
-
-                    console.log('YO YO', this.product);
-                })
-                .catch((error) => ({ error: JSON.stringify(error) }));
+        ...mapActions('product', ['getProduct']),
+        getProduct_(slug) {
+            return this.getProduct(slug);
         },
     },
 };

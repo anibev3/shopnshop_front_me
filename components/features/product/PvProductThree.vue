@@ -66,9 +66,9 @@
             <a
                 href="javascript:;"
                 class="btn-quickview"
-                title="Quick View"
+                title="Apercu"
                 @click="openQuickview"
-                >Quick View</a
+                >Apercu</a
             >
 
             <div class="product-countdown-container" v-if="product.until">
@@ -101,14 +101,14 @@
                         >
                     </span>
                 </div>
-                <nuxt-link
-                    to="/pages/wishlist"
+                <span
                     class="btn-icon-wish added-wishlist"
                     title="Go to Wishlist"
                     v-if="isWishlisted"
+                    @click="rmWishlist($event)"
                 >
                     <i class="icon-heart"></i>
-                </nuxt-link>
+                </span>
 
                 <a
                     href="javascript:;"
@@ -141,34 +141,32 @@
 
             <div class="price-box" v-if="product.price" key="singlePrice">
                 <template v-if="!product.is_sale">
-                    <span class="product-price"
-                        >${{ product.price.min | priceFormat }}</span
-                    >
+                    <span class="product-price">{{
+                        numberWithSpaces(product.price)
+                    }}</span>
                 </template>
 
                 <template v-else>
-                    <span class="old-price"
-                        >${{ product.price | priceFormat }}</span
-                    >
-                    <span class="product-price"
-                        >${{ product.sale_price | priceFormat }}</span
-                    >
+                    <span class="old-price">{{
+                        numberWithSpaces(product.price)
+                    }}</span>
+                    <span class="product-price">{{
+                        numberWithSpaces(product.sale_price)
+                    }}</span>
                 </template>
             </div>
 
             <div class="price-box" v-else>
-                <template v-if="minPrice !== maxPrice">
-                    <span class="product-price"
-                        >${{ minPrice | priceFormat }} &ndash; ${{
-                            maxPrice | priceFormat
-                        }}</span
-                    >
+                <template v-if="product.interval_price">
+                    <span class="product-price" style="font-size: 1.5rem">{{
+                        intervalNumberWithSpaces(product.interval_price)
+                    }}</span>
                 </template>
 
                 <template v-else>
-                    <span class="product-price"
-                        >${{ minPrice | priceFormat }}</span
-                    >
+                    <span class="product-price">{{
+                        numberWithSpaces(minPrice)
+                    }}</span>
                 </template>
             </div>
         </div>
@@ -179,6 +177,10 @@
 import PvCountDown from '~/components/features/PvCountDown';
 import { mapGetters, mapActions } from 'vuex';
 import { baseUrl } from '~/api/index';
+import {
+    priceFormatService,
+    intervalPriceFormatService,
+} from '~/utils/service';
 
 export default {
     components: {
@@ -203,9 +205,10 @@ export default {
     computed: {
         ...mapGetters('wishlist', ['wishList']),
         isWishlisted: function () {
+            console.log('WISHLIST', this.wishList);
             if (
                 this.wishList.findIndex(
-                    (item) => item.name === this.product.name
+                    (item) => item.product.uuid === this.product.uuid
                 ) > -1
             )
                 return true;
@@ -241,7 +244,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions('wishlist', ['addToWishlist']),
+        ...mapActions('wishlist', ['addToWishlist', 'removeFromWishlist']),
         ...mapActions('cart', ['addToCart']),
         openQuickview: function () {
             console.log(this.product.slug);
@@ -256,22 +259,84 @@ export default {
                 }
             );
         },
+        // addWishlist: function (e) {
+        //     e.currentTarget.classList.add('load-more-overlay', 'loading');
+
+        //     setTimeout(() => {
+        //         this.addToWishlist({ product: this.product });
+        //         document
+        //             .querySelector('.wishlist-popup')
+        //             .classList.add('active');
+
+        //         setTimeout(() => {
+        //             document
+        //                 .querySelector('.wishlist-popup')
+        //                 .classList.remove('active');
+        //         }, 1000);
+        //     }, 1000);
+        // },
+
         addWishlist: function (e) {
             e.currentTarget.classList.add('load-more-overlay', 'loading');
-
-            setTimeout(() => {
-                this.addToWishlist({ product: this.product });
-                document
-                    .querySelector('.wishlist-popup')
-                    .classList.add('active');
-
-                setTimeout(() => {
+            this.addToWishlist({ product: this.product })
+                .then(() => {
                     document
                         .querySelector('.wishlist-popup')
-                        .classList.remove('active');
-                }, 1000);
-            }, 1000);
+                        .classList.add('active');
+                    setTimeout(() => {
+                        document
+                            .querySelector('.wishlist-popup')
+                            .classList.remove('active');
+                    }, 1000);
+                })
+                .catch((error) => {
+                    console.error(
+                        "Erreur lors de l'ajout à la liste de souhaits :",
+                        error
+                    );
+                    e.currentTarget.classList.remove('loading');
+                });
         },
+
+        // rmWishlist: function (e) {
+        //     e.currentTarget.classList.add('load-more-overlay', 'loading');
+
+        //     setTimeout(() => {
+        //         this.removeFromWishlist({ product: this.product });
+        //         document
+        //             .querySelector('.wishlist-popup')
+        //             .classList.add('active');
+
+        //         setTimeout(() => {
+        //             document
+        //                 .querySelector('.wishlist-popup')
+        //                 .classList.remove('active');
+        //         }, 1000);
+        //     }, 1000);
+        // },
+
+        rmWishlist: function (e) {
+            e.currentTarget.classList.add('load-more-overlay', 'loading');
+            this.removeFromWishlist({ product: this.product })
+                .then(() => {
+                    document
+                        .querySelector('.wishlist-rm-popup')
+                        .classList.add('active');
+                    setTimeout(() => {
+                        document
+                            .querySelector('.wishlist-rm-popup')
+                            .classList.remove('active');
+                    }, 1000);
+                })
+                .catch((error) => {
+                    console.error(
+                        "Erreur lors de l'ajout à la liste de souhaits :",
+                        error
+                    );
+                    e.currentTarget.classList.remove('loading');
+                });
+        },
+
         addCart: function () {
             if (this.product.stock > 0) {
                 let saledProduct = { ...this.product };
@@ -281,6 +346,12 @@ export default {
 
                 this.addToCart({ product: saledProduct });
             }
+        },
+        numberWithSpaces(price) {
+            return priceFormatService(price);
+        },
+        intervalNumberWithSpaces(intervalPrice) {
+            return intervalPriceFormatService(intervalPrice);
         },
     },
 };

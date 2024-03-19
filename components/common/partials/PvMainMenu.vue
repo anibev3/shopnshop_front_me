@@ -157,7 +157,7 @@
                 >
                     <!-- <i class="custom-icon-toggle-menu d-inline-table"></i
                     > -->
-                    <span>PLANIFIER UNE CONSULTATION</span></a
+                    <span>PERSONNAL SHOPPER</span></a
                 >
             </li>
             <!-- <li class="float-right"><a href="javascript:;">FLASH DEALS</a></li> -->

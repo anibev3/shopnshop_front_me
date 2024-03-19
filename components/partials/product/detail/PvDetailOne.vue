@@ -37,33 +37,33 @@
         >
             <!-- <h4>111111111111111</h4> -->
             <template v-if="!product.is_sale">
-                <span class="new-price"
-                    >${{ product.price.min | priceFormat }}</span
-                >
+                <span class="new-price">{{
+                    numberWithSpaces(product.price)
+                }}</span>
             </template>
 
             <template v-else>
-                <span class="new-price"
-                    >${{ product.sale_price | priceFormat }}</span
-                >
-                <span class="old-price"
-                    >${{ product.price | priceFormat }}</span
-                >
+                <span class="new-price">{{
+                    numberWithSpaces(product.sale_price)
+                }}</span>
+                <span class="old-price">{{
+                    numberWithSpaces(product.price)
+                }}</span>
             </template>
         </div>
 
         <div class="price-box" v-else>
             <!-- <h4>22222222222222</h4> -->
-            <template v-if="minPrice !== maxPrice">
-                <span class="new-price"
-                    >${{ minPrice | priceFormat }} &ndash; ${{
-                        maxPrice | priceFormat
-                    }}</span
-                >
+            <template v-if="product.interval_price">
+                <span class="new-price">{{
+                    intervalNumberWithSpaces(product.interval_price)
+                }}</span>
             </template>
 
             <template v-else>
-                <span class="new-price">${{ minPrice | priceFormat }}</span>
+                <span class="new-price">{{
+                    numberWithSpaces(product.price)
+                }}</span>
             </template>
         </div>
 
@@ -80,49 +80,143 @@
             <p>{{ product.short_description }}</p>
         </div>
 
-        <ul class="single-info-list">
-            <li v-if="product.sku">
-                SKU:
-                <strong>{{ product.sku }}</strong>
-            </li>
+        <div class="row">
+            <div class="col-md-5">
+                <ul class="single-info-list">
+                    <li v-if="product.sku">
+                        SKU:
+                        <strong>{{ product.sku }}</strong>
+                    </li>
 
-            <li>
-                CATEGORY:
-                <strong>
-                    <nuxt-link
-                        :to="{ path: '/shop', query: { category: item.slug } }"
-                        class="product-category"
-                        v-for="(item, index) in product.product_categories"
-                        :key="'product-category-' + index"
+                    <li>
+                        CATEGORY:
+                        <strong>
+                            <nuxt-link
+                                :to="{
+                                    path: '/shop',
+                                    query: { category: item.slug },
+                                }"
+                                class="product-category"
+                                v-for="(
+                                    item, index
+                                ) in product.product_categories"
+                                :key="'product-category-' + index"
+                            >
+                                {{ item.name }}
+                                <template
+                                    v-if="
+                                        index <
+                                        product.product_categories.length - 1
+                                    "
+                                    >,</template
+                                >
+                            </nuxt-link>
+                        </strong>
+                    </li>
+
+                    <li v-if="product.tags.length > 0">
+                        TAGS:
+                        <strong>
+                            <nuxt-link
+                                :to="{
+                                    path: '/shop',
+                                    query: { tag: item.slug },
+                                }"
+                                class="product-category"
+                                v-for="(item, index) in product.tags"
+                                :key="'product-category-' + index"
+                            >
+                                #{{ item.name }}
+                                <template v-if="index < product.tags.length - 1"
+                                    >,</template
+                                >
+                            </nuxt-link>
+                        </strong>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-7">
+                <!-- ---------------------------------------------------------------------- -->
+                <div>
+                    <button v-if="selectedVariant" @click="resetSelection">
+                        Réinitialiser
+                    </button>
+                    <div
+                        class="text-center"
+                        style="font-size: 12px"
+                        v-if="product.variants.length > 0"
                     >
-                        {{ item.name }}
-                        <template
-                            v-if="index < product.product_categories.length - 1"
-                            >,</template
-                        >
-                    </nuxt-link>
-                </strong>
-            </li>
-
-            <!-- <li v-if="product.product_tags.length > 0">
-                TAGS:
-                <strong>
-                    <nuxt-link
-                        :to="{ path: '/shop', query: { tag: item.slug } }"
-                        class="product-category"
-                        v-for="(item, index) in product.product_tags"
-                        :key="'product-category-' + index"
+                        <strong>VARIANTS</strong>
+                    </div>
+                    <p
+                        class="text-center"
+                        style="margin-bottom: 0.2rem; font-size: 10px"
+                        v-if="product.variants.length > 0"
                     >
-                        {{ item.name }}
-                        <template v-if="index < product.product_tags.length - 1"
-                            >,</template
+                        Sélectionner une variante
+                    </p>
+                    <div class="scrollable-div">
+                        <div
+                            v-for="(variant, index) in product.variants"
+                            :key="'variant-' + index"
+                            class="variant-container"
+                            @click="
+                                variant.quantity > 0 && selectVariant(variant)
+                            "
+                            :class="{
+                                'selected-variant': isSelectedVariant(variant),
+                                'out-of-stock': variant.quantity === 0,
+                            }"
                         >
-                    </nuxt-link>
-                </strong>
-            </li> -->
-        </ul>
+                            <div class="variant-details">
+                                <p
+                                    :style="{
+                                        padding: '7px 7px',
+                                        // border: `1px solid {variant.options[0].value}`,
+                                        borderRadius: '5px',
+                                        backgroundColor:
+                                            variant.options[0].value,
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                    }"
+                                ></p>
+                                <p style="margin: 10px"></p>
+                                <p
+                                    :style="{
+                                        padding: '7px 7px',
+                                        border: '1px solid #ebe4e4',
+                                        borderRadius: '5px',
+                                        fontWeight: 'bold',
+                                        alignItems: 'center',
+                                    }"
+                                    class="d-flex justify-content-around"
+                                >
+                                    <span>{{ variant.options[1].value }}</span>
+                                    -
+                                    <span>
+                                        {{ numberWithSpaces(variant.price) }}
+                                    </span>
 
-        <div
+                                    <img
+                                        src="https://cdn-icons-png.flaticon.com/512/5359/5359700.png"
+                                        alt=""
+                                        style="width: 11%"
+                                        v-if="variant.quantity === 0"
+                                    />
+
+                                    <span v-if="variant.quantity > 0">
+                                        <strong>Qté:</strong>
+                                        {{ variant.quantity }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div
             class="product-filters-container"
             v-if="product.variants.length > 0"
         >
@@ -225,9 +319,9 @@
                     >
                 </vue-slide-toggle>
             </div>
-        </div>
+        </div> -->
 
-        <div class="product-action">
+        <!-- <div class="product-action">
             <vue-slide-toggle
                 :open="isPriceShow"
                 v-if="product.variants.length > 0"
@@ -238,7 +332,7 @@
                     key="samePrice"
                 >
                     <span class="product-stock"
-                        >{{ product.stock }} in stock</span
+                        >{{ product.stock }} en stock</span
                     >
                 </div>
 
@@ -267,6 +361,60 @@
                             }}</span
                         >
                     </template>
+                </div>
+            </vue-slide-toggle>
+
+            <div class="product-single-qty">
+                <div
+                    class="input-group bootstrap-touchspin bootstrap-touchspin-injected"
+                >
+                    <span class="input-group-btn input-group-prepend">
+                        <button
+                            class="btn btn-outline btn-down-icon bootstrap-touchspin-down"
+                            type="button"
+                            @click="minusQty"
+                        ></button>
+                    </span>
+                    <input
+                        class="horizontal-quantity form-control bg-transparent"
+                        type="text"
+                        v-model.number="qty"
+                        :max="product.stock"
+                        @change="changeQty($event)"
+                    />
+                    <span class="input-group-btn input-group-append">
+                        <button
+                            class="btn btn-outline btn-up-icon bootstrap-touchspin-up"
+                            type="button"
+                            @click="plusQty"
+                        ></button>
+                    </span>
+                </div>
+            </div>
+
+            <a
+                href="javascript:;"
+                class="btn btn-dark add-cart mr-2"
+                title="Add to Wishlist AU PANIER"
+                @click="addCart"
+                :class="{ disabled: !isCartActive }"
+                >Ajouter au panier</a
+            >
+
+            <nuxt-link to="/pages/cart" class="btn btn-gray view-cart d-none"
+                >Panier</nuxt-link
+            >
+        </div> -->
+
+        <div class="product-action">
+            <vue-slide-toggle
+                :open="(isPriceShow = true)"
+                v-if="product.variants.length === 0"
+            >
+                <div class="price-box product-filtered-price" key="samePrice">
+                    <span class="product-stock"
+                        >{{ product.stock }} en stock</span
+                    >
                 </div>
             </vue-slide-toggle>
 
@@ -366,81 +514,6 @@
                 <span>Add to Wishlist</span>
             </a>
         </div>
-        <!-- ---------------------------------------------------------------------- -->
-        <div>
-            <button v-if="selectedVariant" @click="resetSelection">
-                Réinitialiser
-            </button>
-            <br />
-            <div
-                v-for="(variant, index) in product.variants"
-                :key="'variant-' + index"
-                class="variant-container"
-                @click="variant.quantity > 0 && selectVariant(variant)"
-                :class="{
-                    'selected-variant': isSelectedVariant(variant),
-                    'out-of-stock': variant.quantity === 0,
-                }"
-            >
-                <div class="variant-details d-flex justify-content-between">
-                    <p
-                        :style="{
-                            padding: '5px 10px',
-                            // border: `1px solid {variant.options[0].value}`,
-                            borderRadius: '5px',
-                            backgroundColor: variant.options[0].value,
-                            color: 'white',
-                            fontWeight: 'bold',
-                        }"
-                    >
-                        {{ variant.options[0].value }}
-                    </p>
-                    <p style="margin: 10px"></p>
-                    <p
-                        :style="{
-                            padding: '5px 10px',
-                            border: '1px solid gray',
-                            borderRadius: '5px',
-                            fontWeight: 'bold',
-                        }"
-                    >
-                        {{ variant.options[1].value }}
-                    </p>
-                    <p style="margin: 10px"></p>
-
-                    <p
-                        :style="{
-                            padding: '5px 10px',
-                            border: '1px solid gray',
-                            borderRadius: '5px',
-                            fontWeight: 'bold',
-                        }"
-                    >
-                        {{ variant.price | priceFormat }}
-                    </p>
-                    <p style="margin: 10px"></p>
-
-                    <p
-                        :style="{
-                            padding: '5px 10px',
-                            border: '1px solid gray',
-                            borderRadius: '5px',
-                            fontWeight: 'bold',
-                        }"
-                    >
-                        <strong>Qté:</strong>
-                        {{ variant.quantity }}
-                    </p>
-                </div>
-                <p
-                    style="margin-top: 10px; margin-bottom: 10px; color: red"
-                    v-if="variant.quantity === 0"
-                    class="out-of-stock-message"
-                >
-                    Rupture de stock
-                </p>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -450,6 +523,10 @@ import { VueSlideToggle } from 'vue-slide-toggle';
 import PvProductNav from '~/components/partials/product/PvProductNav';
 import { baseUrl } from '~/api/index';
 import PvCountDown from '~/components/features/PvCountDown';
+import {
+    intervalPriceFormatService,
+    priceFormatService,
+} from '~/utils/service';
 
 export default {
     components: {
@@ -583,40 +660,6 @@ export default {
             });
             console.log('DEMARAGE 3', this.minPrice);
             console.log('DEMARAGE 4', this.maxPrice);
-        }
-
-        if (this.product.variants.length > 0) {
-            console.log('DEMARAGE 5');
-
-            // if (this.product.variants[0].size[0])
-            //     this.product.variants.forEach((item) => {
-            //         console.log('DEMARAGE 88');
-            //         if (
-            //             this.vSizes.findIndex(
-            //                 (vsize) => vsize.name === item.size[0].size_name
-            //             ) === -1
-            //         )
-            //             this.vSizes.push({
-            //                 name: item.size[0].size_name,
-            //                 text: item.size[0].size,
-            //                 image: item.size[0].size_thumbnail,
-            //             });
-            //     });
-
-            // if (this.product.variants[0].colors[0])
-            //     this.product.variants.forEach((item) => {
-            //         if (
-            //             this.vColors.findIndex(
-            //                 (vColor) =>
-            //                     vColor.name === item.colors[0].color_name
-            //             ) === -1
-            //         )
-            //             this.vColors.push({
-            //                 name: item.colors[0].color_name,
-            //                 text: item.colors[0].color,
-            //                 image: item.colors[0].color_thumbnail,
-            //             });
-            //     });
         }
     },
     methods: {
@@ -768,6 +811,12 @@ export default {
         getFlag: function () {
             if (this.$route.path.includes('sticky-info')) this.isShare = false;
         },
+        numberWithSpaces(price) {
+            return priceFormatService(price);
+        },
+        intervalNumberWithSpaces(intervalPrice) {
+            return intervalPriceFormatService(intervalPrice);
+        },
     },
 };
 </script>
@@ -775,8 +824,8 @@ export default {
 .variant-container {
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 10px;
+    margin-bottom: 3px;
+    padding: 4px;
 }
 
 .variant-container h3 {
@@ -792,7 +841,12 @@ export default {
 }
 
 .selected-variant {
-    border: 3px solid blue; /* Exemple de bordure épaisse */
-    border-color: blue; /* Exemple de couleur de bordure différente */
+    border: 3px solid rgb(0, 0, 0); /* Exemple de bordure épaisse */
+    border-color: rgb(0, 0, 0); /* Exemple de couleur de bordure différente */
+}
+
+.scrollable-div {
+    max-height: 183px;
+    overflow-y: auto;
 }
 </style>

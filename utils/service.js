@@ -39,3 +39,24 @@ export function getTopRatedProducts(products) {
         return product2.ratings < product1.ratings ? -1 : 1;
     });
 }
+
+export function priceFormatService(price) {
+    const curency = 'XOF';
+    const price_ = parseInt(price)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${price_} ${curency}`;
+}
+
+export function intervalPriceFormatService(intervalPrice) {
+    const curency = 'XOF';
+    const min = parseInt(intervalPrice.min)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    const max = parseInt(intervalPrice.max)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    // return `${price_} ${curency}`;
+    return `${min} - ${max} ${curency}`;
+}

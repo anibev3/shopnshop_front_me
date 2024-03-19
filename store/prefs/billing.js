@@ -28,7 +28,7 @@ export const actions = {
             await Api.post(`${baseUrl2}${apiEndpoints.billing}`, payload)
                 .then((response) => {
                     const billing = response;
-                    console.log('BILLING', billing);
+                    console.log('BILLING RESPONSE', billing);
 
                     // commit(SET_BILLING, billing);
                 })
@@ -42,13 +42,13 @@ export const actions = {
             );
         }
     },
-    async get_billing_address({ commit }) {
+    async get_billing_address({ commit }, payload) {
         console.log('FETCH DATA A ETE APPELE...');
         try {
-            await Api.get(`${baseUrl2}${apiEndpoints.billing}`)
+            await Api.get(`${baseUrl2}${apiEndpoints.billing}/${payload}`)
                 .then((response) => {
                     const billing = response.data.data;
-                    console.log('BRANDS', billing);
+                    console.log('USER BILLING ADDRESS', billing);
 
                     commit(SET_BILLING, billing);
                 })

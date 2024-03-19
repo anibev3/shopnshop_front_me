@@ -21,10 +21,10 @@
                         <thead>
                             <tr>
                                 <th class="thumbnail-col"></th>
-                                <th class="product-col">Product</th>
-                                <th class="price-col">Price</th>
-                                <th class="qty-col">Quantity</th>
-                                <th class="text-right">Subtotal</th>
+                                <th class="product-col">Produit</th>
+                                <th class="price-col">Prix</th>
+                                <th class="qty-col">Quantité</th>
+                                <th class="text-right">Total</th>
                             </tr>
                         </thead>
 
@@ -39,12 +39,24 @@
                                         <nuxt-link
                                             :to="
                                                 '/product/default/' +
-                                                product.slug
+                                                (product.product
+                                                    ? product.product.slug
+                                                    : product.variant
+                                                    ? product.variant.slug
+                                                    : 0)
                                             "
                                             class="product-image"
                                         >
                                             <img
-                                                :src="`${product.pictures[0]}`"
+                                                :src="`${
+                                                    product.product
+                                                        ? product.product
+                                                              .pictures[0]
+                                                        : product.variant
+                                                        ? product.variant
+                                                              .pictures[0]
+                                                        : 0
+                                                }`"
                                                 width="
                                                     150
                                                 "
@@ -61,7 +73,7 @@
                                             title="Remove Product"
                                             @click="
                                                 removeFromCart({
-                                                    name: product.name,
+                                                    product: product,
                                                 })
                                             "
                                         ></a>
@@ -73,30 +85,61 @@
                                         <nuxt-link
                                             :to="
                                                 '/product/default/' +
-                                                product.slug
+                                                (product.product
+                                                    ? product.product.slug
+                                                    : product.variant
+                                                    ? product.variant.slug
+                                                    : '0')
                                             "
-                                            >{{ product.name }}</nuxt-link
                                         >
+                                            {{
+                                                product.product
+                                                    ? product.product.name
+                                                    : product.variant
+                                                    ? product.variant.title
+                                                    : 0
+                                            }}
+                                        </nuxt-link>
                                     </h5>
                                 </td>
 
-                                <td>${{ product.price | priceFormat }}</td>
+                                <td>
+                                    {{
+                                        numberWithSpaces(
+                                            product.product
+                                                ? product.product.price
+                                                : product.variant
+                                                ? product.variant.price
+                                                : 0
+                                        )
+                                    }}
+                                </td>
 
                                 <td>
+                                    {{
+                                        product.product
+                                            ? product.product.stock
+                                            : product.variant
+                                            ? product.variant.price
+                                            : 0
+                                    }}
                                     <pv-quantity-input
-                                        :qty="product.qty"
+                                        :qty="product.quantity"
                                         :product="product"
                                         @changeQty="changeQty"
                                     ></pv-quantity-input>
                                 </td>
 
                                 <td class="text-right">
-                                    <span class="subtotal-price"
-                                        >${{
-                                            (product.price * product.qty)
-                                                | priceFormat
-                                        }}</span
-                                    >
+                                    <span class="subtotal-price">{{
+                                        numberWithSpaces(
+                                            (product.product
+                                                ? product.product.price
+                                                : product.variant
+                                                ? product.variant.price
+                                                : 0) * product.qantity
+                                        )
+                                    }}</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -111,7 +154,7 @@
                                                     <input
                                                         type="text"
                                                         class="form-control form-control-sm"
-                                                        placeholder="Coupon Code"
+                                                        placeholder="Entrez votre code coupon"
                                                         required
                                                     />
                                                     <div
@@ -121,7 +164,7 @@
                                                             class="btn btn-sm"
                                                             type="submit"
                                                         >
-                                                            Apply Coupon
+                                                            Appliquer coupon
                                                         </button>
                                                     </div>
                                                 </div>
@@ -139,7 +182,7 @@
                                                 })
                                             "
                                         >
-                                            Update Cart
+                                            Mettre à jour le panier
                                         </button>
                                     </div>
                                 </td>
@@ -156,8 +199,14 @@
                     <table class="table table-totals">
                         <tbody>
                             <tr>
-                                <td>Subtotal</td>
-                                <td>${{ totalPrice | priceFormat }}</td>
+                                <td>Total</td>
+                                <td>
+                                    {{
+                                        numberWithSpaces(
+                                            cartAmount.total_amount
+                                        )
+                                    }}
+                                </td>
                             </tr>
 
                             <tr>
@@ -272,8 +321,28 @@
 
                         <tfoot>
                             <tr>
+                                <td>Total Hors Taxe</td>
+                                <td style="font-size: 17px">
+                                    {{ numberWithSpaces(cartAmount.ht_amount) }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Montant Taxe 18%</td>
+                                <td>
+                                    {{
+                                        numberWithSpaces(cartAmount.tax_amount)
+                                    }}
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Total</td>
-                                <td>${{ totalPrice | priceFormat }}</td>
+                                <td style="font-size: 20px">
+                                    {{
+                                        numberWithSpaces(
+                                            cartAmount.total_amount
+                                        )
+                                    }}
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
@@ -333,13 +402,13 @@
                             colspan="6"
                             class="px-3 py-2 text-center cart-empty"
                         >
-                            No products added to the cart
+                            Aucun article dans le panier
                         </td>
                     </tr>
                     <tr class="border-0 py-0">
                         <td colspan="6" class="px-3 text-center">
                             <nuxt-link to="/shop" class="btn btn-go-shop"
-                                >GO SHOP</nuxt-link
+                                >Allez au magasin</nuxt-link
                             >
                         </td>
                     </tr>
@@ -355,6 +424,10 @@
 import { mapGetters, mapActions } from 'vuex';
 import { baseUrl } from '~/api/index';
 import PvQuantityInput from '~/components/features/PvQuantityInput';
+import {
+    priceFormatService,
+    intervalPriceFormatService,
+} from '~/utils/service';
 
 export default {
     components: {
@@ -367,7 +440,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters('cart', ['cartList', 'totalPrice']),
+        ...mapGetters('cart', ['cartList', 'totalPrice', 'cartAmount']),
     },
     watch: {
         cartList: function () {
@@ -380,19 +453,26 @@ export default {
     methods: {
         ...mapActions('cart', ['updateCart', 'removeFromCart']),
         changeQty: function (value, product) {
-            this.cartItems = this.cartItems.reduce((acc, cur) => {
-                if (cur.name === product.name) {
-                    return [
-                        ...acc,
-                        {
-                            ...cur,
-                            qty: value,
-                        },
-                    ];
-                } else {
-                    return [...acc, cur];
-                }
-            }, []);
+            console.log('aaaa', value, product);
+            // this.cartItems = this.cartItems.reduce((acc, cur) => {
+            //     if (cur.name === product.name) {
+            //         return [
+            //             ...acc,
+            //             {
+            //                 ...cur,
+            //                 qty: value,
+            //             },
+            //         ];
+            //     } else {
+            //         return [...acc, cur];
+            //     }
+            // }, []);
+        },
+        numberWithSpaces(price) {
+            return priceFormatService(price);
+        },
+        intervalNumberWithSpaces(intervalPrice) {
+            return intervalPriceFormatService(intervalPrice);
         },
     },
 };

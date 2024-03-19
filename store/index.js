@@ -37,7 +37,19 @@ import {
     actions as billingActions,
     mutations as billingMutations,
 } from './prefs/billing';
+import {
+    state as placeState,
+    getters as placeGetters,
+    actions as placeActions,
+    mutations as placeMutations,
+} from './prefs/place';
 
+import {
+    state as shippingState,
+    getters as shippingGetters,
+    actions as shippingActions,
+    mutations as shippingMutations,
+} from './prefs/shipping';
 export const state = () => ({
     // Votre état global ici
 });
@@ -97,5 +109,19 @@ export const modules = {
         getters: billingGetters,
         actions: billingActions,
         mutations: billingMutations,
+    },
+    place: {
+        namespaced: true,
+        state: placeState,
+        getters: placeGetters,
+        actions: placeActions,
+        mutations: placeMutations,
+    },
+    shipping: {
+        namespaced: true,
+        state: shippingState,
+        getters: shippingGetters,
+        actions: shippingActions,
+        mutations: shippingMutations,
     },
 };

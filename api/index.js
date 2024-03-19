@@ -28,14 +28,18 @@ const endpoints = {
     country: '/countries',
     city: '/cities',
     user: '/auth/user',
-    cart: '/carts',
+    cart: '/add_to_cart',
+    g_cart: '/get_user_cart',
+    d_cart: '/del_in_cart',
+    m_cart: '/less_in_cart',
     userCart: '/cart/user',
     products: '/products',
     product: '/products/',
     wishlist: '/wishlist',
     brands: '/brands',
     billing: '/billing',
-    shiping: '/add_shipping',
+    shipping: '/add_shipping',
+    g_shipping: '/get_user_shippings_addresses',
     // Ajoutez d'autres endpoints selon vos besoins
 };
 

@@ -175,7 +175,7 @@
                                     href="javascript:;"
                                     class="btn btn-quickview mt-1 mt-md-0"
                                     @click="openQuickview(product.product)"
-                                    title="Quick View"
+                                    title="Apercu"
                                     key="singleCart"
                                     >Aperçu</a
                                 >

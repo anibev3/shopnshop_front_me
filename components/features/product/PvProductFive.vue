@@ -33,12 +33,14 @@
                 class="product-countdown-container custom-product-countdown"
                 v-if="product.until"
             >
-                <span class="product-countdown-title">offer ends in:</span>
-                <pv-count-down
+                <span class="product-countdown-title"
+                    >L'offre prend fin dans:</span
+                >
+                <!-- <pv-count-down
                     class="product-countdown countdown-compact"
                     :until="product.until"
                     :compact="true"
-                ></pv-count-down>
+                ></pv-count-down> -->
             </div>
         </figure>
         <div class="product-details">
@@ -75,41 +77,39 @@
                     }}</span>
                 </div>
             </div>
-
             <div
                 class="price-box"
                 v-if="product.price && product.variants.length === 0"
                 key="singlePrice"
             >
                 <template v-if="!product.is_sale">
-                    <span class="product-price"
-                        >${{ product.price.min | priceFormat }}</span
-                    >
+                    <span class="product-price">{{
+                        numberWithSpaces(product.price)
+                    }}</span>
                 </template>
 
                 <template v-else>
-                    <span class="old-price"
-                        >${{ product.price | priceFormat }}</span
-                    >
-                    <span class="product-price"
-                        >${{ product.sale_price | priceFormat }}</span
-                    >
+                    <span class="old-price">{{
+                        numberWithSpaces(product.price)
+                    }}</span>
+                    <span class="product-price">{{
+                        numberWithSpaces(product.sale_price)
+                    }}</span>
                 </template>
             </div>
 
             <div class="price-box" v-else>
                 <template v-if="minPrice !== maxPrice">
                     <span class="product-price"
-                        >${{ minPrice | priceFormat }} &ndash; ${{
-                            maxPrice | priceFormat
-                        }}</span
+                        >{{ numberWithSpaces(minPrice) }} &ndash;
+                        {{ numberWithSpaces(maxPrice) }}</span
                     >
                 </template>
 
                 <template v-else>
-                    <span class="product-price"
-                        >${{ minPrice | priceFormat }}</span
-                    >
+                    <span class="product-price">{{
+                        numberWithSpaces(minPrice)
+                    }}</span>
                 </template>
             </div>
 
@@ -150,13 +150,13 @@
                     @click="addCart"
                 >
                     <i class="icon-shopping-cart"></i>
-                    <span>Add to Wishlist AU PANIER</span>
+                    <span>AJOUTER AU PANIER</span>
                 </a>
 
                 <a
                     href="javascript:;"
                     class="btn-quickview"
-                    title="Quick View"
+                    title="Apercu"
                     @click="openQuickview"
                 >
                     <i class="fas fa-external-link-alt"></i>
@@ -170,6 +170,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import { baseUrl } from '~/api/index';
 import PvCountDown from '~/components/features/PvCountDown';
+import { priceFormatService } from '~/utils/service';
 
 export default {
     components: {
@@ -246,21 +247,82 @@ export default {
                 }
             );
         },
+        // addWishlist: function (e) {
+        //     e.currentTarget.classList.add('load-more-overlay', 'loading');
+
+        //     setTimeout(() => {
+        //         this.addToWishlist({ product: this.product });
+        //         document
+        //             .querySelector('.wishlist-popup')
+        //             .classList.add('active');
+
+        //         setTimeout(() => {
+        //             document
+        //                 .querySelector('.wishlist-popup')
+        //                 .classList.remove('active');
+        //         }, 1000);
+        //     }, 1000);
+        // },
+
         addWishlist: function (e) {
             e.currentTarget.classList.add('load-more-overlay', 'loading');
-
-            setTimeout(() => {
-                this.addToWishlist({ product: this.product });
-                document
-                    .querySelector('.wishlist-popup')
-                    .classList.add('active');
-
-                setTimeout(() => {
+            this.addToWishlist({ product: this.product })
+                .then(() => {
                     document
                         .querySelector('.wishlist-popup')
-                        .classList.remove('active');
-                }, 1000);
-            }, 1000);
+                        .classList.add('active');
+                    setTimeout(() => {
+                        document
+                            .querySelector('.wishlist-popup')
+                            .classList.remove('active');
+                    }, 1000);
+                })
+                .catch((error) => {
+                    console.error(
+                        "Erreur lors de l'ajout à la liste de souhaits :",
+                        error
+                    );
+                    e.currentTarget.classList.remove('loading');
+                });
+        },
+
+        // rmWishlist: function (e) {
+        //     e.currentTarget.classList.add('load-more-overlay', 'loading');
+
+        //     setTimeout(() => {
+        //         this.removeFromWishlist({ product: this.product });
+        //         document
+        //             .querySelector('.wishlist-popup')
+        //             .classList.add('active');
+
+        //         setTimeout(() => {
+        //             document
+        //                 .querySelector('.wishlist-popup')
+        //                 .classList.remove('active');
+        //         }, 1000);
+        //     }, 1000);
+        // },
+
+        rmWishlist: function (e) {
+            e.currentTarget.classList.add('load-more-overlay', 'loading');
+            this.removeFromWishlist({ product: this.product })
+                .then(() => {
+                    document
+                        .querySelector('.wishlist-rm-popup')
+                        .classList.add('active');
+                    setTimeout(() => {
+                        document
+                            .querySelector('.wishlist-rm-popup')
+                            .classList.remove('active');
+                    }, 1000);
+                })
+                .catch((error) => {
+                    console.error(
+                        "Erreur lors de l'ajout à la liste de souhaits :",
+                        error
+                    );
+                    e.currentTarget.classList.remove('loading');
+                });
         },
         addCart: function () {
             if (this.product.stock > 0) {
@@ -271,6 +333,9 @@ export default {
 
                 this.addToCart({ product: saledProduct });
             }
+        },
+        numberWithSpaces(price) {
+            return priceFormatService(price);
         },
     },
 };

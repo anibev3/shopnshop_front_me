@@ -35,25 +35,65 @@
                             <div class="product-details">
                                 <h4 class="product-title">
                                     <nuxt-link
-                                        :to="'/product/default/' + product.slug"
-                                        >{{ product.name }}</nuxt-link
+                                        :to="
+                                            '/product/default/' +
+                                            (product.product
+                                                ? product.product.slug
+                                                : product.variant
+                                                ? product.variant.slug
+                                                : '0')
+                                        "
                                     >
+                                        {{
+                                            product.product
+                                                ? product.product.name
+                                                : product.variant
+                                                ? product.variant.title
+                                                : 0
+                                        }}
+                                    </nuxt-link>
                                 </h4>
 
                                 <span class="cart-product-info">
                                     <span class="cart-product-qty">{{
-                                        product.qty
+                                        product.quantity
                                     }}</span>
-                                    × ${{ product.price | priceFormat }}
+                                    ×
+                                    {{
+                                        numberWithSpaces(
+                                            product.product
+                                                ? product.product.price
+                                                : product.variant
+                                                ? product.variant.price
+                                                : 0
+                                        )
+                                    }}
                                 </span>
                             </div>
 
                             <figure class="product-image-container">
                                 <nuxt-link
-                                    :to="'/product/default/' + product.slug"
+                                    :to="
+                                        '/product/default/' +
+                                        (product.product
+                                            ? product.product.slug
+                                            : product.variant
+                                            ? product.variant.slug
+                                            : 0)
+                                    "
                                 >
                                     <img
-                                        v-lazy="`${product.pictures[0]}`"
+                                        v-lazy="
+                                            `${
+                                                product.product
+                                                    ? product.product
+                                                          .pictures[0]
+                                                    : product.variant
+                                                    ? product.variant
+                                                          .pictures[0]
+                                                    : 0
+                                            }`
+                                        "
                                         alt="product"
                                         width="150"
                                         height="
@@ -66,7 +106,7 @@
                                     href="javascript:;"
                                     class="btn-remove"
                                     title="Remove Product"
-                                    @click="removeCart(product.name)"
+                                    @click="removeCart(product)"
                                 >
                                     <span>×</span>
                                 </a>
@@ -75,11 +115,10 @@
                     </div>
 
                     <div class="dropdown-cart-total">
-                        <span>SUBTOTAL:</span>
-
-                        <span class="cart-total-price float-right"
-                            >${{ totalPrice | priceFormat }}</span
-                        >
+                        <span>Total HT:</span>
+                        <span class="cart-total-price float-right">{{
+                            numberWithSpaces(cartAmount.ht_amount)
+                        }}</span>
                     </div>
 
                     <div class="dropdown-cart-action">
@@ -107,6 +146,10 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { baseUrl } from '~/api/index';
+import {
+    priceFormatService,
+    intervalPriceFormatService,
+} from '~/utils/service';
 
 export default {
     data: function () {
@@ -114,19 +157,35 @@ export default {
             baseUrl: baseUrl,
         };
     },
+    mounted() {
+        this.getCart();
+        // console.log('mutata 2', cartList);
+    },
     computed: {
-        ...mapGetters('cart', ['cartList', 'totalCount', 'totalPrice']),
+        ...mapGetters('cart', [
+            'cartList',
+            'totalCount',
+            'totalPrice',
+            'cartAmount',
+        ]),
     },
     methods: {
-        ...mapActions('cart', ['removeFromCart']),
+        ...mapActions('cart', ['removeFromCart', 'getCart']),
         showCartMenu: function () {
             document.querySelector('body').classList.add('cart-opened');
         },
         hideCartMenu: function () {
             document.querySelector('body').classList.remove('cart-opened');
         },
-        removeCart: function (name) {
-            this.removeFromCart({ name: name });
+        removeCart: function (product) {
+            this.removeFromCart({ product: product });
+        },
+
+        numberWithSpaces(price) {
+            return priceFormatService(price);
+        },
+        intervalNumberWithSpaces(intervalPrice) {
+            return intervalPriceFormatService(intervalPrice);
         },
     },
 };

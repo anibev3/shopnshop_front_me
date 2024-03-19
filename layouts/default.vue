@@ -37,7 +37,10 @@
             <pv-footer></pv-footer>
 
             <div class="wishlist-popup">
-                <div class="wishlist-popup-msg">Product added!</div>
+                <div class="wishlist-popup-msg">Article ajouté !</div>
+            </div>
+            <div class="wishlist-rm-popup">
+                <div class="wishlist-popup-msg">Article rétiré !</div>
             </div>
         </div>
 

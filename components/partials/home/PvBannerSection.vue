@@ -12,6 +12,7 @@
                     v-lazy:background-image="
                         './images/home/banners/banner1.jpg'
                     "
+                    style="background-color: #22252a"
                 >
                     <div
                         class="container d-flex align-items-center justify-content-end"

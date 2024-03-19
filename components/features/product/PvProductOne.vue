@@ -142,7 +142,7 @@
                 <a
                     href="javascript:;"
                     class="btn-quickview"
-                    title="Quick View"
+                    title="Apercu"
                     @click="openQuickview"
                 >
                     <i class="fas fa-external-link-alt"></i>

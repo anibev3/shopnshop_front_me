@@ -11,6 +11,9 @@ import {
 // Définir les constantes pour les mutations et les getters
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const GET_PRODUCTS = 'GET_PRODUCTS';
+
+export const SET_PRODUCT = 'SET_PRODUCT';
+export const GET_PRODUCT = 'GET_PRODUCT';
 // Catégories
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
@@ -32,6 +35,7 @@ export const GET_TOP_RATING_PRODUCTS = 'GET_TOP_RATING_PRODUCTS';
 
 export const state = () => ({
     products: [], // Initialiser le state des produits
+    product: null, // Initialiser le state des produits
     categories: [], // Initialiser le state des produits
     exclusivities_products: [], // Initialiser le state des produits
     second_hand_products: [], // Initialiser le state des produits
@@ -44,6 +48,9 @@ export const getters = {
     // Getter pour obtenir les produits
     [GET_PRODUCTS](state) {
         return state.products;
+    },
+    [GET_PRODUCT](state) {
+        return state.product;
     },
     [GET_CATEGORIES](state) {
         return state.categories;
@@ -94,6 +101,9 @@ export const mutations = {
     [SET_CATEGORIES](state, categories) {
         state.categories = categories;
     },
+    [SET_PRODUCT](state, product) {
+        state.product = product;
+    },
 };
 
 export const actions = {
@@ -135,5 +145,17 @@ export const actions = {
                 error
             );
         }
+    },
+    async getProduct({ commit }, payload) {
+        Api.get(`${baseUrl2}${apiEndpoints.product}${payload}`, {
+            params: { quick_view: true },
+        })
+            .then((response) => {
+                const product = response.data.data;
+                commit(SET_PRODUCT, product);
+
+                console.log('LE SEUL PRODUIT', product);
+            })
+            .catch((error) => ({ error: JSON.stringify(error) }));
     },
 };

@@ -33,7 +33,7 @@
                         data-animation-name="fadeInUpShorter"
                         data-animation-delay="400"
                     >
-                        SHERYLUX
+                        SHOPnSHOP
                     </h1>
                     <h3
                         class="text-dark mb-0 appear-animate"
@@ -67,11 +67,11 @@
                         <span>à</span>
                         <b class="text-white align-middle">
                             <!-- <sup>FCFA</sup> -->
-                            <em class="align-text-top">199</em><sup>99</sup></b
+                            <em class="align-text-top">25000</em></b
                         >
                     </h5>
                     <nuxt-link to="/shop" class="btn btn-dark btn-lg"
-                        >Shop Now</nuxt-link
+                        >Magasin</nuxt-link
                     >
                 </div>
             </div>
@@ -97,16 +97,17 @@
                     data-animation-name="fadeInUpShorter"
                     data-animation-delay="1000"
                 >
-                    <h4 class="text-transform-none">Best Gadtets Deals</h4>
+                    <h4 class="text-transform-none">À parti</h4>
                     <h5 class="coupon-sale-text">
-                        <span>from</span>
+                        <span>de</span>
                         <b class="text-white align-middle"
-                            ><sup>$</sup><em class="align-text-top">1</em
-                            ><sup>99</sup></b
-                        >
+                            ><em class="align-text-top">100 000</em
+                            ><sup>FCFA</sup>
+                            <!-- <sup>99</sup> -->
+                        </b>
                     </h5>
                     <nuxt-link to="/shop" class="btn btn-dark btn-lg"
-                        >Shop Now</nuxt-link
+                        >MAGASIN</nuxt-link
                     >
                 </div>
 
@@ -117,31 +118,31 @@
                         data-animation-name="fadeInUpShorter"
                         data-animation-delay="100"
                     >
-                        NEW
+                        SHOPnSHOP
                     </h2>
-                    <h1
+                    <!-- <h1
                         class="text-dark appear-animate"
                         data-animation-duration="1200"
                         data-animation-name="fadeInUpShorter"
                         data-animation-delay="400"
                     >
-                        SELECTED
-                    </h1>
-                    <h3
+                        SHOPnSHOP
+                    </h1> -->
+                    <!-- <h3
                         class="text-dark mb-0 appear-animate"
                         data-animation-duration="1200"
                         data-animation-name="fadeInUpShorter"
                         data-animation-delay="600"
                     >
-                        DEALS
-                    </h3>
+                        RIEN QUE
+                    </h3> -->
                     <h2
                         class="text-shadow text-white font1 mr-0 mb-0 appear-animate"
                         data-animation-duration="1200"
                         data-animation-name="fadeInUpShorter"
                         data-animation-delay="800"
                     >
-                        RELEASES
+                        QUE VOUS
                     </h2>
                 </div>
             </div>

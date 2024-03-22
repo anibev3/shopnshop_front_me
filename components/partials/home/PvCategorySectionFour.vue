@@ -37,7 +37,7 @@
                             </li>
                         </ul>
                         <nuxt-link class="view-all" to="/shop"
-                            >View All<i class="fas fa-long-arrow-alt-right"></i
+                            >Voir tout<i class="fas fa-long-arrow-alt-right"></i
                         ></nuxt-link>
                     </div>
                     <div
@@ -99,7 +99,7 @@
                                         role="tab"
                                         aria-controls="seller"
                                         aria-selected="true"
-                                        >Best Sellers</a
+                                        >Meilleurs vente</a
                                     >
                                 </li>
                                 <li class="nav-item">
@@ -111,7 +111,7 @@
                                         role="tab"
                                         aria-controls="new"
                                         aria-selected="false"
-                                        >New Arrivals</a
+                                        >Nouvels Arrivage</a
                                     >
                                 </li>
                                 <li class="nav-item mr-0">
@@ -123,7 +123,7 @@
                                         role="tab"
                                         aria-controls="best"
                                         aria-selected="false"
-                                        >Best Ratings</a
+                                        >Meilleures notes</a
                                     >
                                 </li>
                             </ul>
@@ -281,7 +281,7 @@
                     </div>
 
                     <nuxt-link class="view-all" to="/shop"
-                        >View All<i class="fas fa-long-arrow-alt-right"></i
+                        >Voir tout<i class="fas fa-long-arrow-alt-right"></i
                     ></nuxt-link>
                 </div>
             </div>

@@ -5,30 +5,36 @@
         >
             <span class="input-group-btn input-group-prepend">
                 <button
-                    class="btn btn-outline btn-down-icon bootstrap-touchspin-down"
+                    class="btn btn-outline bootstrap-touchspin-down"
                     type="button"
                     @click="minusQty"
-                ></button>
+                >
+                    <i class="fas fa-minus"></i>
+                </button>
             </span>
             <input
                 class="horizontal-quantity form-control"
                 type="text"
                 :value="currentQty"
-                :max="product.stock"
+                :max="stock"
                 @change="changeQty($event)"
             />
             <span class="input-group-btn input-group-append">
                 <button
-                    class="btn btn-outline btn-up-icon bootstrap-touchspin-up"
+                    class="btn btn-outline bootstrap-touchspin-up"
                     type="button"
                     @click="plusQty"
-                ></button>
+                >
+                    <i class="fas fa-plus"></i>
+                </button>
             </span>
         </div>
     </div>
 </template>
 
 <script>
+import { mapGettres, mapActions } from 'vuex';
+
 export default {
     props: {
         qty: Number,
@@ -37,6 +43,7 @@ export default {
     data: function () {
         return {
             currentQty: this.qty,
+            stock: 0,
         };
     },
     watch: {
@@ -45,12 +52,17 @@ export default {
         },
     },
     mounted() {
-        console.log('qtyyyyyyy', this.qty);
+        if (this.product.product) {
+            this.stock = this.product.product.stock;
+        } else {
+            this.stock = this.product.variant.stock;
+        }
     },
     methods: {
+        ...mapActions('cart', ['addOneOnCart', 'lessFromCart']),
         changeQty: function (e) {
-            if (e.srcElement.valueAsNumber > parseInt(this.product.stock)) {
-                this.currentQty = this.product.stock;
+            if (e.srcElement.valueAsNumber > parseInt(this.stock)) {
+                this.currentQty = this.stock;
             }
             if (e.srcElement.valueAsNumber < 1) {
                 this.currentQty = 1;
@@ -59,15 +71,21 @@ export default {
             this.$emit('changeQty', this.currentQty, this.product);
         },
         plusQty: function () {
-            console.log('PLUS', this.product.stock);
-            if (this.currentQty < this.product.stock) this.currentQty++;
+            console.log('PLUS', this.stock);
+            if (this.currentQty < this.stock) {
+                this.currentQty++;
+
+                return this.addOneOnCart(this.product);
+            }
             this.$emit('changeQty', this.currentQty, this.product);
-            console.log(this.currentQty);
         },
         minusQty: function () {
             console.log('MINUS');
 
-            if (this.currentQty > 1) this.currentQty--;
+            if (this.currentQty > 1) {
+                this.currentQty--;
+                this.lessFromCart(this.product);
+            }
             this.$emit('changeQty', this.currentQty, this.product);
         },
     },

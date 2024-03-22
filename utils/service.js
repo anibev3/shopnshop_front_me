@@ -60,3 +60,12 @@ export function intervalPriceFormatService(intervalPrice) {
     // return `${price_} ${curency}`;
     return `${min} - ${max} ${curency}`;
 }
+
+export function totalpriceFormatService(price, qty) {
+    console.log('TOTAL', price, qty);
+    const curency = 'XOF';
+    const price_ = parseInt(price);
+    let totalAmount = price_ * parseInt(qty);
+    totalAmount = totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${totalAmount} ${curency}`;
+}

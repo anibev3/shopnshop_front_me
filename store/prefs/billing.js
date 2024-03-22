@@ -51,6 +51,7 @@ export const actions = {
                     console.log('USER BILLING ADDRESS', billing);
 
                     commit(SET_BILLING, billing);
+                    return billing;
                 })
                 .catch((error) => {
                     console.log(error);

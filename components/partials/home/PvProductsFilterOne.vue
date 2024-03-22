@@ -157,7 +157,7 @@
                                     path: '/shop',
                                     query: { category: 'fashion' },
                                 }"
-                                >View All<i
+                                >Voir tout<i
                                     class="fas fa-long-arrow-alt-right"
                                 ></i
                             ></nuxt-link>

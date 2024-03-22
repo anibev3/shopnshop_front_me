@@ -116,13 +116,6 @@
                                 </td>
 
                                 <td>
-                                    {{
-                                        product.product
-                                            ? product.product.stock
-                                            : product.variant
-                                            ? product.variant.price
-                                            : 0
-                                    }}
                                     <pv-quantity-input
                                         :qty="product.quantity"
                                         :product="product"
@@ -132,12 +125,13 @@
 
                                 <td class="text-right">
                                     <span class="subtotal-price">{{
-                                        numberWithSpaces(
-                                            (product.product
+                                        numbertotalWithSpaces(
+                                            product.product
                                                 ? product.product.price
                                                 : product.variant
                                                 ? product.variant.price
-                                                : 0) * product.qantity
+                                                : 0,
+                                            product.quantity
                                         )
                                     }}</span>
                                 </td>
@@ -194,11 +188,11 @@
 
             <div class="col-lg-4">
                 <div class="cart-summary">
-                    <h3>CART TOTALS</h3>
+                    <h3>TOTAL DU PANIER</h3>
 
                     <table class="table table-totals">
                         <tbody>
-                            <tr>
+                            <!-- <tr>
                                 <td>Total</td>
                                 <td>
                                     {{
@@ -207,13 +201,13 @@
                                         )
                                     }}
                                 </td>
-                            </tr>
+                            </tr> -->
 
                             <tr>
                                 <td colspan="2" class="text-left">
-                                    <h4>Shipping</h4>
+                                    <!-- <h4>Shipping</h4> -->
 
-                                    <div
+                                    <!-- <div
                                         class="form-group form-group-custom-control"
                                     >
                                         <div
@@ -229,9 +223,9 @@
                                                 >Local pickup</label
                                             >
                                         </div>
-                                    </div>
+                                    </div> -->
 
-                                    <div
+                                    <!-- <div
                                         class="form-group form-group-custom-control mb-0"
                                     >
                                         <div
@@ -246,9 +240,9 @@
                                                 >Flat rate</label
                                             >
                                         </div>
-                                    </div>
+                                    </div> -->
 
-                                    <form action="#">
+                                    <!-- <form action="#">
                                         <div class="form-group form-group-sm">
                                             <label>
                                                 Shipping to
@@ -291,7 +285,7 @@
                                                 </select>
                                             </div>
                                         </div>
-
+                                                
                                         <div class="form-group form-group-sm">
                                             <input
                                                 type="text"
@@ -314,7 +308,7 @@
                                         >
                                             Update Totals
                                         </button>
-                                    </form>
+                                    </form> -->
                                 </td>
                             </tr>
                         </tbody>
@@ -352,7 +346,7 @@
                             to="/pages/checkout"
                             class="btn btn-block btn-dark"
                         >
-                            Proceed to Checkout
+                            PASSER AU VERIFICATION
                             <i class="fa fa-arrow-right"></i>
                         </nuxt-link>
                     </div>
@@ -427,6 +421,7 @@ import PvQuantityInput from '~/components/features/PvQuantityInput';
 import {
     priceFormatService,
     intervalPriceFormatService,
+    totalpriceFormatService,
 } from '~/utils/service';
 
 export default {
@@ -470,6 +465,9 @@ export default {
         },
         numberWithSpaces(price) {
             return priceFormatService(price);
+        },
+        numbertotalWithSpaces(price, qty) {
+            return totalpriceFormatService(price, qty);
         },
         intervalNumberWithSpaces(intervalPrice) {
             return intervalPriceFormatService(intervalPrice);

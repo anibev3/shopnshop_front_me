@@ -54,9 +54,9 @@
                     <thead>
                         <tr>
                             <th class="thumbnail-col"></th>
-                            <th class="product-col">Product</th>
-                            <th class="price-col">Price</th>
-                            <th class="status-col">Stock Status</th>
+                            <th class="product-col">Article</th>
+                            <th class="price-col">Prix</th>
+                            <th class="status-col">Stock</th>
                             <th class="action-col">Actions</th>
                         </tr>
                     </thead>
@@ -108,67 +108,50 @@
 
                             <td
                                 class="price-box"
-                                v-if="
-                                    product.product.price &&
-                                    product.product.variants.length === 0
-                                "
+                                v-if="product.product !== null"
                                 key="singlePrice"
                             >
                                 <template v-if="!product.product.is_sale">
-                                    <span class="new-price"
-                                        >${{
-                                            product.product.price.min
-                                                | priceFormat
-                                        }}</span
-                                    >
+                                    <span class="new-price">{{
+                                        numberWithSpaces(product.product.price)
+                                    }}</span>
                                 </template>
 
                                 <template v-else>
-                                    <span class="new-price"
-                                        >${{
+                                    <span class="new-price">{{
+                                        // product.product.sale_price
+                                        numberWithSpaces(
                                             product.product.sale_price
-                                                | priceFormat
-                                        }}</span
-                                    >
-                                    <span class="old-price"
-                                        >${{
-                                            product.product.price | priceFormat
-                                        }}</span
-                                    >
+                                        )
+                                    }}</span>
+                                    <span class="old-price">{{
+                                        numberWithSpaces(product.product.price)
+                                    }}</span>
                                 </template>
                             </td>
 
                             <td class="price-box" v-else>
-                                <template
-                                    v-if="
-                                        product.product.minPrice !==
-                                        product.product.maxPrice
-                                    "
-                                >
-                                    <span class="new-price"
-                                        >${{
-                                            product.product.minPrice
-                                                | priceFormat
-                                        }}
-                                        &ndash; ${{
-                                            product.product.maxPrice
-                                                | priceFormat
-                                        }}</span
-                                    >
+                                <template v-if="product.variant.interval_price">
+                                    <span class="new-price">{{
+                                        intervalNumberWithSpaces(
+                                            product.variant.interval_price
+                                        )
+                                    }}</span>
                                 </template>
 
                                 <template v-else>
-                                    <span class="new-price"
-                                        >${{
-                                            product.product.minPrice
-                                                | priceFormat
-                                        }}</span
-                                    >
+                                    <span class="new-price">{{
+                                        product.product.minPrice | priceFormat
+                                    }}</span>
                                 </template>
                             </td>
 
                             <td>
-                                <span class="stock-status">En stock</span>
+                                <span class="stock-status">{{
+                                    product.product.stock > 0
+                                        ? 'En stock'
+                                        : 'Rupture de stock'
+                                }}</span>
                             </td>
                             <td class="action">
                                 <a
@@ -182,7 +165,7 @@
 
                                 <button
                                     class="btn btn-dark btn-add-cart product-type-simple btn-shop"
-                                    @click="addCart(product)"
+                                    @click="addCart(product.product)"
                                     v-if="product.product.variants.length === 0"
                                 >
                                     AJOUTER AU PANIER
@@ -269,6 +252,10 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { baseUrl, currentDemo } from '~/api';
+import {
+    priceFormatService,
+    intervalPriceFormatService,
+} from '~/utils/service';
 
 export default {
     data: function () {
@@ -292,7 +279,7 @@ export default {
     },
     methods: {
         ...mapActions('wishlist', ['removeFromWishlist', 'getWishlist']),
-        ...mapActions('cart', ['addToCart']),
+        ...mapActions('cart', ['addToCartFromWishlist']),
         makeCartItems: function () {
             this.wishItems = this.wishList;
             console.log('LES WISHLIST', this.wishItems);
@@ -344,12 +331,13 @@ export default {
         },
         addCart: function (product) {
             this.currentProduct = product;
+            console.log(product.uuid);
             document.querySelector('.cart-message.removed').style.display =
                 'none';
             document.querySelector('.cart-message.carted').style.display =
                 'block';
-            this.addToCart({ product: product });
-            this.removeFromWishlist({ id: product.product.uuid });
+            this.addToCartFromWishlist({ product: product });
+            this.removeFromWishlist({ id: product.uuid });
         },
         removeWishlist: function (product) {
             this.currentProduct = product;
@@ -358,6 +346,13 @@ export default {
             document.querySelector('.cart-message.removed').style.display =
                 'block';
             this.removeFromWishlist({ id: product.product.uuid });
+        },
+
+        numberWithSpaces(price) {
+            return priceFormatService(price);
+        },
+        intervalNumberWithSpaces(intervalPrice) {
+            return intervalPriceFormatService(intervalPrice);
         },
     },
 };

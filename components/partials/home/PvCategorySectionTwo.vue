@@ -116,7 +116,7 @@
                         </li>
                     </ul>
                     <nuxt-link class="view-all" to="/shop"
-                        >View All<i class="fas fa-long-arrow-alt-right"></i
+                        >Voir tout<i class="fas fa-long-arrow-alt-right"></i
                     ></nuxt-link>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                         </li>
                     </ul>
                     <nuxt-link class="view-all" to="/shop"
-                        >View All<i class="fas fa-long-arrow-alt-right"></i
+                        >Voir tout<i class="fas fa-long-arrow-alt-right"></i
                     ></nuxt-link>
                 </div>
             </div>
@@ -176,7 +176,7 @@
                         </li>
                     </ul>
                     <nuxt-link class="view-all" to="/shop"
-                        >View All<i class="fas fa-long-arrow-alt-right"></i
+                        >Voir tout<i class="fas fa-long-arrow-alt-right"></i
                     ></nuxt-link>
                 </div>
             </div>
@@ -206,7 +206,7 @@
                         </li>
                     </ul>
                     <nuxt-link class="view-all" to="/shop"
-                        >View All<i class="fas fa-long-arrow-alt-right"></i
+                        >Voir tout<i class="fas fa-long-arrow-alt-right"></i
                     ></nuxt-link>
                 </div>
             </div>

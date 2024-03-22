@@ -13,7 +13,7 @@
                 Recently Viewed Products
             </h4>
             <nuxt-link class="view-all ml-auto" to="/shop"
-                >View All<i class="fas fa-long-arrow-alt-right"></i
+                >Voir tout<i class="fas fa-long-arrow-alt-right"></i
             ></nuxt-link>
         </div> -->
 

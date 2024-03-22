@@ -1,4 +1,8 @@
 import axios from 'axios';
+import {
+    isLoggedIn,
+    retrieveAndDecryptData,
+} from '../../utils/storage/crypto.service';
 
 import { apiEndpoints, baseUrl2, constant } from '../../api/index';
 import { encryptAndStoreData } from '../../utils/storage/crypto.service';
@@ -6,6 +10,8 @@ import { encryptAndStoreData } from '../../utils/storage/crypto.service';
 export function state() {
     return {
         user: null, // Utilisateur connecté
+        userData: null,
+        userStatus: false,
     };
 }
 
@@ -16,6 +22,12 @@ export const mutations = {
     },
     clearUser(state) {
         state.user = null;
+    },
+    SET_USER_DATA(state, payload) {
+        state.userData = payload;
+    },
+    SET_USER_STATUS(state, payload) {
+        state.userStatus = payload;
     },
 };
 
@@ -81,15 +93,51 @@ export const actions = {
             );
         }
     },
-    // Autres actions...
+
+    getUserStatus: async function ({ commit }) {
+        try {
+            const isConnectedSatatus = isLoggedIn();
+            commit('SET_USER_STATUS', isConnectedSatatus);
+            return isConnectedSatatus;
+        } catch (error) {
+            console.error(
+                'Erreur lors de la verification du status de connexioin :',
+                error
+            );
+        }
+    },
+
+    getUserData: async function ({ commit, dispatch }) {
+        try {
+            const isConnected = isLoggedIn();
+            // const isConnected = dispatch('getUserStatus');
+            let userData = null;
+            if (isConnected) {
+                userData = retrieveAndDecryptData(constant.USER_DATA);
+                commit('SET_USER_DATA', userData);
+
+                return userData;
+            }
+        } catch (error) {
+            console.error(
+                'Erreur lors de la recuperation des données du client :',
+                error
+            );
+            // Gérez les erreurs d'ajout aux favoris si nécessaire
+        }
+    },
 };
 export const getters = {
     isLoggedIn: (state) => {
-        // Vérifie si l'utilisateur est connecté en inspectant l'état de la variable user
         return state.user !== null;
     },
     currentUser: (state) => {
-        // Renvoie les données de l'utilisateur actuellement connecté
         return state.user;
+    },
+    GET_USER_DATA: (state) => {
+        return state.userData;
+    },
+    GET_USER_STATUS: (state) => {
+        return state.userStatus;
     },
 };

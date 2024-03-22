@@ -175,7 +175,7 @@
 								| <nuxt-link to="/shop">Home Electronic</nuxt-link> | <nuxt-link to="/shop">Bags &amp; Cases</nuxt-link> | <nuxt-link
 									class="view-all"
 									to="/shop"
-								>View All<i class="fas fa-long-arrow-alt-right ml-1"></i></nuxt-link>
+								>Voir tout<i class="fas fa-long-arrow-alt-right ml-1"></i></nuxt-link>
 							</li>
 							<li>
 								<h4 class="d-inline-block">Gifts:</h4>
@@ -191,7 +191,7 @@
 									Couches</nuxt-link> | <nuxt-link to="/shop">Armchairs</nuxt-link> | <nuxt-link to="/shop">Bed Frames</nuxt-link> | <nuxt-link to="/shop">Bedside Tables</nuxt-link> | <nuxt-link to="/shop">Dressing Tables</nuxt-link> | <nuxt-link to="/shop">Chest of Drawers</nuxt-link> | <nuxt-link
 									class="view-all"
 									to="/shop"
-								>View All<i class="fas fa-long-arrow-alt-right ml-1"></i></nuxt-link>
+								>Voir tout<i class="fas fa-long-arrow-alt-right ml-1"></i></nuxt-link>
 							</li>
 							<li>
 								<h4 class="d-inline-block">Music:</h4>
@@ -200,7 +200,7 @@
 								<nuxt-link to="/shop">Sound Cards</nuxt-link> | <nuxt-link to="/shop">Studio Equipments</nuxt-link> | <nuxt-link to="/shop">Piano &amp; Keyboards</nuxt-link> | <nuxt-link
 									to="/shop"
 									class="view-all"
-								>View All<i class="fas fa-long-arrow-alt-right ml-1"></i></nuxt-link>
+								>Voir tout<i class="fas fa-long-arrow-alt-right ml-1"></i></nuxt-link>
 							</li>
 							<li>
 								<h4 class="d-inline-block">Sports:</h4>
@@ -210,7 +210,7 @@
 								<nuxt-link
 									class="view-all"
 									to="/shop"
-								>View All<i class="fas fa-long-arrow-alt-right ml-1"></i></nuxt-link>
+								>Voir tout<i class="fas fa-long-arrow-alt-right ml-1"></i></nuxt-link>
 							</li>
 						</ul>
 					</div>

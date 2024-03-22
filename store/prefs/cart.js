@@ -93,6 +93,43 @@ export const actions = {
     },
 
     // ------------------------------------------------------------------------
+
+    addToCartFromWishlist: async function ({ commit, dispatch }, payload) {
+        try {
+            const isConnected = isLoggedIn();
+            let userData = null;
+            if (isConnected) {
+                userData = retrieveAndDecryptData(constant.USER_DATA);
+                const formData = {
+                    user_uuid: userData.uuid,
+                    quantity: 1,
+                    product_uuid: payload.product.uuid,
+                };
+                await Api.post(`${baseUrl2}${apiEndpoints.cart}`, formData)
+                    .then((response) => {
+                        console.log('USER DATA 2', response);
+                        // commit(ADD_TO_CART, payload);
+                        this._vm.$notify({
+                            group: 'addCartSuccess',
+                            text: `a été ajouté à votre panier !`,
+                            data: payload.product,
+                        });
+
+                        return dispatch('getCart');
+                    })
+                    .catch((error) => {
+                        console.log('USER DATA 3', error);
+                    });
+                return;
+            }
+            console.log('USER DATA 2', response);
+        } catch (error) {
+            console.error("Erreur lors de l'ajout aux favoris :", error);
+            // Gérez les erreurs d'ajout aux favoris si nécessaire
+        }
+    },
+
+    // ------------------------------------------------------------------------
     removeFromCart: async function ({ commit, dispatch }, payload) {
         try {
             const isConnected = isLoggedIn();
@@ -144,24 +181,24 @@ export const actions = {
         try {
             const isConnected = isLoggedIn();
             let userData = null;
-            console.log('ITEM TO DELETE', payload);
+            // console.log('ITEM TO DELETE', payload);
             // return;
             if (isConnected) {
                 userData = retrieveAndDecryptData(constant.USER_DATA);
                 let product_uuid = null;
                 const formData = {
                     user_uuid: userData.uuid,
-                    quantity: payload.product.quantity ?? 1,
+                    // quantity: payload.product.quantity ?? 1,
                 };
-                if (payload.product.variant) {
-                    product_uuid = payload.product.variant.uuid;
+
+                if (payload.variant) {
+                    product_uuid = payload.variant.uuid;
                     formData.variant_uuid = product_uuid;
                 } else {
-                    product_uuid = payload.product.product.uuid;
+                    product_uuid = payload.product.uuid;
                     formData.product_uuid = product_uuid;
                 }
-                // console.log('ITEM TO DELETE 2', formData);
-                // return;
+
                 await Api.post(`${baseUrl2}${apiEndpoints.m_cart}`, formData)
                     .then((response) => {
                         console.log('USER DATA 2', response);
@@ -181,7 +218,60 @@ export const actions = {
             }
             console.log('USER DATA 2', response);
         } catch (error) {
-            console.error("Erreur lors de l'ajout aux favoris :", error);
+            console.error(
+                'Erreur lors de la soustraction de quantité aux favoris :',
+                error
+            );
+            // Gérez les erreurs d'ajout aux favoris si nécessaire
+        }
+    },
+
+    // ------------------------------------------------------------------------
+    addOneOnCart: async function ({ commit, dispatch }, payload) {
+        try {
+            const isConnected = isLoggedIn();
+            let userData = null;
+            // console.log('ITEM TO DELETE', payload);
+            // return;
+            if (isConnected) {
+                userData = retrieveAndDecryptData(constant.USER_DATA);
+                let product_uuid = null;
+                const formData = {
+                    user_uuid: userData.uuid,
+                    quantity: 1,
+                };
+
+                if (payload.variant) {
+                    product_uuid = payload.variant.uuid;
+                    formData.variant_uuid = product_uuid;
+                } else {
+                    product_uuid = payload.product.uuid;
+                    formData.product_uuid = product_uuid;
+                }
+
+                await Api.post(`${baseUrl2}${apiEndpoints.cart}`, formData)
+                    .then((response) => {
+                        console.log('USER DATA 2', response);
+                        // commit(ADD_TO_CART, payload);
+                        // this._vm.$notify({
+                        //     group: 'addCartSuccess',
+                        //     text: `a été retiré de votre panier !`,
+                        //     data: payload.product,
+                        // });
+
+                        return dispatch('getCart');
+                    })
+                    .catch((error) => {
+                        console.log('USER DATA 3', error);
+                    });
+                return;
+            }
+            console.log('USER DATA 2', response);
+        } catch (error) {
+            console.error(
+                "rreur lors de l'ajout de quantité aux favoris :",
+                error
+            );
             // Gérez les erreurs d'ajout aux favoris si nécessaire
         }
     },

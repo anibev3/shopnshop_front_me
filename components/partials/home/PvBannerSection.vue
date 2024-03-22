@@ -23,8 +23,8 @@
                                     ><i>UP TO</i>50%</b
                                 ><span class="mr-0 ls-0">OFF</span>
                             </h5>
-                            <h6 class="font1 ls-10">FLASH SALES ON</h6>
-                            <h4 class="text-white mb-0">NICE SHOES</h4>
+                            <h6 class="font1 ls-10">VENTE FASH SUR CETTE</h6>
+                            <h4 class="text-white mb-0">BELLE CHAUSSURES</h4>
                         </div>
                     </div>
                 </div>

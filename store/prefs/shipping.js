@@ -22,15 +22,16 @@ export const mutations = {
 };
 
 export const actions = {
-    async add_shipping_address({ commit }, payload) {
+    async add_shipping_address({ commit, dispatch }, payload) {
         console.log('FETCH DATA A ETE APPELE...', payload);
+
         try {
             await Api.post(`${baseUrl2}${apiEndpoints.shipping}`, payload)
                 .then((response) => {
                     const shipping = response;
                     console.log('SHIPPING RESPONSE', shipping);
 
-                    // commit(SET_SHIPPING, shipping);
+                    return dispatch('get_shipping_address', payload.user_uuid);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -54,6 +55,7 @@ export const actions = {
                 })
                 .catch((error) => {
                     console.log(error);
+                    commit(SET_SHIPPING, false);
                 });
         } catch (error) {
             console.error(

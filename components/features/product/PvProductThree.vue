@@ -157,17 +157,9 @@
             </div>
 
             <div class="price-box" v-else>
-                <template v-if="product.interval_price">
-                    <span class="product-price" style="font-size: 1.5rem">{{
-                        intervalNumberWithSpaces(product.interval_price)
-                    }}</span>
-                </template>
-
-                <template v-else>
-                    <span class="product-price">{{
-                        numberWithSpaces(minPrice)
-                    }}</span>
-                </template>
+                <span class="product-price" style="font-size: 1.5rem">{{
+                    intervalNumberWithSpaces(product.interval_price)
+                }}</span>
             </div>
         </div>
     </div>

@@ -140,7 +140,7 @@ export default {
     // css: ['ant-design-vue/dist/antd.css'],
 
     router: {
-        base: '/vue/porto/demo-36/',
+        base: '/',
         linkActiveClass: '',
         linkExactActiveClass: 'active',
     },

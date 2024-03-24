@@ -249,7 +249,7 @@ import PvProductTwo from '~/components/features/product/PvProductTwo';
 import PvProductThree from '~/components/features/product/PvProductThree';
 import PvPagination from '~/components/features/PvPagination';
 import { scro, scrollTopHandler } from '~/utils';
-import Api, { baseUrl, currentDemo } from '~/api';
+import Api, { baseUrl2, currentDemo, apiEndpoints } from '~/api';
 
 export default {
     components: {
@@ -315,7 +315,7 @@ export default {
             });
             this.products = null;
             this.totalCount = 0;
-            Api.get(`${baseUrl}/shop`, {
+            Api.get(`${baseUrl2}${apiEndpoints.products}`, {
                 params: {
                     ...this.$route.query,
                     demo: currentDemo,
@@ -324,8 +324,9 @@ export default {
                 },
             })
                 .then((response) => {
-                    this.products = response.data.products;
-                    this.totalCount = response.data.totalCount;
+                    this.products = response.data.data;
+                    this.totalCount = response.data.data.length;
+                    console.log('LE FILTRE ::::::::::::::> ', this.products);
                     scrollTopHandler();
                 })
                 .catch((error) => ({ error: JSON.stringify(error) }));

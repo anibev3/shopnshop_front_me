@@ -252,46 +252,32 @@
                         role="tabpanel"
                         aria-labelledby="order-tab"
                     >
-                        <div class="order-content">
-                            <h3 class="account-sub-title d-none d-md-block">
-                                <i
-                                    class="sicon-social-dropbox align-middle mr-3"
-                                ></i
-                                >Orders
-                            </h3>
-                            <div class="order-table-container text-center">
-                                <table class="table table-order text-left">
-                                    <thead>
-                                        <tr>
-                                            <th class="order-id">ORDER</th>
-                                            <th class="order-date">DATE</th>
-                                            <th class="order-status">STATUS</th>
-                                            <th class="order-price">TOTAL</th>
-                                            <th class="order-action">
-                                                ACTIONS
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td
-                                                class="text-center p-0"
-                                                colspan="5"
-                                            >
-                                                <p class="mb-5 mt-5">
-                                                    No Order has been made yet.
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <hr class="mt-0 mb-3 pb-2" />
-
-                                <nuxt-link to="/shop" class="btn btn-dark"
-                                    >Aller au magasin</nuxt-link
-                                >
-                            </div>
-                        </div>
+                        <!------------------>
+                        <!------------------>
+                        <!--- USER ORDER --->
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <pv-user-order></pv-user-order>
+                        <!-- End .tab-pane -->
                     </div>
                     <!-- End .tab-pane -->
 
@@ -324,7 +310,7 @@
                                         v-if="!GET_BILLING"
                                     >
                                         Vous n'avez pas encore paramétré ce type
-                                        d'adresse .
+                                        d'adresse.
                                     </div>
 
                                     <a
@@ -365,10 +351,10 @@
 
                                     <div
                                         class="address-box"
-                                        v-if="!GET_SHIPPING"
+                                        v-if="GET_SHIPPING.length == []"
                                     >
                                         Vous n'avez pas encore paramétré ce type
-                                        d'adresse .
+                                        d'adresse.
                                     </div>
 
                                     <a
@@ -378,7 +364,7 @@
                                         @click.prevent="
                                             tabClicked($event), handler($event)
                                         "
-                                        v-if="!GET_SHIPPING"
+                                        v-if="GET_SHIPPING.length == []"
                                         >Ajouter une Adresse</a
                                     >
                                     <div>
@@ -560,131 +546,7 @@
                         role="tabpanel"
                         aria-labelledby="billing-tab"
                     >
-                        <div class="address account-content mt-0 pt-2">
-                            <h4 class="title">Adresse de facturation</h4>
-
-                            <form
-                                class="mb-2"
-                                @submit.prevent="submitBillingAddress"
-                            >
-                                <div class="select-custom">
-                                    <label>
-                                        Pays
-                                        <span class="required">*</span>
-                                    </label>
-                                    <select
-                                        name="orderby"
-                                        class="form-control"
-                                        v-model="selectedCountry"
-                                        @change="updateCities"
-                                    >
-                                        <!-- <option value selected="selected">
-                                            British Indian Ocean Territory
-                                        </option> -->
-                                        <option
-                                            v-for="country in GET_COUNTRY"
-                                            :value="country.uuid"
-                                        >
-                                            {{ country.name }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>
-                                                Ville
-                                                <span class="required">*</span>
-                                            </label>
-                                            <select
-                                                name="orderby"
-                                                class="form-control"
-                                                v-model="selectedCity"
-                                                @change="updateMunicipalities"
-                                            >
-                                                <!-- <option value selected="selected">
-                                            British Indian Ocean Territory
-                                        </option> -->
-                                                <option
-                                                    v-for="city in cities"
-                                                    :value="city.uuid"
-                                                >
-                                                    {{ city.name }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>
-                                                Commune
-                                                <span class="required">*</span>
-                                            </label>
-                                            <select
-                                                name="orderby"
-                                                class="form-control"
-                                                v-model="billingData.state"
-                                            >
-                                                <!-- <option value selected="selected">
-                                            British Indian Ocean Territory
-                                        </option> -->
-                                                <option
-                                                    v-for="municipality in municipalities"
-                                                    :value="municipality.name"
-                                                >
-                                                    {{ municipality.name }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>
-                                        Street address
-                                        <span class="required">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="House number and street name"
-                                        required
-                                        v-model="billingData.address_line1"
-                                    />
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Apartment, suite, unit, etc. (optional)"
-                                        required
-                                        v-model="billingData.address_line2"
-                                    />
-                                </div>
-
-                                <div class="form-group">
-                                    <label>
-                                        Postcode / ZIP
-                                        <span class="required">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        required
-                                        v-model="billingData.postal_code"
-                                    />
-                                </div>
-
-                                <div class="form-footer mb-0">
-                                    <div class="form-footer-right">
-                                        <button
-                                            type="submit"
-                                            class="btn btn-dark py-4"
-                                            style="border-radius: 10px"
-                                        >
-                                            Sauvegarder l'adresse
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                        <pv-billing-create></pv-billing-create>
                     </div>
                     <!-- End .tab-pane -->
 
@@ -694,143 +556,7 @@
                         role="tabpanel"
                         aria-labelledby="shipping-tab"
                     >
-                        <div class="address account-content mt-0 pt-2">
-                            <h4 class="title mb-3">Shipping Address</h4>
-
-                            <form
-                                class="mb-2"
-                                @submit.prevent="submitShippingAddress"
-                            >
-                                <div class="form-group">
-                                    <label>
-                                        Nom du receveur
-                                        <span class="required">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        required
-                                        v-model="shippingData.recipient_name"
-                                    />
-                                </div>
-                                <div class="select-custom">
-                                    <label>
-                                        Pays
-                                        <span class="required">*</span>
-                                    </label>
-                                    <select
-                                        name="orderby"
-                                        class="form-control"
-                                        v-model="selectedCountry"
-                                        @change="updateCities"
-                                    >
-                                        <!-- <option value selected="selected">
-                                            British Indian Ocean Territory
-                                        </option> -->
-                                        <option
-                                            v-for="country in GET_COUNTRY"
-                                            :value="country.uuid"
-                                        >
-                                            {{ country.name }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>
-                                                Ville
-                                                <span class="required">*</span>
-                                            </label>
-                                            <select
-                                                name="orderby"
-                                                class="form-control"
-                                                v-model="selectedCity"
-                                                @change="updateMunicipalities"
-                                            >
-                                                <!-- <option value selected="selected">
-                                            British Indian Ocean Territory
-                                        </option> -->
-                                                <option
-                                                    v-for="city in cities"
-                                                    :value="city.uuid"
-                                                >
-                                                    {{ city.name }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>
-                                                Commune
-                                                <span class="required">*</span>
-                                            </label>
-                                            <select
-                                                name="orderby"
-                                                class="form-control"
-                                                v-model="shippingData.state"
-                                            >
-                                                <!-- <option value selected="selected">
-                                            British Indian Ocean Territory
-                                        </option> -->
-                                                <option
-                                                    v-for="municipality in municipalities"
-                                                    :value="municipality.name"
-                                                >
-                                                    {{ municipality.name }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>
-                                        Street address
-                                        <span class="required">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="House number and street name"
-                                        required
-                                        v-model="shippingData.address_line_1"
-                                    />
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Apartment, suite, unit, etc. (optional)"
-                                        required
-                                        v-model="shippingData.address_line_2"
-                                    />
-                                </div>
-
-                                <div class="form-group">
-                                    <label>
-                                        Postcode / ZIP
-                                        <span class="required">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        required
-                                        v-model="shippingData.postal_code"
-                                    />
-                                </div>
-
-                                <div class="form-footer mb-0">
-                                    <div class="form-footer-right">
-                                        <button
-                                            type="submit"
-                                            class="btn btn-dark py-4"
-                                            style="border-radius: 10px"
-                                        >
-                                            Sauvegarder l'adresse
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                        <pv-shipping-create></pv-shipping-create>
                     </div>
                     <!-- End .tab-pane -->
                 </div>
@@ -841,6 +567,10 @@
 
 <script>
 import PvTabs from '~/components/features/PvTabs';
+import PvBillingCreate from '~/components/features/widgets/PvBillingCreate';
+import PvShippingCreate from '~/components/features/widgets/PvShippingCreate.vue';
+import PvUserOrder from '~/components/features/user-order/PvUserOrder.vue';
+
 import Sticky from 'vue-sticky-directive';
 import { mapActions, mapGetters } from 'vuex';
 import {
@@ -855,6 +585,9 @@ export default {
     },
     components: {
         PvTabs,
+        PvShippingCreate,
+        PvBillingCreate,
+        PvUserOrder,
     },
     data: function () {
         return {

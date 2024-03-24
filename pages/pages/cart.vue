@@ -447,22 +447,7 @@ export default {
     },
     methods: {
         ...mapActions('cart', ['updateCart', 'removeFromCart']),
-        changeQty: function (value, product) {
-            console.log('aaaa', value, product);
-            // this.cartItems = this.cartItems.reduce((acc, cur) => {
-            //     if (cur.name === product.name) {
-            //         return [
-            //             ...acc,
-            //             {
-            //                 ...cur,
-            //                 qty: value,
-            //             },
-            //         ];
-            //     } else {
-            //         return [...acc, cur];
-            //     }
-            // }, []);
-        },
+        changeQty: function (value, product) {},
         numberWithSpaces(price) {
             return priceFormatService(price);
         },

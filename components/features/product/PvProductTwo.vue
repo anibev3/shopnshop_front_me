@@ -3,17 +3,17 @@
         <figure>
             <nuxt-link :to="`/product/default/${product.slug}`">
                 <img
-                    v-for="(item, index) in product.large_pictures.slice(0, 2)"
+                    v-for="(item, index) in product.pictures.slice(0, 2)"
                     :key="`related-large-${index}`"
-                    v-lazy="`${baseUrl}${item.url}`"
+                    v-lazy="`${item}`"
                     alt="large-picture"
-                    :width="item.width"
-                    :height="item.height"
+                    width="200"
+                    height="450"
                 />
             </nuxt-link>
 
             <div class="label-group">
-                <div class="product-label label-hot" v-if="product.is_hot">
+                <!-- <div class="product-label label-hot" v-if="product.is_hot">
                     HOT
                 </div>
                 <div
@@ -21,7 +21,7 @@
                     v-if="product.is_sale && !product.price"
                 >
                     Sale
-                </div>
+                </div> -->
                 <div
                     class="product-label label-sale"
                     v-if="product.is_sale && product.price"
@@ -71,38 +71,28 @@
             </div>
             <div class="price-box" v-if="product.price" key="singlePrice">
                 <template v-if="!product.is_sale">
-                    <span class="product-price"
-                        >${{ product.price | priceFormat }}</span
-                    >
+                    <span class="product-price">{{
+                        numberWithSpaces(product.price)
+                    }}</span>
                 </template>
 
                 <template v-else>
-                    <span class="product-price"
-                        >${{ product.sale_price | priceFormat }}</span
-                    >
-                    <span class="old-price"
-                        >${{ product.price | priceFormat }}</span
-                    >
+                    <span class="product-price">{{
+                        numberWithSpaces(product.sale_price)
+                    }}</span>
+                    <span class="old-price">{{
+                        numberWithSpaces(product.price)
+                    }}</span>
                 </template>
             </div>
 
             <div class="price-box" v-else>
-                <template v-if="minPrice !== maxPrice">
-                    <span class="product-price"
-                        >${{ minPrice | priceFormat }} &ndash; ${{
-                            maxPrice | priceFormat
-                        }}</span
-                    >
-                </template>
-
-                <template v-else>
-                    <span class="product-price"
-                        >${{ minPrice | priceFormat }}</span
-                    >
-                </template>
+                <span class="product-price">{{
+                    intervalNumberWithSpaces(product.interval_price)
+                }}</span>
             </div>
 
-            <div class="product-action">
+            <div class="product-action d-flex">
                 <nuxt-link
                     :to="'/product/default/' + product.slug"
                     class="btn-icon btn-add-cart product-type-simple"
@@ -110,7 +100,7 @@
                     key="variantProduct"
                 >
                     <i class="fa fa-arrow-right"></i>
-                    <span>SELECT OPTIONS</span>
+                    <span>SELECTIONNER UN OPTIONS</span>
                 </nuxt-link>
 
                 <a
@@ -120,19 +110,21 @@
                     @click="addCart"
                 >
                     <i class="icon-shopping-cart"></i>
-                    <span>Add to Wishlist AU PANIER</span>
+                    <span>AJOUTER AU PANIER</span>
                 </a>
 
-                <nuxt-link
-                    to="/pages/wishlist"
+                <span
+                    style="margin: 0px 5px 0px 5px"
                     class="btn-icon-wish added-wishlist"
                     title="Go to Wishlist"
                     v-if="isWishlisted"
+                    @click="rmWishlist($event)"
                 >
                     <i class="icon-wishlist-2"></i>
-                </nuxt-link>
+                </span>
 
                 <a
+                    style="margin: 0px 5px 0px 5px"
                     href="javascript:;"
                     class="btn-icon-wish"
                     title="Add to Wishlist"
@@ -158,6 +150,10 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { baseUrl } from '~/api/index';
+import {
+    priceFormatService,
+    intervalPriceFormatService,
+} from '~/utils/service';
 
 export default {
     props: {
@@ -175,9 +171,10 @@ export default {
     computed: {
         ...mapGetters('wishlist', ['wishList']),
         isWishlisted: function () {
+            console.log('WISHLIST', this.wishList);
             if (
                 this.wishList.findIndex(
-                    (item) => item.name === this.product.name
+                    (item) => item.product.uuid === this.product.uuid
                 ) > -1
             )
                 return true;
@@ -185,27 +182,38 @@ export default {
         },
     },
     mounted: function () {
+        // console.log('LE PRODUIT :::::::::::> ', product_);
         if (this.product.is_sale && this.product.price) {
             this.discount =
-                ((this.product.price - this.product.sale_price) /
-                    this.product.price) *
+                ((this.product.pricemin - this.product.sale_price) /
+                    this.product.price.min) *
                 100;
             this.discount = parseInt(this.discount);
         }
 
-        if (!this.product.price) {
+        if (
+            this.product.variants.length > 0
+            // && !this.product.price
+        ) {
+            console.log('DEMARAGE 1');
+
             this.minPrice = this.product.variants[0].price;
+            console.log('DEMARAGE 2', this.minPrice);
+
             this.product.variants.forEach((item) => {
-                let itemPrice = item.is_sale ? item.sale_price : item.price;
+                let itemPrice = item.sale_price ? item.sale_price : item.price;
                 if (this.minPrice > itemPrice) this.minPrice = itemPrice;
                 if (this.maxPrice < itemPrice) this.maxPrice = itemPrice;
             });
+            console.log('DEMARAGE 3', this.minPrice);
+            console.log('DEMARAGE 4', this.maxPrice);
         }
     },
     methods: {
-        ...mapActions('wishlist', ['addToWishlist']),
+        ...mapActions('wishlist', ['addToWishlist', 'removeFromWishlist']),
         ...mapActions('cart', ['addToCart']),
         openQuickview: function () {
+            console.log(this.product.slug);
             this.$modal.show(
                 () => import('~/components/features/product/PvQuickview'),
                 { slug: this.product.slug },
@@ -217,22 +225,84 @@ export default {
                 }
             );
         },
+        // addWishlist: function (e) {
+        //     e.currentTarget.classList.add('load-more-overlay', 'loading');
+
+        //     setTimeout(() => {
+        //         this.addToWishlist({ product: this.product });
+        //         document
+        //             .querySelector('.wishlist-popup')
+        //             .classList.add('active');
+
+        //         setTimeout(() => {
+        //             document
+        //                 .querySelector('.wishlist-popup')
+        //                 .classList.remove('active');
+        //         }, 1000);
+        //     }, 1000);
+        // },
+
         addWishlist: function (e) {
             e.currentTarget.classList.add('load-more-overlay', 'loading');
-
-            setTimeout(() => {
-                this.addToWishlist({ product: this.product });
-                document
-                    .querySelector('.wishlist-popup')
-                    .classList.add('active');
-
-                setTimeout(() => {
+            this.addToWishlist({ product: this.product })
+                .then(() => {
                     document
                         .querySelector('.wishlist-popup')
-                        .classList.remove('active');
-                }, 1000);
-            }, 1000);
+                        .classList.add('active');
+                    setTimeout(() => {
+                        document
+                            .querySelector('.wishlist-popup')
+                            .classList.remove('active');
+                    }, 1000);
+                })
+                .catch((error) => {
+                    console.error(
+                        "Erreur lors de l'ajout à la liste de souhaits :",
+                        error
+                    );
+                    e.currentTarget.classList.remove('loading');
+                });
         },
+
+        // rmWishlist: function (e) {
+        //     e.currentTarget.classList.add('load-more-overlay', 'loading');
+
+        //     setTimeout(() => {
+        //         this.removeFromWishlist({ product: this.product });
+        //         document
+        //             .querySelector('.wishlist-popup')
+        //             .classList.add('active');
+
+        //         setTimeout(() => {
+        //             document
+        //                 .querySelector('.wishlist-popup')
+        //                 .classList.remove('active');
+        //         }, 1000);
+        //     }, 1000);
+        // },
+
+        rmWishlist: function (e) {
+            e.currentTarget.classList.add('load-more-overlay', 'loading');
+            this.removeFromWishlist({ product: this.product })
+                .then(() => {
+                    document
+                        .querySelector('.wishlist-rm-popup')
+                        .classList.add('active');
+                    setTimeout(() => {
+                        document
+                            .querySelector('.wishlist-rm-popup')
+                            .classList.remove('active');
+                    }, 1000);
+                })
+                .catch((error) => {
+                    console.error(
+                        "Erreur lors de l'ajout à la liste de souhaits :",
+                        error
+                    );
+                    e.currentTarget.classList.remove('loading');
+                });
+        },
+
         addCart: function () {
             if (this.product.stock > 0) {
                 let saledProduct = { ...this.product };
@@ -242,6 +312,12 @@ export default {
 
                 this.addToCart({ product: saledProduct });
             }
+        },
+        numberWithSpaces(price) {
+            return priceFormatService(price);
+        },
+        intervalNumberWithSpaces(intervalPrice) {
+            return intervalPriceFormatService(intervalPrice);
         },
     },
 };

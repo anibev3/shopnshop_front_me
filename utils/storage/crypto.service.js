@@ -14,6 +14,7 @@ export function isLoggedIn() {
 export const encryptAndStoreData = (key, data) => {
     const encryptedData = encryptData(JSON.stringify(data), encryptionKey);
     localStorage.setItem(key, encryptedData);
+    return true;
 };
 
 export const retrieveAndDecryptData = (key) => {

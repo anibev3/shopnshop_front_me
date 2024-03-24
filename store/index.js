@@ -50,6 +50,14 @@ import {
     actions as shippingActions,
     mutations as shippingMutations,
 } from './prefs/shipping';
+
+import {
+    state as orderState,
+    getters as orderGetters,
+    actions as orderActions,
+    mutations as orderMutations,
+} from './prefs/order';
+
 export const state = () => ({
     // Votre état global ici
 });
@@ -123,5 +131,13 @@ export const modules = {
         getters: shippingGetters,
         actions: shippingActions,
         mutations: shippingMutations,
+    },
+
+    order: {
+        namespaced: true,
+        state: orderState,
+        getters: orderGetters,
+        actions: orderActions,
+        mutations: orderMutations,
     },
 };

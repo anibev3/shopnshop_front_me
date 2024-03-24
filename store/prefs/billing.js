@@ -1,4 +1,9 @@
 import Api, { baseUrl2, apiEndpoints, constant } from '~/api';
+import {
+    isLoggedIn,
+    retrieveAndDecryptData,
+} from '../../utils/storage/crypto.service';
+
 // Définir les constantes pour les mutations et les getters
 export const SET_BILLING = 'SET_BILLING';
 export const GET_BILLING = 'GET_BILLING';
@@ -22,15 +27,22 @@ export const mutations = {
 };
 
 export const actions = {
-    async add_billing_address({ commit }, payload) {
+    async add_billing_address({ commit, dispatch }, payload) {
         console.log('FETCH DATA A ETE APPELE...');
+        const isConnected = isLoggedIn();
+        let userData = null;
         try {
             await Api.post(`${baseUrl2}${apiEndpoints.billing}`, payload)
                 .then((response) => {
                     const billing = response;
                     console.log('BILLING RESPONSE', billing);
 
-                    // commit(SET_BILLING, billing);
+                    // let formData = null;
+                    if (isConnected) {
+                        userData = retrieveAndDecryptData(constant.USER_DATA);
+
+                        return dispatch('get_billing_address', userData.uuid);
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -54,7 +66,8 @@ export const actions = {
                     return billing;
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log('kjjk', error);
+                    commit(SET_BILLING, false);
                 });
         } catch (error) {
             console.error(

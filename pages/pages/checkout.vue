@@ -11,7 +11,7 @@
                     <nuxt-link to="/pages/checkout">Vérification</nuxt-link>
                 </li>
                 <li class="disabled">
-                    <a href="javascript:;">Order Complete</a>
+                    <a href="javascript:;">Commande terminée</a>
                 </li>
             </ul>
 
@@ -115,8 +115,6 @@
                         </div>
                     </vue-slide-toggle>
                 </div> -->
-                <button @click="getUserData">TEST</button>
-                {{ GET_USER_STATUS }}
                 <div class="checkout-discount">
                     <h4>
                         Vous avez un coupon ?
@@ -358,7 +356,7 @@
                             <vue-slide-toggle :open="billingInfoToggle">
                                 <div class="login-section feature-box">
                                     <div class="feature-box-content">
-                                        <form action="#" id="login-form">
+                                        <div v-if="GET_BILLING">
                                             <p>
                                                 Si vous avez déjà acheté chez
                                                 nous, veuillez saisir vos
@@ -367,180 +365,16 @@
                                                 passer à la section Facturation
                                                 et expédition.
                                             </p>
-                                            <div>
-                                                <form
-                                                    class="mb-2"
-                                                    @submit.prevent="
-                                                        submitBillingAddress
-                                                    "
-                                                >
-                                                    <div class="select-custom">
-                                                        <label>
-                                                            Pays
-                                                            <span
-                                                                class="required"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <select
-                                                            name="orderby"
-                                                            class="form-control"
-                                                            v-model="
-                                                                selectedCountry
-                                                            "
-                                                            @change="
-                                                                updateCities
-                                                            "
-                                                        >
-                                                            <!-- <option value selected="selected">
-                                            British Indian Ocean Territory
-                                        </option> -->
-                                                            <option
-                                                                v-for="country in GET_COUNTRY"
-                                                                :value="
-                                                                    country.uuid
-                                                                "
-                                                            >
-                                                                {{
-                                                                    country.name
-                                                                }}
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div
-                                                                class="form-group"
-                                                            >
-                                                                <label>
-                                                                    Ville
-                                                                    <span
-                                                                        class="required"
-                                                                        >*</span
-                                                                    >
-                                                                </label>
-                                                                <select
-                                                                    name="orderby"
-                                                                    class="form-control"
-                                                                    v-model="
-                                                                        selectedCity
-                                                                    "
-                                                                    @change="
-                                                                        updateMunicipalities
-                                                                    "
-                                                                >
-                                                                    <option
-                                                                        v-for="city in cities"
-                                                                        :value="
-                                                                            city.uuid
-                                                                        "
-                                                                    >
-                                                                        {{
-                                                                            city.name
-                                                                        }}
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div
-                                                                class="form-group"
-                                                            >
-                                                                <label>
-                                                                    Commune
-                                                                    <span
-                                                                        class="required"
-                                                                        >*</span
-                                                                    >
-                                                                </label>
-                                                                <select
-                                                                    name="orderby"
-                                                                    class="form-control"
-                                                                    v-model="
-                                                                        billingData.state
-                                                                    "
-                                                                >
-                                                                    <option
-                                                                        v-for="municipality in municipalities"
-                                                                        :value="
-                                                                            municipality.name
-                                                                        "
-                                                                    >
-                                                                        {{
-                                                                            municipality.name
-                                                                        }}
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>
-                                                            Street address
-                                                            <span
-                                                                class="required"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            placeholder="Entrez l'adresse 1"
-                                                            required
-                                                            v-model="
-                                                                billingData.address_line1
-                                                            "
-                                                        />
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            placeholder="Entrez l'adresse 2 (facultative)"
-                                                            v-model="
-                                                                billingData.address_line2
-                                                            "
-                                                        />
-                                                    </div>
+                                            <pv-billing-update></pv-billing-update>
+                                        </div>
 
-                                                    <div class="form-group">
-                                                        <label>
-                                                            Postcode / ZIP
-                                                            <span
-                                                                class="required"
-                                                                >*</span
-                                                            >
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            required
-                                                            v-model="
-                                                                billingData.postal_code
-                                                            "
-                                                        />
-                                                    </div>
-
-                                                    <!-- <div
-                                                        class="form-footer mb-0"
-                                                    > -->
-                                                    <!-- <div
-                                                        class="form-footer-right"
-                                                    > -->
-                                                    <button
-                                                        type="submit"
-                                                        class="btn btn-dark py-4"
-                                                        style="
-                                                            border-radius: 10px;
-                                                            width: 100%;
-                                                            background-color: black;
-                                                        "
-                                                    >
-                                                        Sauvegarder l'adresse
-                                                    </button>
-                                                    <!-- </div> -->
-                                                    <!-- </div> -->
-                                                </form>
-                                            </div>
-                                        </form>
+                                        <div v-if="!GET_BILLING">
+                                            <p>
+                                                Vous n'avez pas encore paramétré
+                                                ce type d'adresse .
+                                            </p>
+                                            <pv-billing-create></pv-billing-create>
+                                        </div>
                                     </div>
                                 </div>
                             </vue-slide-toggle>
@@ -575,20 +409,23 @@
                             <vue-slide-toggle :open="shippingInfoToggle">
                                 <div class="login-section feature-box">
                                     <div class="feature-box-content">
-                                        <p>
-                                            Si vous avez déjà acheté chez nous,
-                                            veuillez saisir vos coordonnées
-                                            ci-dessous. Si vous êtes un nouveau
-                                            client, veuillez passer à la section
-                                            Facturation et expédition.
-                                        </p>
-
-                                        <!-- <div class="address-box">
+                                        <div
+                                            class="address-box"
+                                            v-if="GET_SHIPPING.length == 0"
+                                        >
                                             Vous n'avez pas encore paramétré ce
                                             type d'adresse .
-                                        </div> -->
+                                        </div>
 
-                                        <div>
+                                        <div v-if="GET_SHIPPING.length != 0">
+                                            <p>
+                                                Si vous avez déjà acheté chez
+                                                nous, veuillez saisir vos
+                                                coordonnées ci-dessous. Si vous
+                                                êtes un nouveau client, veuillez
+                                                passer à la section Facturation
+                                                et expédition.
+                                            </p>
                                             <div
                                                 v-for="(
                                                     shipping_address, index
@@ -677,25 +514,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="d-flex justify-content-between"
+                                        </div>
+                                        <div
+                                            class="d-flex justify-content-between"
+                                        >
+                                            <span
+                                                @click="openCreateShippingModal"
+                                                class="btn btn-default address-action link-to-tab"
+                                                >Ajouter une Adresse</span
                                             >
-                                                <a
-                                                    href="#address"
-                                                    class="btn btn-default address-action link-to-tab"
-                                                    >Ajouter une Adresse</a
-                                                >
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-dark py-4"
-                                                    style="
-                                                        border-radius: 10px;
-                                                        width: 50%;
-                                                    "
-                                                >
-                                                    Sauvegarder l'adresse
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -704,50 +531,47 @@
 
                         <ul class="checkout-steps">
                             <li>
-                                <form action="#" id="checkout-form">
-                                    <div class="form-group mb-1">
-                                        <div
-                                            class="custom-control custom-checkbox"
+                                <!-- <form action="#" id="checkout-form"> -->
+                                <div class="form-group mb-1">
+                                    <div class="custom-control custom-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            class="custom-control-input"
+                                            id="create-account"
+                                        />
+                                        <label
+                                            class="custom-control-label"
+                                            data-toggle="collapse"
+                                            data-target="#collapseThree"
+                                            aria-controls="collapseThree"
+                                            for="create-account"
+                                            @click="
+                                                accountOpened = !accountOpened
+                                            "
+                                            >Create an account?</label
                                         >
-                                            <input
-                                                type="checkbox"
-                                                class="custom-control-input"
-                                                id="create-account"
-                                            />
-                                            <label
-                                                class="custom-control-label"
-                                                data-toggle="collapse"
-                                                data-target="#collapseThree"
-                                                aria-controls="collapseThree"
-                                                for="create-account"
-                                                @click="
-                                                    accountOpened =
-                                                        !accountOpened
-                                                "
-                                                >Create an account?</label
-                                            >
-                                        </div>
                                     </div>
+                                </div>
 
-                                    <vue-slide-toggle :open="accountOpened">
-                                        <div class="form-group">
-                                            <label>
-                                                Create account password
-                                                <abbr
-                                                    class="required"
-                                                    title="required"
-                                                    >*</abbr
-                                                >
-                                            </label>
-                                            <input
-                                                type="password"
-                                                placeholder="Password"
-                                                class="form-control"
-                                                required
-                                            />
-                                        </div>
-                                    </vue-slide-toggle>
-                                </form>
+                                <vue-slide-toggle :open="accountOpened">
+                                    <div class="form-group">
+                                        <label>
+                                            Create account password
+                                            <abbr
+                                                class="required"
+                                                title="required"
+                                                >*</abbr
+                                            >
+                                        </label>
+                                        <input
+                                            type="password"
+                                            placeholder="Password"
+                                            class="form-control"
+                                            required
+                                        />
+                                    </div>
+                                </vue-slide-toggle>
+                                <!-- </form> -->
                             </li>
                         </ul>
                     </div>
@@ -762,6 +586,7 @@
                                         <th colspan="2">Article</th>
                                     </tr>
                                 </thead>
+
                                 <tbody v-if="cartList.length > 0">
                                     <tr
                                         v-for="(product, index) in cartItems"
@@ -845,11 +670,18 @@
                                                             }}
                                                         </nuxt-link>
                                                     </h2>
-                                                    <!-- <pv-quantity-input
-                                                        :qty="product.quantity"
-                                                        :product="product"
-                                                        @changeQty="changeQty"
-                                                    ></pv-quantity-input> -->
+
+                                                    <h6>
+                                                        {{
+                                                            product.product
+                                                                ? ''
+                                                                : product.variant
+                                                                ? product
+                                                                      .variant
+                                                                      .combinaisons
+                                                                : 0
+                                                        }}
+                                                    </h6>
                                                     <h3
                                                         @click="
                                                             removeFromCart({
@@ -866,6 +698,8 @@
                                                             border-radius: 7px;
                                                             width: 70px;
                                                             font-weight: initial;
+                                                            cursor: pointer;
+                                                            margin-bottom: 0rem;
                                                         "
                                                     >
                                                         retirer
@@ -885,6 +719,13 @@
                                                     product.quantity
                                                 )
                                             }}</span>
+                                            <div style="margin-top: 8px">
+                                                <pv-quantity-input
+                                                    :qty="product.quantity"
+                                                    :product="product"
+                                                    @changeQty="changeQty"
+                                                ></pv-quantity-input>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -896,20 +737,35 @@
                                 <tfoot>
                                     <tr class="cart-subtotal">
                                         <td>
-                                            <h4>Subtotal</h4>
+                                            <h4>Montant Hors Taxe</h4>
                                         </td>
 
                                         <td class="price-col">
-                                            <span
-                                                >${{
-                                                    totalPrice | priceFormat
-                                                }}</span
-                                            >
+                                            <span>{{
+                                                numberWithSpaces(
+                                                    cartAmount.ht_amount
+                                                )
+                                            }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="cart-subtotal">
+                                        <td>
+                                            <h4>Montant Taxe</h4>
+                                        </td>
+
+                                        <td class="price-col">
+                                            <span>{{
+                                                numberWithSpaces(
+                                                    cartAmount.tax_amount
+                                                )
+                                            }}</span>
                                         </td>
                                     </tr>
                                     <tr class="order-shipping">
                                         <td class="text-left" colspan="2">
-                                            <h4 class="m-b-sm">Shipping</h4>
+                                            <h4 class="m-b-sm">
+                                                Mode de livraison
+                                            </h4>
 
                                             <div
                                                 class="form-group form-group-custom-control"
@@ -925,7 +781,8 @@
                                                     />
                                                     <label
                                                         class="custom-control-label"
-                                                        >Local Pickup</label
+                                                        >Recuperation au point
+                                                        relais</label
                                                     >
                                                 </div>
                                             </div>
@@ -943,7 +800,8 @@
                                                     />
                                                     <label
                                                         class="custom-control-label"
-                                                        >Flat Rate</label
+                                                        >Livraison à
+                                                        domicile</label
                                                     >
                                                 </div>
                                             </div>
@@ -956,11 +814,11 @@
                                         </td>
                                         <td>
                                             <b class="total-price">
-                                                <span
-                                                    >${{
-                                                        totalPrice | priceFormat
-                                                    }}</span
-                                                >
+                                                <span>{{
+                                                    numberWithSpaces(
+                                                        cartAmount.total_amount
+                                                    )
+                                                }}</span>
                                             </b>
                                         </td>
                                     </tr>
@@ -968,15 +826,23 @@
                             </table>
 
                             <div class="payment-methods">
-                                <h4 class>Payment methods</h4>
+                                <h4 class>Métode de paiement</h4>
                                 <div class="info-box with-icon p-0">
-                                    <p>
-                                        Sorry, it seems that there are no
-                                        available payment methods for your
-                                        state. Please contact us if you require
-                                        assistance or wish to make alternate
-                                        arrangements.
-                                    </p>
+                                    <div class="payment-info">
+                                        <p>
+                                            Tous les paiements sont traités en
+                                            toute sécurité par Stripe, l'une des
+                                            plateformes de paiement en ligne les
+                                            plus fiables. Vos informations de
+                                            paiement sont cryptées et protégées
+                                            à tout moment.
+                                        </p>
+                                        <p>
+                                            Vous pouvez effectuer vos achats en
+                                            toute confiance, sachant que votre
+                                            sécurité est notre priorité absolue.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -984,8 +850,9 @@
                                 type="submit"
                                 class="btn btn-dark btn-place-order"
                                 form="checkout-form"
+                                @click="makeUserOrder()"
                             >
-                                Place order
+                                PASSER AU PAIEMENT
                             </button>
                         </div>
                     </div>
@@ -1058,9 +925,14 @@
 </template>
 
 <script>
+import PvBillingCreate from '~/components/features/widgets/PvBillingCreate';
+import PvBillingUpdate from '~/components/features/widgets/PvBillingUpdate';
+import PvShippingCreate from '~/components/features/widgets/PvShippingCreate.vue';
+
 import { VueSlideToggle } from 'vue-slide-toggle';
 import { mapGetters, mapActions } from 'vuex';
-// import { PvQuantityInput } from '../../components/features/PvQuantityInput';
+import PvQuantityInput from '~/components/features/PvQuantityInput';
+
 import { constant } from '~/api';
 
 import {
@@ -1076,6 +948,10 @@ import {
 export default {
     components: {
         VueSlideToggle,
+        PvQuantityInput,
+        PvShippingCreate,
+        PvShippingCreate,
+        PvBillingUpdate,
     },
     data: function () {
         return {
@@ -1118,10 +994,12 @@ export default {
             },
             user: Object,
             selectedShippingAddress: null,
+            selectedShippingAddress_uuid: null,
+            billing_uuid: null,
         };
     },
     computed: {
-        ...mapGetters('cart', ['cartList', 'totalCount', 'totalPrice']),
+        ...mapGetters('cart', ['cartList', 'totalPrice', 'cartAmount']),
         ...mapGetters('session', ['GET_USER_DATA', 'GET_USER_STATUS']),
         ...mapGetters('place', ['GET_COUNTRY']),
         ...mapGetters('billing', ['GET_BILLING']),
@@ -1132,12 +1010,9 @@ export default {
         cartList: function () {
             this.cartItems = this.cartList;
         },
-
-        // GET_BILLING: function () {
-        //     this.billingItem = this.GET_BILLING;
-        // },
     },
     created: function () {
+        this.cartItems = [...this.cartList];
         this.isConnectedStatus();
         this.get_countries();
     },
@@ -1155,6 +1030,7 @@ export default {
         ...mapActions('cart', ['updateCart', 'removeFromCart']),
         ...mapActions('session', ['getUserStatus', 'getUserData']),
         ...mapActions('place', ['get_countries']),
+        ...mapActions('order', ['makeOrder', 'makePayment_bySH']),
         ...mapActions('billing', [
             'add_billing_address',
             'get_billing_address',
@@ -1232,6 +1108,7 @@ export default {
 
             if (this.GET_SHIPPING.length > 0) {
                 this.selectedShippingAddress = this.GET_SHIPPING[0];
+                this.selectedShippingAddress_uuid = this.GET_SHIPPING[0].uuid;
             }
         },
         changeQty: function (value, product) {},
@@ -1280,6 +1157,39 @@ export default {
             this.isConnected = isLoggedIn();
             if (this.isConnected) {
                 this.user = retrieveAndDecryptData(constant.USER_DATA);
+                const isSessionId = retrieveAndDecryptData(
+                    constant.STRIPE_SESSION_ID
+                );
+                const urlParams = new URLSearchParams(window.location.search);
+                // Obtenir la valeur du paramètre session_id
+                const sessionId = urlParams.get('session_id');
+
+                // Vérifier si sessionId existe
+                if (sessionId) {
+                    if (sessionId == isSessionId) {
+                        const orderResponseData = retrieveAndDecryptData(
+                            constant.ORDER_RESPONSE
+                        );
+                        const ship_bill_address = retrieveAndDecryptData(
+                            constant.SHIP_BILL_ADDRESS
+                        );
+                        if (orderResponseData) {
+                            const formData = {
+                                order_uuid: orderResponseData.uuid,
+                                billing_uuid: ship_bill_address.billing_uuid,
+                                payment_method: 'credit_card',
+                                payment_date: new Date(),
+                            };
+
+                            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>', formData);
+                            this.makePayment_bySH(formData);
+                        } else {
+                        }
+                    } else {
+                        alert('NO');
+                    }
+                    // Appeler votre fonction avec sessionId
+                }
             }
         },
 
@@ -1300,8 +1210,31 @@ export default {
         },
         selectShippingAddress(address) {
             this.selectedShippingAddress = address;
-
+            this.selectedShippingAddress_uuid = address.uuid;
+            // alert(address.uuid);
             // alert(JSON.stringify(address));
+        },
+
+        async makeUserOrder() {
+            const formData = {
+                user_uuid: this.user.uuid,
+                shipping_uuid: this.selectedShippingAddress_uuid,
+                billing_uuid: this.GET_BILLING.uuid,
+            };
+            await this.makeOrder(formData);
+            // console.log(formData);
+        },
+        openCreateShippingModal: function () {
+            this.$modal.show(
+                () => import('~/components/features/widgets/PvShippingCreate'),
+                { slug: 'une_variable_ici' },
+                {
+                    width: '931',
+                    height: 'auto',
+                    adaptive: true,
+                    class: 'quickview-modal',
+                }
+            );
         },
     },
 };

@@ -23,10 +23,16 @@
                             v-for="category in GET_CATEGORIES"
                             :key="category.uuid"
                         >
-                            <a href="javascript:;" class="sf-with-ul">
+                            <nuxt-link
+                                :to="{
+                                    path: '/shop',
+                                    query: { category: category.slug },
+                                }"
+                                class="sf-with-ul"
+                            >
                                 <i class="icon-category-fashion"></i
                                 >{{ category.name }}
-                            </a>
+                            </nuxt-link>
 
                             <div
                                 class="megamenu megamenu-fixed-width megamenu-one"
@@ -37,10 +43,18 @@
                                         :key="subCategory.uuid"
                                         class="col-lg-4 mb-1 pb-2"
                                     >
-                                        <a
-                                            href="javascript:;"
+                                        <nuxt-link
+                                            :to="{
+                                                path: '/shop',
+                                                query: {
+                                                    sub_category:
+                                                        subCategory.slug,
+                                                    category: category.slug,
+                                                },
+                                            }"
+                                            style="cursor: pointer"
                                             class="nolink pl-0"
-                                            >{{ subCategory.name }}</a
+                                            >{{ subCategory.name }}</nuxt-link
                                         >
                                         <ul class="submenu">
                                             <li
@@ -48,7 +62,17 @@
                                                 :key="subSubCategory.uuid"
                                             >
                                                 <nuxt-link
-                                                    :to="`/shop/${subSubCategory.slug}`"
+                                                    :to="{
+                                                        path: '/shop',
+                                                        query: {
+                                                            category:
+                                                                category.slug,
+                                                            sub_category:
+                                                                subCategory.slug,
+                                                            sub_sub_category:
+                                                                subSubCategory.slug,
+                                                        },
+                                                    }"
                                                     >{{
                                                         subSubCategory.name
                                                     }}</nuxt-link
@@ -66,19 +90,22 @@
             <li>
                 <nuxt-link to="/">Accueil</nuxt-link>
             </li>
-
-            <!-- <li>
-                <nuxt-link to="/shop"> Articles </nuxt-link>
-            </li> -->
-            <li>
-                <nuxt-link to="/shop"> MODE FEMME </nuxt-link>
-            </li>
-            <li>
-                <nuxt-link to="/shop"> MODE HOMME </nuxt-link>
-            </li>
-            <li>
-                <nuxt-link to="/shop"> MODE ENFANT </nuxt-link>
-            </li>
+            <template v-if="GET_CATEGORIES.length > 0">
+                <li
+                    style="text-transform: uppercase"
+                    v-for="(item, index) in GET_CATEGORIES"
+                    :key="item.uuid"
+                >
+                    <nuxt-link
+                        :to="{
+                            path: '/shop',
+                            query: { category: item.slug },
+                        }"
+                    >
+                        {{ item.name }}
+                    </nuxt-link>
+                </li>
+            </template>
 
             <li>
                 <a

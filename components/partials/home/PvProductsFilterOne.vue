@@ -11,152 +11,60 @@
                     <div
                         class="col-lg-3 pr-lg-3 pr-sm-0 col-sm-6 order-1 order-sm-0 d-none d-lg-block"
                     >
-                        <div class="shop-list h-100">
-                            <h4 class="text-center">LUXE SECONDE MAIN</h4>
+                        <div
+                            class="shop-list h-100"
+                            ref="shopList"
+                            style="background: none"
+                        >
+                            <video autoplay muted loop class="video-bg">
+                                <source
+                                    src="https://d-themes.com/vue/porto/demo-6/images/home/slider/slide-2.mp4"
+                                    type="video/mp4"
+                                />
+                                Your browser does not support the video tag.
+                            </video>
+                            <h4 class="text-center" style="font-size: 3.2rem">
+                                LUXE SECONDE MAIN
+                            </h4>
 
                             <ul
                                 class="nav nav-tabs flex-sm-column border-0"
                                 role="tablist"
                             >
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="kids-fashion"
-                                >
-                                    <a
-                                        href="javascript:;"
-                                        class="nav-link active"
-                                        >Kids Fashion</a
+                                <template v-if="GET_SHOW_SECTION.length > 0">
+                                    <span
+                                        v-for="(
+                                            item, index
+                                        ) in GET_SHOW_SECTION"
+                                        :key="item.uuid"
                                     >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="casual-shoes"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Casual Shoes</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="spring-and-autumn"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Spring & Autumn</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="man"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Man</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="accessories-2"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Accessories</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="pants-and-polos"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Pants & Denim</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="tees-knit-and-polos"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Tees, Knits & Polos</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="watch-fashion"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Watch Fashion</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="woman"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Woman</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="accessories-3"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Accessories</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="dresses-and-skirts"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Dresses & Skirts</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="shoes-and-boots"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Shoes & Boots</a
-                                    >
-                                </li>
-
-                                <li
-                                    @click="setFilterRoute"
-                                    class="nav-item"
-                                    data-category="top-and-blouses"
-                                >
-                                    <a href="javascript:;" class="nav-link"
-                                        >Top & Blouses</a
-                                    >
-                                </li>
+                                        <li
+                                            @click="setFilterRoute"
+                                            class="nav-item"
+                                            :data-category="item.slug"
+                                        >
+                                            <a
+                                                style="
+                                                    font-size: 25px;
+                                                    color: white;
+                                                    font-weight: 1000;
+                                                "
+                                                href="javascript:;"
+                                                class="nav-link active"
+                                                >{{ item.name }}</a
+                                            >
+                                        </li>
+                                    </span>
+                                </template>
                             </ul>
 
                             <nuxt-link
                                 class="view-all"
                                 :to="{
                                     path: '/shop',
-                                    query: { category: 'fashion' },
+                                    query: { collection: 'luxe-seconde-main' },
                                 }"
+                                style="color: white"
                                 >Voir tout<i
                                     class="fas fa-long-arrow-alt-right"
                                 ></i
@@ -276,13 +184,18 @@ export default {
             'GET_NEW_PRODUCTS',
             'GET_LAST_CHANCE_PRODUCTS',
             'GET_TOP_RATING_PRODUCTS',
+            'GET_SHOW_SECTION',
         ]),
     },
     // created() {
     //     this.get_products();
     // },
     methods: {
-        ...mapActions('product', ['get_products', 'get_categories']),
+        ...mapActions(
+            'product',
+            ['get_products', 'get_categories'],
+            'getShowSection'
+        ),
 
         setFilterRoute: async function (e) {
             this.products = [];
@@ -302,7 +215,7 @@ export default {
             // Maintenant, vous pouvez accéder aux produits après qu'ils ont été chargés
             this.products = this.GET_SECOND_HAND_PRODUCTS;
 
-            console.log('prod', this.products);
+            // console.log('prod', this.products);
 
             // Api.get(`${baseUrl}/shop`, {
             //     params: { category: this.category, demo: currentDemo },
@@ -315,3 +228,18 @@ export default {
     },
 };
 </script>
+<style scoped>
+.video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1; /* assurez-vous que la vidéo est en arrière-plan */
+}
+
+.shop-list {
+    position: relative; /* assurez-vous que la position est relative pour contenir la vidéo */
+}
+</style>

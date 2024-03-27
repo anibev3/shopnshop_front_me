@@ -140,7 +140,7 @@
                     key="variantProduct"
                 >
                     <i class="fa fa-arrow-right"></i>
-                    <span>SELECT OPTIONS</span>
+                    <span>SELECTIONNER UN OPTION</span>
                 </nuxt-link>
 
                 <a

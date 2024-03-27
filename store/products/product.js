@@ -33,6 +33,9 @@ export const GET_LAST_CHANCE_PRODUCTS = 'GET_LAST_CHANCE_PRODUCTS';
 export const SET_TOP_RATING_PRODUCTS = 'SET_TOP_RATING_PRODUCTS';
 export const GET_TOP_RATING_PRODUCTS = 'GET_TOP_RATING_PRODUCTS';
 
+export const SET_SHOW_SECTION = 'SET_SHOW_SECTION';
+export const GET_SHOW_SECTION = 'GET_SHOW_SECTION';
+
 export const state = () => ({
     products: [], // Initialiser le state des produits
     product: null, // Initialiser le state des produits
@@ -42,6 +45,7 @@ export const state = () => ({
     new_products: [], // Initialiser le state des produits
     last_chance_product: [], // Initialiser le state des produits
     top_rating_product: [], // Initialiser le state des produits
+    show_section: [], // Initialiser le state des produits
 });
 
 export const getters = {
@@ -69,6 +73,9 @@ export const getters = {
     },
     [GET_TOP_RATING_PRODUCTS](state) {
         return state.top_rating_product;
+    },
+    [GET_SHOW_SECTION](state) {
+        return state.show_section;
     },
 };
 
@@ -103,6 +110,9 @@ export const mutations = {
     },
     [SET_PRODUCT](state, product) {
         state.product = product;
+    },
+    [SET_SHOW_SECTION](state, payload) {
+        state.show_section = payload;
     },
 };
 
@@ -153,6 +163,16 @@ export const actions = {
             .then((response) => {
                 const product = response.data.data;
                 commit(SET_PRODUCT, product);
+
+                console.log('LE SEUL PRODUIT', product);
+            })
+            .catch((error) => ({ error: JSON.stringify(error) }));
+    },
+    async getShowSection({ commit }) {
+        Api.get(`${baseUrl2}${apiEndpoints.show_section}`)
+            .then((response) => {
+                const data = response.data.data;
+                commit(SET_SHOW_SECTION, data);
 
                 console.log('LE SEUL PRODUIT', product);
             })

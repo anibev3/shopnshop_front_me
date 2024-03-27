@@ -38,6 +38,7 @@
                 <pv-banner-section-two></pv-banner-section-two>
 
                 <pv-category-section-four
+                    :toshow="GET_SHOW_SECTION"
                     :products="GET_NEW_PRODUCTS"
                     :newProducts="GET_NEW_PRODUCTS"
                     :best-products="GET_SECOND_HAND_PRODUCTS"
@@ -126,6 +127,7 @@ export default {
             'GET_NEW_PRODUCTS',
             'GET_LAST_CHANCE_PRODUCTS',
             'GET_TOP_RATING_PRODUCTS',
+            'GET_SHOW_SECTION',
         ]),
         ...mapGetters('brand', ['GET_BRANDS']),
         lightBoxMedia: function () {
@@ -172,7 +174,11 @@ export default {
         clearTimeout(this.timerId);
     },
     methods: {
-        ...mapActions('product', ['get_products', 'get_categories']),
+        ...mapActions('product', [
+            'get_products',
+            'get_categories',
+            'getShowSection',
+        ]),
         ...mapActions('brand', ['get_brands']),
         toggleSidebar: function () {
             let body = document.querySelector('body');

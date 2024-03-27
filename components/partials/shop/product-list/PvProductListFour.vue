@@ -39,11 +39,11 @@
                             class="cls-2"
                         />
                     </svg>
-                    <span>Filter</span>
+                    <span>Filtre</span>
                 </a>
 
                 <div class="toolbox-item toolbox-sort">
-                    <label>Sort By:</label>
+                    <label>Filtrer par :</label>
 
                     <div class="select-custom">
                         <select

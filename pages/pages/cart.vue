@@ -101,6 +101,15 @@
                                             }}
                                         </nuxt-link>
                                     </h5>
+                                    <h6>
+                                        {{
+                                            product.product
+                                                ? ''
+                                                : product.variant
+                                                ? product.variant.combinaisons
+                                                : 0
+                                        }}
+                                    </h6>
                                 </td>
 
                                 <td>
@@ -166,7 +175,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="float-right">
+                                    <!-- <div class="float-right">
                                         <button
                                             type="submit"
                                             class="btn btn-shop btn-update-cart"
@@ -178,7 +187,7 @@
                                         >
                                             Mettre à jour le panier
                                         </button>
-                                    </div>
+                                    </div> -->
                                 </td>
                             </tr>
                         </tfoot>
@@ -322,7 +331,7 @@
                             </tr>
                             <tr>
                                 <td>Montant Taxe 18%</td>
-                                <td>
+                                <td style="font-size: 17px">
                                     {{
                                         numberWithSpaces(cartAmount.tax_amount)
                                     }}
@@ -402,7 +411,7 @@
                     <tr class="border-0 py-0">
                         <td colspan="6" class="px-3 text-center">
                             <nuxt-link to="/shop" class="btn btn-go-shop"
-                                >Allez au magasin</nuxt-link
+                                >RETOUR À LA BOUTIQUE</nuxt-link
                             >
                         </td>
                     </tr>

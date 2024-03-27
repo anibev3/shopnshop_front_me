@@ -5,22 +5,22 @@ export const mainMenu = {
         // layout: [],
     },
     other: [
-        {
-            title: 'Favoris',
-            url: '/pages/wishlist',
-        },
-        {
-            title: 'Panier',
-            url: '/pages/cart',
-        },
-        {
-            title: 'Vérification',
-            url: '/pages/checkout',
-        },
-        {
-            title: 'Dashboard',
-            url: '/pages/account',
-        },
+        // {
+        //     title: 'Favoris',
+        //     url: '/pages/wishlist',
+        // },
+        // {
+        //     title: 'Panier',
+        //     url: '/pages/cart',
+        // },
+        // {
+        //     title: 'Vérification',
+        //     url: '/pages/checkout',
+        // },
+        // {
+        //     title: 'Dashboard',
+        //     url: '/pages/account',
+        // },
         {
             title: 'À propos',
             url: '/pages/about-us',

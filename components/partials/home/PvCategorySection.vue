@@ -13,197 +13,36 @@
             data-animation-duration="1000"
             v-animate
         >
-            <div
-                class="product-category swiper-slide"
-                data-animation-name="fadeInUpShorter"
-                v-animate
-            >
-                <nuxt-link
-                    :to="{ path: '/shop', query: { category: 'fashion' } }"
+            <template v-if="GET_SHOW_SECTION.length > 0">
+                <div
+                    class="product-category swiper-slide"
+                    data-animation-name="fadeInUpShorter"
+                    v-animate
+                    v-for="(item, index) in GET_SHOW_SECTION"
+                    :key="item.uuid"
                 >
-                    <figure>
-                        <img
-                            v-lazy="'./images/home/categories/category-1.jpg'"
-                            alt="category"
-                            width="280"
-                            height="240"
-                            style="background: #f4f4f4"
-                        />
-                    </figure>
-                    <div class="category-content">
-                        <h3>Mode</h3>
-                        <!-- <span><mark class="count">7</mark> products</span> -->
-                    </div>
-                </nuxt-link>
-            </div>
-
-            <div
-                class="product-category swiper-slide"
-                data-animation-name="fadeInUpShorter"
-                v-animate
-            >
-                <nuxt-link
-                    :to="{ path: '/shop', query: { category: 'furniture-2' } }"
-                >
-                    <figure>
-                        <img
-                            v-lazy="'./images/home/categories/category-2.jpg'"
-                            alt="category"
-                            width="280"
-                            height="240"
-                            style="background: #f4f4f4"
-                        />
-                    </figure>
-                    <div class="category-content">
-                        <h3>Meubles</h3>
-                        <!-- <span><mark class="count">1</mark> products</span> -->
-                    </div>
-                </nuxt-link>
-            </div>
-
-            <div
-                class="product-category swiper-slide"
-                data-animation-name="fadeInUpShorter"
-                v-animate
-            >
-                <nuxt-link
-                    :to="{ path: '/shop', query: { category: 'sports' } }"
-                >
-                    <figure>
-                        <img
-                            v-lazy="'./images/home/categories/category-3.jpg'"
-                            alt="category"
-                            width="280"
-                            height="240"
-                            style="background: #f4f4f4"
-                        />
-                    </figure>
-                    <div class="category-content">
-                        <h3>Sports</h3>
-                        <!-- <span><mark class="count">2</mark> products</span> -->
-                    </div>
-                </nuxt-link>
-            </div>
-
-            <div
-                class="product-category swiper-slide"
-                data-animation-name="fadeInUpShorter"
-                v-animate
-            >
-                <nuxt-link
-                    :to="{ path: '/shop', query: { category: 'toys-5' } }"
-                >
-                    <figure>
-                        <img
-                            v-lazy="'./images/home/categories/category-4.jpg'"
-                            alt="category"
-                            width="280"
-                            height="240"
-                            style="background: #f4f4f4"
-                        />
-                    </figure>
-                    <div class="category-content">
-                        <h3>Jouets</h3>
-                        <!-- <span><mark class="count">2</mark> products</span> -->
-                    </div>
-                </nuxt-link>
-            </div>
-
-            <div
-                class="product-category swiper-slide"
-                data-animation-name="fadeInUpShorter"
-                v-animate
-            >
-                <nuxt-link
-                    :to="{ path: '/shop', query: { category: 'cameras' } }"
-                >
-                    <figure>
-                        <img
-                            v-lazy="'./images/home/categories/category-5.jpg'"
-                            alt="category"
-                            width="280"
-                            height="240"
-                            style="background: #f4f4f4"
-                        />
-                    </figure>
-                    <div class="category-content">
-                        <h3>Cameras</h3>
-                        <!-- <span><mark class="count">1</mark> products</span> -->
-                    </div>
-                </nuxt-link>
-            </div>
-
-            <div
-                class="product-category swiper-slide"
-                data-animation-name="fadeInUpShorter"
-                v-animate
-            >
-                <nuxt-link
-                    :to="{ path: '/shop', query: { category: 'gaming' } }"
-                >
-                    <figure>
-                        <img
-                            v-lazy="'./images/home/categories/category-6.jpg'"
-                            alt="category"
-                            width="280"
-                            height="240"
-                            style="background: #f4f4f4"
-                        />
-                    </figure>
-                    <div class="category-content">
-                        <h3>Jeux</h3>
-                        <!-- <span><mark class="count">1</mark> products</span> -->
-                    </div>
-                </nuxt-link>
-            </div>
-
-            <div
-                class="product-category swiper-slide"
-                data-animation-name="fadeInUpShorter"
-                v-animate
-            >
-                <nuxt-link
-                    :to="{ path: '/shop', query: { category: 'headphone-2' } }"
-                >
-                    <figure>
-                        <img
-                            v-lazy="'./images/home/categories/category-7.jpg'"
-                            alt="category"
-                            width="280"
-                            height="240"
-                            style="background: #f4f4f4"
-                        />
-                    </figure>
-                    <div class="category-content">
-                        <h3>Écouteuses</h3>
-                        <!-- <span><mark class="count">1</mark> products</span> -->
-                    </div>
-                </nuxt-link>
-            </div>
-
-            <div
-                class="product-category swiper-slide"
-                data-animation-name="fadeInUpShorter"
-                v-animate
-            >
-                <nuxt-link
-                    :to="{ path: '/shop', query: { category: 'smartphones' } }"
-                >
-                    <figure>
-                        <img
-                            v-lazy="'./images/home/categories/category-8.jpg'"
-                            alt="category"
-                            width="280"
-                            height="240"
-                            style="background: #f4f4f4"
-                        />
-                    </figure>
-                    <div class="category-content">
-                        <h3>Smartphones</h3>
-                        <!-- <span><mark class="count">1</mark> products</span> -->
-                    </div>
-                </nuxt-link>
-            </div>
+                    <nuxt-link
+                        :to="{
+                            path: '/shop',
+                            query: { sub_category: item.slug },
+                        }"
+                    >
+                        <figure>
+                            <img
+                                v-lazy="item.logo"
+                                alt="category"
+                                width="280"
+                                height="240"
+                                style="background: #f4f4f4"
+                            />
+                        </figure>
+                        <div class="category-content">
+                            <h3>{{ item.name }}</h3>
+                            <!-- <span><mark class="count">7</mark> products</span> -->
+                        </div>
+                    </nuxt-link>
+                </div>
+            </template>
         </pv-carousel>
     </div>
 </template>
@@ -211,6 +50,7 @@
 <script>
 import PvCarousel from '~/components/features/PvCarousel';
 import { categorySlider } from '~/utils/data/carousel';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {
@@ -220,6 +60,18 @@ export default {
         return {
             categorySlider: categorySlider,
         };
+    },
+
+    computed: {
+        ...mapGetters('product', ['GET_SHOW_SECTION']),
+    },
+
+    created() {
+        this.getShowSection();
+    },
+
+    methods: {
+        ...mapActions('product', ['getShowSection']),
     },
 };
 </script>

@@ -1,0 +1,142 @@
+{
+    "data": [
+        {
+            "uuid": "b549d952-e3e4-4cda-b4ce-dddc9580c732",
+            "name": "Mode Homme",
+            "slug": "mode-homme",
+            "gender": "homme",
+            "show_section": false,
+            "logo": "http://staging.shopnshop-api.sherylux.com/storage/62/01HSKQGWGNK42TJP92Z262EE06.jpg",
+            "icone": null,
+            "sub_categories": [
+                {
+                    "uuid": "f6b105aa-52d9-493e-a01c-0430a757b982",
+                    "name": "Chaussures",
+                    "slug": "chaussures",
+                    "gender": "unisexe",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "b9808387-73c5-456c-920a-c5a8b86a79d3",
+                    "name": "V\u00eatements",
+                    "slug": "vetements",
+                    "gender": "homme",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "4bb09fdd-0c58-4abe-867d-5a9030e3b55e",
+                    "name": "Chaussures",
+                    "slug": "chaussures",
+                    "gender": "homme",
+                    "sub_sub_categories": [
+                        {
+                            "uuid": "24c6944f-582d-4322-9bf4-a896cc0073a1",
+                            "name": "Sandales",
+                            "slug": "sandales",
+                            "gender": "femme"
+                        }
+                    ]
+                },
+                {
+                    "uuid": "b485057f-9248-4dc7-97b5-97a02fe592b1",
+                    "name": "Sacs",
+                    "slug": "sacs",
+                    "gender": "homme",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "1a9d4ab7-9111-47ca-b7ee-c593b086ced1",
+                    "name": "Accessoires",
+                    "slug": "accessoires",
+                    "gender": "homme",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "9b45fe5e-d235-4bbf-8bd6-9cb0e0b9b010",
+                    "name": "Montres",
+                    "slug": "montres",
+                    "gender": "unisexe",
+                    "sub_sub_categories": []
+                }
+            ]
+        },
+        {
+            "uuid": "95cbc016-9e8d-42af-a22a-a00b993367d6",
+            "name": "Mode Femme",
+            "slug": "mode-femme",
+            "gender": "femme",
+            "show_section": false,
+            "logo": "http://staging.shopnshop-api.sherylux.com/storage/63/01HSKQHJ0MEFBEHV1C4HHDWGY1.jpg",
+            "icone": null,
+            "sub_categories": [
+                {
+                    "uuid": "391a9e7e-bf1c-4719-994e-a07086524ecb",
+                    "name": "V\u00eatements",
+                    "slug": "vetements",
+                    "gender": "femme",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "5fcf3fb9-1830-4ecd-9670-b424f238aab0",
+                    "name": "Sacs",
+                    "slug": "sacs",
+                    "gender": "femme",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "fb909c22-0ba7-4f6d-92b2-e1122c0177f3",
+                    "name": "Pantalons",
+                    "slug": "pantalons",
+                    "gender": "femme",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "3f4f9c45-f875-4e96-9750-8fbf74a9aaff",
+                    "name": "Bijous",
+                    "slug": "bijous",
+                    "gender": "unisexe",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "01e11f4c-e058-440d-a27d-4f75fb5bf8ba",
+                    "name": "Maison",
+                    "slug": "maison",
+                    "gender": "unisexe",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "94712838-44e3-45a4-81b9-180f34582a9c",
+                    "name": "Autres",
+                    "slug": "autres",
+                    "gender": "unisexe",
+                    "sub_sub_categories": []
+                }
+            ]
+        },
+        {
+            "uuid": "8599d7a9-dc7e-4bb7-b447-b22a84683b0c",
+            "name": "Mode Enfant",
+            "slug": "mode-enfant",
+            "gender": "unisexe",
+            "show_section": false,
+            "logo": "http://staging.shopnshop-api.sherylux.com/storage/64/01HSKQK5W21H5JACZGAF6TAWG5.html",
+            "icone": null,
+            "sub_categories": [
+                {
+                    "uuid": "6ba60ae5-6d0d-492d-b59f-e155ed4b1817",
+                    "name": "V\u00eatements",
+                    "slug": "vetements",
+                    "gender": "unisexe",
+                    "sub_sub_categories": []
+                },
+                {
+                    "uuid": "486cbe3f-e863-43f4-955e-2342ad7ff99b",
+                    "name": "Chaussures",
+                    "slug": "chaussures",
+                    "gender": "unisexe",
+                    "sub_sub_categories": []
+                }
+            ]
+        }
+    ]
+}

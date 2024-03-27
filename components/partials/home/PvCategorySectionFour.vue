@@ -18,22 +18,22 @@
                         </h4>
                         <ul
                             class="shop-list d-flex flex-wrap align-items-center p-0 mt-2 mt-lg-0"
+                            v-if="toshow.length > 0"
                         >
-                            <li>
-                                <nuxt-link to="/shop">Furniture</nuxt-link>
-                            </li>
-                            <li>
-                                <nuxt-link to="/shop"
-                                    >Garden & Outdoors</nuxt-link
+                            <li
+                                v-for="(item, index) in toshow.slice(0, 7)"
+                                :key="item.uuid"
+                            >
+                                <nuxt-link
+                                    :to="{
+                                        path: '/shop',
+                                        query: {
+                                            sub_category: item.slug,
+                                            collection: 'nouveautes',
+                                        },
+                                    }"
+                                    >{{ item.name }}</nuxt-link
                                 >
-                            </li>
-                            <li>
-                                <nuxt-link to="/shop"
-                                    >Home Accessories</nuxt-link
-                                >
-                            </li>
-                            <li>
-                                <nuxt-link to="/shop">Lighting</nuxt-link>
                             </li>
                         </ul>
                         <nuxt-link class="view-all" to="/shop"
@@ -318,6 +318,7 @@ export default {
         bestProducts: Array,
         topRatedProducts: Array,
         newProducts: Array,
+        toshow: Array,
     },
 };
 </script>

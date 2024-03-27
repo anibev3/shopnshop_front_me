@@ -407,8 +407,11 @@
                             </div>
 
                             <vue-slide-toggle :open="shippingInfoToggle">
-                                <div class="login-section feature-box">
-                                    <div class="feature-box-content">
+                                <div class="login-section feature-box bg-gray">
+                                    <div
+                                        class="feature-box-content"
+                                        style="background-color: #f9f9f9"
+                                    >
                                         <div
                                             class="address-box"
                                             v-if="GET_SHIPPING.length == 0"
@@ -426,18 +429,8 @@
                                                 passer à la section Facturation
                                                 et expédition.
                                             </p>
-                                            <div
-                                                v-for="(
-                                                    shipping_address, index
-                                                ) in GET_SHIPPING"
-                                                class="address-box"
-                                                @click="
-                                                    selectShippingAddress(
-                                                        shipping_address
-                                                    )
-                                                "
-                                            >
-                                                <div
+                                            <div>
+                                                <!-- <div
                                                     :class="{
                                                         'address-box': true,
                                                         'selected-address':
@@ -511,6 +504,112 @@
                                                         {{
                                                             shipping_address.postal_code
                                                         }}
+                                                    </div>
+                                                </div> -->
+
+                                                <div class="features-section">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-lg-6 address-box"
+                                                                v-for="(
+                                                                    shipping_address,
+                                                                    index
+                                                                ) in GET_SHIPPING"
+                                                                @click="
+                                                                    selectShippingAddress(
+                                                                        shipping_address
+                                                                    )
+                                                                "
+                                                            >
+                                                                <div
+                                                                    class="feature-box bg-white"
+                                                                    style="
+                                                                        border-radius: 10px;
+                                                                        margin-bottom: 4.9rem;
+                                                                    "
+                                                                    :class="{
+                                                                        'address-box': true,
+                                                                        'selected-address':
+                                                                            shipping_address ===
+                                                                            selectedShippingAddress,
+                                                                        'not-selected-address':
+                                                                            shipping_address !==
+                                                                            selectedShippingAddress,
+                                                                    }"
+                                                                >
+                                                                    <div
+                                                                        class="checkmark"
+                                                                        v-if="
+                                                                            shipping_address ===
+                                                                            selectedShippingAddress
+                                                                        "
+                                                                    >
+                                                                        <svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            width="32"
+                                                                            height="32"
+                                                                            viewBox="0 0 24 24"
+                                                                            style="
+                                                                                color: #14c314;
+                                                                            "
+                                                                        >
+                                                                            <path
+                                                                                fill="currentColor"
+                                                                                d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2m0 18a8 8 0 1 1 8-8a8 8 0 0 1-8 8"
+                                                                            />
+                                                                            <path
+                                                                                fill="currentColor"
+                                                                                d="m14.7 8.39l-3.78 5l-1.63-2.11a1 1 0 0 0-1.58 1.23l2.43 3.11a1 1 0 0 0 .79.38a1 1 0 0 0 .79-.39l4.57-6a1 1 0 1 0-1.6-1.22Z"
+                                                                            />
+                                                                        </svg>
+                                                                    </div>
+                                                                    <div>
+                                                                        Pays :
+                                                                        {{
+                                                                            shipping_address.country
+                                                                        }}
+                                                                    </div>
+                                                                    <div>
+                                                                        Ville :
+                                                                        {{
+                                                                            shipping_address.city
+                                                                        }}
+                                                                    </div>
+                                                                    <div>
+                                                                        Nom et
+                                                                        prénom
+                                                                        du
+                                                                        receveur
+                                                                        :
+                                                                        {{
+                                                                            shipping_address.recipient_name
+                                                                        }}
+                                                                    </div>
+                                                                    <div>
+                                                                        Adresse
+                                                                        1 :
+                                                                        {{
+                                                                            shipping_address.address_line_1
+                                                                        }}
+                                                                    </div>
+                                                                    <!-- <div>
+                                                                        Adresse
+                                                                        2 :
+                                                                        {{
+                                                                            shipping_address.address_line_2
+                                                                        }}
+                                                                    </div> -->
+                                                                    <div>
+                                                                        Code
+                                                                        postal :
+                                                                        {{
+                                                                            shipping_address.postal_code
+                                                                        }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -894,8 +993,8 @@
                         <tr class="border-0 py-0">
                             <td colspan="6" class="px-3 py-2 text-center">
                                 <p class="noproduct-msg mb-2">
-                                    Checkout is not available while your cart is
-                                    empty.
+                                    Le paiement n'est pas disponible tant que
+                                    votre panier est vide.
                                 </p>
                                 <i class="icon-bag-2 cart-empty"></i>
                             </td>
@@ -905,13 +1004,13 @@
                                 colspan="6"
                                 class="px-3 py-2 text-center cart-empty"
                             >
-                                No products added to the cart
+                                Aucun article dans le panier
                             </td>
                         </tr>
                         <tr class="border-0 py-0">
                             <td colspan="6" class="px-3 text-center">
                                 <nuxt-link to="/shop" class="btn btn-go-shop"
-                                    >RETURN TO SHOP</nuxt-link
+                                    >RETOUR À LA BOUTIQUE</nuxt-link
                                 >
                             </td>
                         </tr>
@@ -1283,7 +1382,7 @@ export default {
 .address-box {
     /* display: inline-block;
   position: relative; */
-    margin-bottom: 0.9rem !important;
+    /* margin-bottom: 0.9rem !important; */
     /* width: 100%;
   transition: 0.3s border-color;
   font-size: 1.4rem;

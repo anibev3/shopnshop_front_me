@@ -178,7 +178,7 @@
                                     "
                                     class="btn btn-dark btn-add-cart btn-shop"
                                     v-else
-                                    >SELECT OPTION</nuxt-link
+                                    >SELECTIONNER UN OPTION</nuxt-link
                                 >
                             </td>
                         </tr>

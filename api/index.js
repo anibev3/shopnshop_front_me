@@ -36,7 +36,10 @@ const endpoints = {
     login: '/auth/login',
     register: '/auth/register',
     getUser: '/user',
+
     getCategories: '/categories',
+    show_section: '/show-section',
+
     municipalities: '/municipalities',
     country: '/countries',
     city: '/cities',
@@ -57,7 +60,8 @@ const endpoints = {
     //  ORDER
     order: '/cart_to_order',
     m_payment: '/payments',
-    g_order: '/get_user_order',
+    g_orders: '/get_user_order',
+    g_order: '/detail_order/',
 
     //  STRIPE PAYMENT ENDPOINT
     go_to_stripe: '/api/sendtopay',

@@ -57,7 +57,7 @@
 
             <div class="ml-lg-auto">
                 <div class="toolbox-item toolbox-sort" v-if="totalCount > 0">
-                    <label>Sort By:</label>
+                    <label>Filtrer par :</label>
 
                     <div class="select-custom">
                         <select
@@ -86,7 +86,7 @@
             </div>
 
             <div class="toolbox-item toolbox-show ml-auto ml-lg-0">
-                <label>Show:</label>
+                <label>Afficher:</label>
 
                 <div class="select-custom">
                     <select
@@ -158,7 +158,7 @@
 
                 <nav class="toolbox toolbox-pagination">
                     <div class="toolbox-item toolbox-show mb-0">
-                        <label>Show:</label>
+                        <label>Afficher:</label>
 
                         <div class="select-custom">
                             <select

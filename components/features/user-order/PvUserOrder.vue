@@ -4,29 +4,6 @@
             <h3 class="account-sub-title d-none d-md-block">
                 <i class="sicon-social-dropbox align-middle mr-3"></i>Commandes
             </h3>
-            <div class="order-table-container text-center">
-                <table class="table table-order text-left">
-                    <thead>
-                        <tr>
-                            <th class="order-id">ORDER</th>
-                            <th class="order-date">DATE</th>
-                            <th class="order-status">STATUS</th>
-                            <th class="order-price">TOTAL</th>
-                            <th class="order-action">ACTIONS</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td class="text-center p-0" colspan="5">
-                                <p class="mb-5 mt-5">
-                                    No Order has been made yet.
-                                </p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
 
         <div class="container">
@@ -44,9 +21,6 @@
                 <span>has been successfully removed.</span>
             </div>
 
-            <div class="wishlist-title">
-                <h2 class="p-2">Mes favoris</h2>
-            </div>
             <div
                 class="wishlist-table-container"
                 v-if="GET_USER_ORDER.length > 0"
@@ -69,54 +43,41 @@
                             :key="'wishlist-' + index"
                         >
                             <td>
-                                <h5 class="product-title">#SH-202469B</h5>
+                                <h5 class="product-title">
+                                    #{{ product.uuid.slice(0, 6) }}
+                                </h5>
                             </td>
                             <td>
-                                <h5 class="product-title">
-                                    <!-- <nuxt-link
-                                        :to="
-                                            '/product/default/' +
-                                            product.product.slug
-                                        "
-                                        > -->
-                                    <!-- {{ product.product.name }} -->
-                                    <!-- </nuxt-link
-                                    > -->
-                                </h5>
+                                <!--  -->
+                                <!--  -->
+                                <!--  -->
+                                <!--  -->
+                                <!--  -->
+                                <!--  -->
                             </td>
 
                             <td class="price-box" key="singlePrice">
-                                <!-- <template v-if="!product.product.is_sale">
-                                    <span class="new-price">{{
-                                        numberWithSpaces(product.product.price)
-                                    }}</span>
-                                </template> -->
+                                <span class="new-price">{{
+                                    numberWithSpaces(product.total_amount)
+                                }}</span>
                             </td>
 
                             <td>
-                                <!-- <span class="stock-status">{{
-                                    product.product.stock > 0
-                                        ? 'En stock'
-                                        : 'Rupture de stock'
-                                }}</span> -->
+                                <span class="stock-status">{{
+                                    product.status
+                                }}</span>
                             </td>
-                            <td class="action">
-                                <!-- <a
-                                    href="javascript:;"
-                                    class="btn btn-quickview mt-1 mt-md-0"
-                                    @click="openQuickview(product.product)"
-                                    title="Apercu"
-                                    key="singleCart"
-                                    >Aperçu</a
-                                >
 
-                                <button
+                            <td class="action">
+                                <nuxt-link
+                                    :to="
+                                        '/pages/history-details?uuid=' +
+                                        product.uuid
+                                    "
                                     class="btn btn-dark btn-add-cart product-type-simple btn-shop"
-                                    @click="addCart(product.product)"
-                                    v-if="product.product.variants.length === 0"
                                 >
-                                    AJOUTER AU PANIER
-                                </button> -->
+                                    DETAILS
+                                </nuxt-link>
 
                                 <!-- <nuxt-link
                                     :to="
@@ -125,7 +86,7 @@
                                     "
                                     class="btn btn-dark btn-add-cart btn-shop"
                                     v-else
-                                    >SELECT OPTION</nuxt-link
+                                    >SELECTIONNER UN OPTION</nuxt-link
                                 > -->
                             </td>
                         </tr>
@@ -230,12 +191,12 @@ export default {
     },
     mounted: function () {
         this.makeCartItems();
-        this.getOrder();
+        this.getOrders();
     },
     methods: {
         ...mapActions('wishlist', ['removeFromWishlist', 'getWishlist']),
         ...mapActions('cart', ['addToCartFromWishlist']),
-        ...mapActions('order', ['getOrder']),
+        ...mapActions('order', ['getOrders']),
         makeCartItems: function () {
             this.wishItems = this.wishList;
             console.log('LES WISHLIST', this.wishItems);

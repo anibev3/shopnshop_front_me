@@ -17,8 +17,8 @@
                 ></div>
 
                 <pv-product-five
-                    :product="products[5]"
-                    v-else
+                    v-if="products.length > 0"
+                    :product="products.length > 5 ? products[5] : products[0]"
                 ></pv-product-five>
             </div>
             <div class="col-md-8">

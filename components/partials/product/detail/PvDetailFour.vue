@@ -325,10 +325,10 @@
                 <a
                     href="javascript:;"
                     class="btn btn-dark add-cart icon-shopping-cart mr-3"
-                    title="Add to Wishlist AU PANIER"
+                    title="AJOUTER AU PANIER"
                     @click="addCart"
                     :class="{ disabled: !isCartActive }"
-                    >Add to Wishlist AU PANIER</a
+                    >AJOUTER AU PANIER</a
                 >
 
                 <nuxt-link
@@ -359,44 +359,6 @@
                 </a>
             </div>
         </div>
-
-        <vue-slide-toggle
-            :open="isPriceShow"
-            v-if="product.variants.length > 0"
-        >
-            <div
-                class="price-box text-lg-right product-filtered-price m-0"
-                v-if="minPrice === maxPrice || product.price"
-                key="samePrice"
-            >
-                <span class="product-stock">{{ product.stock }} in stock</span>
-            </div>
-
-            <div class="price-box text-lg-right product-filtered-price" v-else>
-                <template v-if="product.variants[curIndex].sale_price">
-                    <del class="old-price">
-                        <span
-                            >${{
-                                product.variants[curIndex].price | priceFormat
-                            }}</span
-                        >
-                    </del>
-                    <span class="product-price"
-                        >${{
-                            product.variants[curIndex].sale_price | priceFormat
-                        }}</span
-                    >
-                </template>
-
-                <template v-else>
-                    <span class="product-price"
-                        >${{
-                            product.variants[curIndex].price | priceFormat
-                        }}</span
-                    >
-                </template>
-            </div>
-        </vue-slide-toggle>
     </div>
 </template>
 
@@ -484,15 +446,6 @@ export default {
                     (item) => item.name === this.product.name
                 ) > -1
             )
-                return true;
-            return false;
-        },
-        isPriceShow: function () {
-            if (this.curSize.name !== null && this.curColor.name !== null)
-                return true;
-            if (this.curColor.name !== null && this.vSizes.length === 0)
-                return true;
-            if (this.curSize.name !== null && this.vColors.length === 0)
                 return true;
             return false;
         },

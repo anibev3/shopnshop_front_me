@@ -52,8 +52,7 @@
                         <tr class="border-0 py-0">
                             <td colspan="6" class="px-3 py-2 text-center">
                                 <p class="noproduct-msg mb-2">
-                                    Checkout is not available while your cart is
-                                    empty.
+                                    Votre commande a été passé avec succès.
                                 </p>
                                 <i class="icon-bag-2 cart-empty"></i>
                             </td>
@@ -63,13 +62,21 @@
                                 colspan="6"
                                 class="px-3 py-2 text-center cart-empty"
                             >
-                                No products added to the cart
+                                Merci pour la confiance que vous nous accorder
                             </td>
                         </tr>
                         <tr class="border-0 py-0">
                             <td colspan="6" class="px-3 text-center">
-                                <nuxt-link to="/shop" class="btn btn-go-shop"
-                                    >RETURN TO SHOP</nuxt-link
+                                <nuxt-link
+                                    to="/shop"
+                                    class="btn btn-go-shop"
+                                    style="margin-right: 5px"
+                                    >ALLER AU MAGASIN</nuxt-link
+                                ><nuxt-link
+                                    to="/shop"
+                                    class="btn btn-go-shop"
+                                    style="margin-left: 5px"
+                                    >VOIR DETAILS COMMANDE</nuxt-link
                                 >
                             </td>
                         </tr>

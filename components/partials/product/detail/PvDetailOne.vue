@@ -172,7 +172,6 @@
                                 <p
                                     :style="{
                                         padding: '7px 7px',
-                                        // border: `1px solid {variant.options[0].value}`,
                                         borderRadius: '5px',
                                         backgroundColor:
                                             variant.options[0].value,
@@ -216,198 +215,8 @@
             </div>
         </div>
 
-        <!-- <div
-            class="product-filters-container"
-            v-if="product.variants.length > 0"
-        >
-            <div class="product-single-filter" v-if="vColors.length > 0">
-                <label>Color:</label>
-
-                <ul
-                    class="config-size-list config-color-list config-filter-list"
-                >
-                    <li
-                        v-for="(item, index) in vColors"
-                        :key="'variant-color-' + index"
-                        @click="toggleColorItem(item)"
-                        :class="{
-                            disabled: isDisabled(item, curSize),
-                            active: curColor === item,
-                        }"
-                    >
-                        <a
-                            href="javascript:;"
-                            class="filter-thumb p-0"
-                            :class="{ disabled: isDisabled(item, curSize) }"
-                            v-if="item.image[0]"
-                            key="thumbForm"
-                        >
-                            <img
-                                :src="`${baseUrl}${item.image[0].url}`"
-                                :width="item.image[0].width"
-                                :height="item.image[0].height"
-                                alt="color thumb"
-                            />
-                        </a>
-                        <a
-                            href="javascript:;"
-                            class="filter-color border-0"
-                            :style="{ backgroundColor: item.text }"
-                            :class="{ disabled: isDisabled(item, curSize) }"
-                            v-else
-                            key="colorForm"
-                        ></a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="product-single-filter" v-if="vSizes.length > 0">
-                <label>Size:</label>
-
-                <ul class="config-size-list">
-                    <li
-                        v-for="(item, index) in vSizes"
-                        :key="'variant-size-' + index"
-                        @click="toggleSizeItem(item)"
-                        :class="{
-                            disabled: isDisabled(curColor, item),
-                            active: curSize === item,
-                        }"
-                    >
-                        <a
-                            href="javascript:;"
-                            class="filter-thumb p-0"
-                            :class="{ disabled: isDisabled(item, curSize) }"
-                            v-if="item.image[0]"
-                            key="thumbSizeForm"
-                        >
-                            <img
-                                :src="`${baseUrl}${item.image[0].url}`"
-                                :width="item.image[0].width"
-                                :height="item.image[0].height"
-                                alt="size thumb"
-                            />
-                        </a>
-                        <a
-                            href="javascript:;"
-                            class="d-flex align-items-center justify-content-center"
-                            :class="{ disabled: isDisabled(curColor, item) }"
-                            v-else
-                        >
-                            <template v-if="item.text">{{
-                                item.text
-                            }}</template>
-                            <img
-                                v-else
-                                :src="`${baseUrl}${item.thumbnail[0]}`"
-                            />
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="product-single-filter">
-                <vue-slide-toggle
-                    :open="curColor.name !== null || curSize.name !== null"
-                >
-                    <label></label>
-                    <a
-                        class="font1 text-uppercase clear-btn"
-                        href="javascript:;"
-                        @click="resetValue"
-                        >Clear</a
-                    >
-                </vue-slide-toggle>
-            </div>
-        </div> -->
-
-        <!-- <div class="product-action">
-            <vue-slide-toggle
-                :open="isPriceShow"
-                v-if="product.variants.length > 0"
-            >
-                <div
-                    class="price-box product-filtered-price"
-                    v-if="minPrice === maxPrice || product.price"
-                    key="samePrice"
-                >
-                    <span class="product-stock"
-                        >{{ product.stock }} en stock</span
-                    >
-                </div>
-
-                <div class="price-box product-filtered-price" v-else>
-                    <template v-if="product.variants[curIndex].sale_price">
-                        <del class="old-price">
-                            <span
-                                >${{
-                                    product.variants[curIndex].price
-                                        | priceFormat
-                                }}</span
-                            >
-                        </del>
-                        <span class="product-price"
-                            >${{
-                                product.variants[curIndex].sale_price
-                                    | priceFormat
-                            }}</span
-                        >
-                    </template>
-
-                    <template v-else>
-                        <span class="product-price"
-                            >${{
-                                product.variants[curIndex].price | priceFormat
-                            }}</span
-                        >
-                    </template>
-                </div>
-            </vue-slide-toggle>
-
-            <div class="product-single-qty">
-                <div
-                    class="input-group bootstrap-touchspin bootstrap-touchspin-injected"
-                >
-                    <span class="input-group-btn input-group-prepend">
-                        <button
-                            class="btn btn-outline btn-down-icon bootstrap-touchspin-down"
-                            type="button"
-                            @click="minusQty"
-                        ></button>
-                    </span>
-                    <input
-                        class="horizontal-quantity form-control bg-transparent"
-                        type="text"
-                        v-model.number="qty"
-                        :max="product.stock"
-                        @change="changeQty($event)"
-                    />
-                    <span class="input-group-btn input-group-append">
-                        <button
-                            class="btn btn-outline btn-up-icon bootstrap-touchspin-up"
-                            type="button"
-                            @click="plusQty"
-                        ></button>
-                    </span>
-                </div>
-            </div>
-
-            <a
-                href="javascript:;"
-                class="btn btn-dark add-cart mr-2"
-                title="Add to Wishlist AU PANIER"
-                @click="addCart"
-                :class="{ disabled: !isCartActive }"
-                >Ajouter au panier</a
-            >
-
-            <nuxt-link to="/pages/cart" class="btn btn-gray view-cart d-none"
-                >Panier</nuxt-link
-            >
-        </div> -->
-
         <div class="product-action">
-            <vue-slide-toggle
+            <!-- <vue-slide-toggle
                 :open="(isPriceShow = true)"
                 v-if="product.variants.length === 0"
             >
@@ -416,7 +225,7 @@
                         >{{ product.stock }} en stock</span
                     >
                 </div>
-            </vue-slide-toggle>
+            </vue-slide-toggle> -->
 
             <div class="product-single-qty">
                 <div
@@ -449,7 +258,7 @@
             <a
                 href="javascript:;"
                 class="btn btn-dark add-cart mr-2"
-                title="Add to Wishlist AU PANIER"
+                title="AJOUTER AU PANIER"
                 @click="addCart"
                 :class="{ disabled: !isCartActive }"
                 >Ajouter au panier</a
@@ -629,15 +438,15 @@ export default {
                 return true;
             return false;
         },
-        isPriceShow: function () {
-            if (this.curSize.name !== null && this.curColor.name !== null)
-                return true;
-            if (this.curColor.name !== null && this.vSizes.length === 0)
-                return true;
-            if (this.curSize.name !== null && this.vColors.length === 0)
-                return true;
-            return false;
-        },
+        // isPriceShow: function () {
+        //     if (this.curSize.name !== null && this.curColor.name !== null)
+        //         return true;
+        //     if (this.curColor.name !== null && this.vSizes.length === 0)
+        //         return true;
+        //     if (this.curSize.name !== null && this.vColors.length === 0)
+        //         return true;
+        //     return false;
+        // },
     },
     created: function () {
         this.getFlag();

@@ -46,7 +46,7 @@
                 </a>
 
                 <div class="toolbox-item toolbox-sort" v-if="!isOffCanvas">
-                    <label>Sort By:</label>
+                    <label>Filtrer par :</label>
 
                     <div class="select-custom">
                         <select
@@ -76,7 +76,7 @@
 
             <div class="toolbox-right">
                 <div class="toolbox-item toolbox-sort" v-if="isOffCanvas">
-                    <label>Sort By:</label>
+                    <label>Filtrer par :</label>
 
                     <div class="select-custom">
                         <select
@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="toolbox-item toolbox-show" v-if="totalCount > 0">
-                    <label>Show:</label>
+                    <label>Afficher:</label>
 
                     <div class="select-custom">
                         <select
@@ -210,7 +210,7 @@
             v-if="products && products.length > 0"
         >
             <div class="toolbox-item toolbox-show mb-0">
-                <label>Show:</label>
+                <label>Afficher:</label>
 
                 <div class="select-custom">
                     <select

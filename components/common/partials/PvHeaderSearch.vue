@@ -32,15 +32,12 @@
                 />
                 <div class="select-custom">
                     <select
-                        :id="'searchCategory' + getId"
-                        name="searchCategory"
-                        v-model="searchCategory"
+                        :id="'searchSubCategory' + getId"
+                        name="searchSubCategory"
+                        v-model="searchSubCategory"
                         @change="searchProducts"
                     >
                         <option value>Tout</option>
-                        {{
-                            categoryList
-                        }}
                         <optgroup
                             v-for="category in categoryList"
                             :label="category.name"
@@ -50,6 +47,7 @@
                                 v-for="subCategory in category.sub_categories"
                                 :value="subCategory.slug"
                                 :key="subCategory.uuid"
+                                @click="selectCategory(category.slug)"
                             >
                                 {{ subCategory.name }}
                             </option>
@@ -148,6 +146,7 @@ export default {
             apiEndpoints: apiEndpoints,
             currentDemo: currentDemo,
             searchCategory: '',
+            searchSubCategory: '',
             categoryList: [],
         };
     },
@@ -177,6 +176,9 @@ export default {
                     console.log(error);
                 });
         },
+        selectCategory: function (slug) {
+            this.searchCategory = slug;
+        },
         searchProducts: function () {
             if (this.search_term.length > 2) {
                 var search_term = this.search_term;
@@ -190,6 +192,7 @@ export default {
                                 search_term: search_term,
                                 demo: this.currentDemo,
                                 category: this.searchCategory,
+                                sub_category: this.searchSubCategory,
                             },
                         })
                             .then((response) => {
@@ -288,7 +291,7 @@ export default {
         submitSearchForm: function (e) {
             // console.log('LA VALEUR DE e: ', {
             //     search_term: this.search_term,
-            //     category: this.searchCategory,
+            //     category: this.searchSubCategory,
             // });
             // return;
             this.closeSearchForm();
@@ -297,6 +300,7 @@ export default {
                 query: {
                     search_term: this.search_term,
                     category: this.searchCategory,
+                    sub_category: this.searchSubCategory,
                 },
             });
             this.search_term = '';

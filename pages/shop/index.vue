@@ -31,12 +31,13 @@
                         <pv-sidebar-filter-one
                             :category-list="categoryList"
                             :featured-products="featuredProducts"
-                            v-if="featuredProducts.length > 0"
+                            :categoriess="GET_CATEGORIES"
+                            v-if="GET_CATEGORIES.length > 0"
                         ></pv-sidebar-filter-one>
 
                         <div
                             class="sidebar-content skeleton-body"
-                            v-if="featuredProducts.length === 0"
+                            v-if="GET_CATEGORIES.length === 0"
                         >
                             <aside class="widget"></aside>
                             <aside class="widget"></aside>
@@ -59,6 +60,7 @@ import PvSidebarFilterOne from '~/components/partials/shop/sidebar-filter/PvSide
 import PvProductListOne from '~/components/partials/shop/product-list/PvProductListOne';
 import Api, { baseUrl, currentDemo } from '~/api';
 import { baseSlider6 } from '~/utils/data/carousel';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     directives: {
@@ -78,16 +80,22 @@ export default {
         };
     },
     mounted: function () {
+        this.get_categories();
         this.getCategoryLists();
         this.resizeHandler();
         window.addEventListener('resize', this.resizeHandler, {
             passive: true,
         });
     },
+    computed: {
+        ...mapGetters('product', ['GET_CATEGORIES']),
+    },
     destroyed: function () {
         window.removeEventListener('resize', this.resizeHandler);
     },
     methods: {
+        ...mapActions('product', ['get_categories']),
+
         getCategoryLists: function () {
             Api.get(`${baseUrl}/shop/sidebar-list`, {
                 params: { demo: currentDemo },

@@ -43,7 +43,7 @@
             <pv-sidebar-filter-two></pv-sidebar-filter-two>
 
             <div class="toolbox-item toolbox-sort select-custom">
-                <label class="d-none">Sort By:</label>
+                <label class="d-none">Filtrer par :</label>
 
                 <div class="select-custom">
                     <select
@@ -69,7 +69,7 @@
             </div>
 
             <div class="toolbox-item toolbox-show ml-auto">
-                <label>Show:</label>
+                <label>Afficher:</label>
 
                 <div class="select-custom">
                     <select
@@ -135,7 +135,7 @@
 
         <nav class="toolbox toolbox-pagination">
             <div class="toolbox-item toolbox-show mb-0">
-                <label>Show:</label>
+                <label>Afficher:</label>
 
                 <div class="select-custom">
                     <select

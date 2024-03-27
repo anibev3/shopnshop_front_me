@@ -240,7 +240,7 @@
             </div>
 
             <div class="product-action">
-                <vue-slide-toggle
+                <!-- <vue-slide-toggle
                     :open="isPriceShow"
                     v-if="product.variants.length > 0"
                 >
@@ -281,7 +281,7 @@
                             >
                         </template>
                     </div>
-                </vue-slide-toggle>
+                </vue-slide-toggle> -->
 
                 <div class="product-single-qty">
                     <div
@@ -314,10 +314,10 @@
                 <a
                     href="javascript:;"
                     class="btn btn-dark add-cart mr-2"
-                    title="Add to Wishlist AU PANIER"
+                    title="AJOUTER AU PANIER"
                     @click="addCart"
                     :class="{ disabled: !isCartActive }"
-                    >Add to Wishlist AU PANIER</a
+                    >AJOUTER AU PANIER</a
                 >
 
                 <nuxt-link
@@ -480,15 +480,15 @@ export default {
                 return true;
             return false;
         },
-        isPriceShow: function () {
-            if (this.curSize.name !== null && this.curColor.name !== null)
-                return true;
-            if (this.curColor.name !== null && this.vSizes.length === 0)
-                return true;
-            if (this.curSize.name !== null && this.vColors.length === 0)
-                return true;
-            return false;
-        },
+        // isPriceShow: function () {
+        //     if (this.curSize.name !== null && this.curColor.name !== null)
+        //         return true;
+        //     if (this.curColor.name !== null && this.vSizes.length === 0)
+        //         return true;
+        //     if (this.curSize.name !== null && this.vColors.length === 0)
+        //         return true;
+        //     return false;
+        // },
     },
     mounted: function () {
         if (this.product.variants && !this.product.price) {

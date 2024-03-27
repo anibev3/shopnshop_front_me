@@ -126,7 +126,7 @@
                     key="variantProduct"
                 >
                     <i class="fa fa-arrow-right"></i>
-                    <span>SELECT OPTIONS</span>
+                    <span>SELECTIONNER UN OPTION</span>
                 </nuxt-link>
 
                 <a
@@ -136,7 +136,7 @@
                     @click="addCart"
                 >
                     <i class="icon-shopping-cart"></i>
-                    <span>Add to Wishlist AU PANIER</span>
+                    <span>AJOUTER AU PANIER</span>
                 </a>
 
                 <a

@@ -107,48 +107,6 @@
         </div>
 
         <div class="product-action">
-            <vue-slide-toggle
-                :open="isPriceShow"
-                v-if="product.variants.length > 0"
-            >
-                <div
-                    class="price-box product-filtered-price"
-                    v-if="minPrice === maxPrice || product.price"
-                    key="samePrice"
-                >
-                    <span class="product-stock"
-                        >{{ product.stock }} in stock</span
-                    >
-                </div>
-
-                <div class="price-box product-filtered-price" v-else>
-                    <template v-if="product.variants[curIndex].sale_price">
-                        <del class="old-price">
-                            <span
-                                >${{
-                                    product.variants[curIndex].price
-                                        | priceFormat
-                                }}</span
-                            >
-                        </del>
-                        <span class="product-price"
-                            >${{
-                                product.variants[curIndex].sale_price
-                                    | priceFormat
-                            }}</span
-                        >
-                    </template>
-
-                    <template v-else>
-                        <span class="product-price"
-                            >${{
-                                product.variants[curIndex].price | priceFormat
-                            }}</span
-                        >
-                    </template>
-                </div>
-            </vue-slide-toggle>
-
             <div
                 class="product-single-qty d-flex align-items-center mb-1 pb-2 mt-0"
             >
@@ -184,10 +142,10 @@
             <a
                 href="javascript:;"
                 class="btn btn-dark add-cart mr-2"
-                title="Add to Wishlist AU PANIER"
+                title="AJOUTER AU PANIER"
                 @click="addCart"
                 :class="{ disabled: !isCartActive }"
-                >Add to Wishlist AU PANIER</a
+                >AJOUTER AU PANIER</a
             >
 
             <nuxt-link to="/pages/cart" class="btn btn-gray view-cart d-none"
@@ -312,15 +270,15 @@ export default {
                 return true;
             return false;
         },
-        isPriceShow: function () {
-            if (this.curSize.name !== null && this.curColor.name !== null)
-                return true;
-            if (this.curColor.name !== null && this.vSizes.length === 0)
-                return true;
-            if (this.curSize.name !== null && this.vColors.length === 0)
-                return true;
-            return false;
-        },
+        // isPriceShow: function () {
+        //     if (this.curSize.name !== null && this.curColor.name !== null)
+        //         return true;
+        //     if (this.curColor.name !== null && this.vSizes.length === 0)
+        //         return true;
+        //     if (this.curSize.name !== null && this.vColors.length === 0)
+        //         return true;
+        //     return false;
+        // },
     },
     mounted: function () {
         if (this.product.variants && !this.product.price) {

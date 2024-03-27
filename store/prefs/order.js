@@ -16,8 +16,10 @@ import {
 
 // Cart
 export const ADD_TO_CART = 'ADD_TO_CART';
+export const SET_USER_SIMPLE_ORDER = 'SET_USER_SIMPLE_ORDER';
 export const SET_USER_ORDER = 'SET_USER_ORDER';
-export const GET_USER_ORDER = 'SET_USER_ORDER';
+export const GET_USER_ORDER = 'GET_USER_ORDER';
+export const GET_USER_SIMPLE_ORDER = 'GET_USER_SIMPLE_ORDER';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const UPDATE_CART = 'UPDATE_CART';
 
@@ -25,6 +27,7 @@ export function state() {
     return {
         data: [],
         user_order: [],
+        user_single_order: null,
         cartAmountState: null,
     };
 }
@@ -35,6 +38,9 @@ export const getters = {
     },
     GET_USER_ORDER: (state) => {
         return state.user_order;
+    },
+    GET_USER_SIMPLE_ORDER: (state) => {
+        return state.user_single_order;
     },
     totalPrice: (state) => {
         return state.data.reduce((acc, cur) => {
@@ -172,8 +178,16 @@ export const actions = {
                 .then((response) => {
                     console.log('LE PAIEMENT AUPRES DE SH EST OK', response);
 
-                    const router = useRouter();
-                    return router.push('/pages/order-complete');
+                    // const router = useRouter();
+                    // return router.push('/pages/order-complete');
+
+                    return this.$router.push({
+                        path: '/pages/order-complete',
+                        query: {
+                            search_term: 'yes',
+                            category: 'Tout est accomplit',
+                        },
+                    });
                 })
                 .catch((error) => {
                     console.log(
@@ -400,7 +414,7 @@ export const actions = {
     },
 
     // ------------------------------------------------------------------------
-    async getOrder({ commit }) {
+    async getOrders({ commit }) {
         console.log('cart');
         try {
             const isConnected = isLoggedIn();
@@ -408,7 +422,7 @@ export const actions = {
                 const userData = retrieveAndDecryptData(constant.USER_DATA);
 
                 await Api.get(
-                    `${baseUrl2}${apiEndpoints.g_order}/${userData.uuid}`
+                    `${baseUrl2}${apiEndpoints.g_orders}/${userData.uuid}`
                 )
                     .then((response) => {
                         const data = response.data.data;
@@ -430,6 +444,32 @@ export const actions = {
     updateCart: function ({ commit }, payload) {
         commit(UPDATE_CART, payload);
     },
+
+    // ------------------------------------------------------------------------
+
+    async getOrder({ commit }, payload) {
+        try {
+            const isConnected = isLoggedIn();
+            if (isConnected) {
+                const userData = retrieveAndDecryptData(constant.USER_DATA);
+
+                await Api.get(`${baseUrl2}${apiEndpoints.g_order}${payload}`)
+                    .then((response) => {
+                        const data = response.data.data;
+                        console.log('User simple order : >>>>>>>>>>>', data);
+                        commit(SET_USER_SIMPLE_ORDER, data);
+                    })
+                    .catch((error) => {
+                        console.log('USER DATA 3', error);
+                    });
+            }
+        } catch (error) {
+            console.error(
+                "Erreur lors de la récupération des orders de l'utilisateur :",
+                error
+            );
+        }
+    },
 };
 
 export const mutations = {
@@ -446,5 +486,8 @@ export const mutations = {
     },
     [SET_USER_ORDER](state, payload) {
         state.user_order = payload;
+    },
+    [SET_USER_SIMPLE_ORDER](state, payload) {
+        state.user_single_order = payload;
     },
 };

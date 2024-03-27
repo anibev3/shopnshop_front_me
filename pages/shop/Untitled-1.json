@@ -1,0 +1,91 @@
+{
+    "sidebarList": [
+        {
+            "id": 164,
+            "name": "Cameras",
+            "parent_name": null,
+            "demoes": "demo36",
+            "slug": "cameras",
+            "created_by": "1",
+            "updated_by": "1",
+            "created_at": "2003-08-09T01:59:04.000000Z",
+            "updated_at": "2005-11-02T19:10:20.000000Z",
+            "products_count": "1",
+            "counts": 1,
+            "category": [],
+            "disabled": true
+        },
+        {
+            "id": 10,
+            "name": "Electronics",
+            "parent_name": null,
+            "demoes": "demo2,demo3,demo4,demo5,demo6,demo7,demo8,demo9,demo11,demo12,demo13,demo14,demo15,demo16,demo18,demo21,demo22,demo36",
+            "slug": "electronics",
+            "created_by": "1",
+            "updated_by": "1",
+            "created_at": "2003-03-30T14:50:15.000000Z",
+            "updated_at": "2009-10-16T20:26:02.000000Z",
+            "products_count": "27",
+            "counts": 1,
+            "children": [
+                {
+                    "id": 165,
+                    "name": "Accessories",
+                    "parent_name": "Electronics",
+                    "demoes": "demo36",
+                    "slug": "accessories-2",
+                    "created_by": "1",
+                    "updated_by": "1",
+                    "created_at": "2003-08-10T10:49:25.000000Z",
+                    "updated_at": "2008-09-09T07:58:38.000000Z",
+                    "products_count": "1",
+                    "counts": "1",
+                    "disabled": true
+                },
+                {
+                    "id": 170,
+                    "name": "Audio & Video",
+                    "parent_name": "Electronics",
+                    "demoes": "demo36",
+                    "slug": "audio-and-video-1",
+                    "created_by": "1",
+                    "updated_by": "1",
+                    "created_at": "2003-08-11T19:35:00.000000Z",
+                    "updated_at": "2004-01-16T17:13:30.000000Z",
+                    "products_count": "0",
+                    "counts": "0",
+                    "disabled": true
+                },
+                {
+                    "id": 176,
+                    "name": "Camera & Photo",
+                    "parent_name": "Electronics",
+                    "demoes": "demo36",
+                    "slug": "camera-and-photo-1",
+                    "created_by": "1",
+                    "updated_by": "1",
+                    "created_at": "2003-08-16T07:03:08.000000Z",
+                    "updated_at": "2004-01-17T00:06:53.000000Z",
+                    "products_count": "0",
+                    "counts": "0",
+                    "disabled": true
+                },
+                {
+                    "id": 181,
+                    "name": "Laptops",
+                    "parent_name": "Electronics",
+                    "demoes": "demo36",
+                    "slug": "laptops-1",
+                    "created_by": "1",
+                    "updated_by": "1",
+                    "created_at": "2003-08-17T13:48:32.000000Z",
+                    "updated_at": "2004-01-17T04:33:11.000000Z",
+                    "products_count": "0",
+                    "counts": "0",
+                    "disabled": true
+                }
+            ],
+            "disabled": true
+        }
+    ]
+}

@@ -2,7 +2,7 @@
 
 // # Contents
 // 1. Add Buttons
-// 		1.1) Add to Wishlist AU PANIER
+// 		1.1) AJOUTER AU PANIER
 // 		1.1) Add to Wishlist
 // 		1.1) Add To Compare
 // 2. Product Single Details
@@ -10,7 +10,7 @@
 // 		2.2) Sticky
 // 		2.3) Single Info List
 // 		2.4) Filter
-// 		2.5) Add to Wishlist AU PANIER Quantity
+// 		2.5) AJOUTER AU PANIER Quantity
 // 		2.6) Share
 // 3. Product Single Gallery
 // 		3.1) Gallery
@@ -31,7 +31,7 @@ $product-single-thumbnail-gutter: 3px !default;
 
 // 1. Add Buttons
 
-// 1.1) Add to Wishlist AU PANIER
+// 1.1) AJOUTER AU PANIER
 .cart-message {
     padding: 1.9rem 0 1.9rem 3px;
 
@@ -777,7 +777,7 @@ main .sticky-header {
     }
 }
 
-// 2.5) Add to Wishlist AU PANIER Quantity
+// 2.5) AJOUTER AU PANIER Quantity
 .product-single-qty label {
     color: $primary-color-dark;
     font-weight: 600;

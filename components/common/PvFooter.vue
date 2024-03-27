@@ -1,7 +1,7 @@
 <template>
     <footer class="footer font2">
         <div class="container">
-            <div
+            <!-- <div
                 class="widget-newsletter d-flex align-items-center align-items-sm-start flex-column flex-lg-row justify-content-lg-between"
             >
                 <div
@@ -34,7 +34,7 @@
                         </button>
                     </div>
                 </form>
-            </div>
+            </div> -->
 
             <div class="footer-top d-none d-lg-block">
                 <div class="row">

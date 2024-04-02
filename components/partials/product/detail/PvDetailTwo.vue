@@ -493,6 +493,11 @@ import {
     intervalPriceFormatService,
 } from '~/utils/service';
 
+import {
+    isLoggedIn,
+    retrieveAndDecryptData,
+    openLoginModal,
+} from '~/utils/storage/crypto.service';
 export default {
     components: {
         VueSlideToggle,
@@ -657,55 +662,65 @@ export default {
             if (this.qty > 1) this.qty--;
         },
         addCart: function () {
-            if (this.isCartActive) {
-                let saledProduct;
-                if (this.product.variants.length > 0) {
-                    let saledPrice;
-                    // if (this.product.price)
-                    //     saledPrice = this.product.sale_price
-                    //         ? this.product.sale_price
-                    //         : this.product.price.min;
-                    // else {
-                    saledPrice = this.selectedVariant.price;
-                    // }
-                    saledProduct = {
-                        ...this.product,
-                        qty: this.qty,
-                        name: this.product.name,
-                        //  + ' - ' + saledName,
-                        price: saledPrice,
-                        selectedVariant: this.selectedVariant,
-                    };
-                } else {
-                    saledProduct = {
-                        ...this.product,
-                        qty: this.qty,
-                        price:
-                            // this.product.sale_price
-                            //     ? this.product.sale_price
-                            //     :
-                            this.product.price,
-                    };
-                }
+            const isConnected = isLoggedIn();
+            if (isConnected) {
+                if (this.isCartActive) {
+                    let saledProduct;
+                    if (this.product.variants.length > 0) {
+                        let saledPrice;
+                        // if (this.product.price)
+                        //     saledPrice = this.product.sale_price
+                        //         ? this.product.sale_price
+                        //         : this.product.price.min;
+                        // else {
+                        saledPrice = this.selectedVariant.price;
+                        // }
+                        saledProduct = {
+                            ...this.product,
+                            qty: this.qty,
+                            name: this.product.name,
+                            //  + ' - ' + saledName,
+                            price: saledPrice,
+                            selectedVariant: this.selectedVariant,
+                        };
+                    } else {
+                        saledProduct = {
+                            ...this.product,
+                            qty: this.qty,
+                            price:
+                                // this.product.sale_price
+                                //     ? this.product.sale_price
+                                //     :
+                                this.product.price,
+                        };
+                    }
 
-                this.addToCart({ product: saledProduct });
+                    this.addToCart({ product: saledProduct });
+                }
+            } else {
+                this.openLoginModal();
             }
         },
         addWishlist: function (e) {
-            e.currentTarget.classList.add('load-more-overlay', 'loading');
-
-            setTimeout(() => {
-                this.addToWishlist({ product: this.product });
-                document
-                    .querySelector('.wishlist-popup')
-                    .classList.add('active');
+            const isConnected = isLoggedIn();
+            if (isConnected) {
+                e.currentTarget.classList.add('load-more-overlay', 'loading');
 
                 setTimeout(() => {
+                    this.addToWishlist({ product: this.product });
                     document
                         .querySelector('.wishlist-popup')
-                        .classList.remove('active');
+                        .classList.add('active');
+
+                    setTimeout(() => {
+                        document
+                            .querySelector('.wishlist-popup')
+                            .classList.remove('active');
+                    }, 1000);
                 }, 1000);
-            }, 1000);
+            } else {
+                this.openLoginModal();
+            }
         },
         isDisabled: function (color, size) {
             if (!color.name || !size.name) return false;
@@ -840,6 +855,21 @@ export default {
         resetSelection() {
             // Réinitialiser la sélection
             this.selectedVariant = null;
+        },
+
+        openLoginModal: function () {
+            this.$modal.show(
+                () => import('~/components/features/modal/PvLoginModal'),
+                {},
+                {
+                    // style: {
+                    // 'max-width': '40rem',
+                    width: '400',
+                    height: 'auto',
+                    // },
+                    adaptive: true,
+                }
+            );
         },
     },
 };

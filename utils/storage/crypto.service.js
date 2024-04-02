@@ -37,3 +37,18 @@ const decryptData = (encryptedData, key) => {
     );
     return decryptedData;
 };
+
+export const openLoginModal = () => {
+    this.$modal.show(
+        () => import('~/components/features/modal/PvLoginModal'),
+        {},
+        {
+            // style: {
+            // 'max-width': '40rem',
+            width: '400',
+            height: 'auto',
+            // },
+            adaptive: true,
+        }
+    );
+};

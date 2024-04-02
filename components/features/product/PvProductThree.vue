@@ -174,6 +174,12 @@ import {
     intervalPriceFormatService,
 } from '~/utils/service';
 
+import {
+    isLoggedIn,
+    retrieveAndDecryptData,
+    openLoginModal,
+} from '/utils/storage/crypto.service';
+
 export default {
     components: {
         PvCountDown,
@@ -251,61 +257,34 @@ export default {
                 }
             );
         },
-        // addWishlist: function (e) {
-        //     e.currentTarget.classList.add('load-more-overlay', 'loading');
-
-        //     setTimeout(() => {
-        //         this.addToWishlist({ product: this.product });
-        //         document
-        //             .querySelector('.wishlist-popup')
-        //             .classList.add('active');
-
-        //         setTimeout(() => {
-        //             document
-        //                 .querySelector('.wishlist-popup')
-        //                 .classList.remove('active');
-        //         }, 1000);
-        //     }, 1000);
-        // },
 
         addWishlist: function (e) {
-            e.currentTarget.classList.add('load-more-overlay', 'loading');
-            this.addToWishlist({ product: this.product })
-                .then(() => {
-                    document
-                        .querySelector('.wishlist-popup')
-                        .classList.add('active');
-                    setTimeout(() => {
+            const isConnected = isLoggedIn();
+            if (isConnected) {
+                e.currentTarget.classList.add('load-more-overlay', 'loading');
+
+                this.addToWishlist({ product: this.product })
+                    .then(() => {
                         document
                             .querySelector('.wishlist-popup')
-                            .classList.remove('active');
-                    }, 1000);
-                })
-                .catch((error) => {
-                    console.error(
-                        "Erreur lors de l'ajout à la liste de souhaits :",
-                        error
-                    );
-                    e.currentTarget.classList.remove('loading');
-                });
+                            .classList.add('active');
+                        setTimeout(() => {
+                            document
+                                .querySelector('.wishlist-popup')
+                                .classList.remove('active');
+                        }, 1000);
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Erreur lors de l'ajout à la liste de souhaits :",
+                            error
+                        );
+                        e.currentTarget.classList.remove('loading');
+                    });
+            } else {
+                this.openLoginModal();
+            }
         },
-
-        // rmWishlist: function (e) {
-        //     e.currentTarget.classList.add('load-more-overlay', 'loading');
-
-        //     setTimeout(() => {
-        //         this.removeFromWishlist({ product: this.product });
-        //         document
-        //             .querySelector('.wishlist-popup')
-        //             .classList.add('active');
-
-        //         setTimeout(() => {
-        //             document
-        //                 .querySelector('.wishlist-popup')
-        //                 .classList.remove('active');
-        //         }, 1000);
-        //     }, 1000);
-        // },
 
         rmWishlist: function (e) {
             e.currentTarget.classList.add('load-more-overlay', 'loading');
@@ -330,13 +309,18 @@ export default {
         },
 
         addCart: function () {
-            if (this.product.stock > 0) {
-                let saledProduct = { ...this.product };
-                if (this.product.is_sale) {
-                    saledProduct.price = this.product.sale_price;
-                }
+            const isConnected = isLoggedIn();
+            if (isConnected) {
+                if (this.product.stock > 0) {
+                    let saledProduct = { ...this.product };
+                    if (this.product.is_sale) {
+                        saledProduct.price = this.product.sale_price;
+                    }
 
-                this.addToCart({ product: saledProduct });
+                    this.addToCart({ product: saledProduct });
+                }
+            } else {
+                this.openLoginModal();
             }
         },
         numberWithSpaces(price) {
@@ -344,6 +328,20 @@ export default {
         },
         intervalNumberWithSpaces(intervalPrice) {
             return intervalPriceFormatService(intervalPrice);
+        },
+        openLoginModal: function () {
+            this.$modal.show(
+                () => import('~/components/features/modal/PvLoginModal'),
+                {},
+                {
+                    // style: {
+                    // 'max-width': '40rem',
+                    width: '400',
+                    height: 'auto',
+                    // },
+                    adaptive: true,
+                }
+            );
         },
     },
 };

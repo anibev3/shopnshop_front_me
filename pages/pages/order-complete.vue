@@ -48,7 +48,7 @@
                         </tr>
                     </thead>
 
-                    <tbody class="cart-items-wrapper">
+                    <tbody class="cart-items-wrapper" v-if="order">
                         <tr class="border-0 py-0">
                             <td colspan="6" class="px-3 py-2 text-center">
                                 <p class="noproduct-msg mb-2">
@@ -72,8 +72,12 @@
                                     class="btn btn-go-shop"
                                     style="margin-right: 5px"
                                     >ALLER AU MAGASIN</nuxt-link
-                                ><nuxt-link
-                                    to="/shop"
+                                >
+                                <nuxt-link
+                                    :to="
+                                        '/pages/history-details?uuid=' +
+                                        order.uuid
+                                    "
                                     class="btn btn-go-shop"
                                     style="margin-left: 5px"
                                     >VOIR DETAILS COMMANDE</nuxt-link
@@ -90,13 +94,7 @@
 </template>
 
 <script>
-import PvBillingCreate from '~/components/features/widgets/PvBillingCreate';
-import PvBillingUpdate from '~/components/features/widgets/PvBillingUpdate';
-import PvShippingCreate from '~/components/features/widgets/PvShippingCreate.vue';
-
 import { VueSlideToggle } from 'vue-slide-toggle';
-import { mapGetters, mapActions } from 'vuex';
-import PvQuantityInput from '~/components/features/PvQuantityInput';
 
 import { constant } from '~/api';
 
@@ -113,10 +111,6 @@ import {
 export default {
     components: {
         VueSlideToggle,
-        PvQuantityInput,
-        PvShippingCreate,
-        PvShippingCreate,
-        PvBillingUpdate,
     },
     data: function () {
         return {
@@ -138,14 +132,11 @@ export default {
             selectedCity: null, // Pour stocker la ville sélectionnée
             municipalities: [], // Pour stocker les municipalités en fonction de la ville sélectionnée
             selectedMunicipality: null, // Pour stocker la municipalité sélectionnée
-            user: Object,
+            order: Object,
             selectedShippingAddress: null,
             selectedShippingAddress_uuid: null,
             billing_uuid: null,
         };
-    },
-    computed: {
-        ...mapGetters('session', ['GET_USER_DATA', 'GET_USER_STATUS']),
     },
 
     created: function () {
@@ -154,9 +145,6 @@ export default {
     // async mounted() {
     // },
     methods: {
-        ...mapActions('session', ['getUserStatus', 'getUserData']),
-        ...mapActions('order', ['makePayment_bySH']),
-
         numberWithSpaces(price) {
             return priceFormatService(price);
         },
@@ -172,24 +160,7 @@ export default {
         isConnectedStatus() {
             this.isConnected = isLoggedIn();
             if (this.isConnected) {
-                this.user = retrieveAndDecryptData(constant.USER_DATA);
-                // Obtenir les paramètres de l'URL
-                const urlParams = new URLSearchParams(window.location.search);
-                // Obtenir la valeur du paramètre session_id
-                const sessionId = urlParams.get('session_id');
-
-                // Vérifier si sessionId existe
-                if (sessionId) {
-                    // Appeler votre fonction avec sessionId
-
-                    const formData = {
-                        order_uuid: 'orderResponse.uuid',
-                        billing_uuid: 'payload.billing_uuid',
-                        payment_method: 'credit_card',
-                        payment_date: new Date(),
-                    };
-                    this.makePayment_bySH(formData);
-                }
+                this.order = retrieveAndDecryptData(constant.ORDER_RESPONSE);
             }
         },
 

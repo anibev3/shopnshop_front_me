@@ -1,7 +1,7 @@
 export default {
     head: {
-        titleTemplate: 'Porto - Multi-purpose Ecomerce template with Vue.js',
-        title: 'Porto - Multi-purpose Ecomerce template with Vue.js',
+        titleTemplate: 'ShopnShop by Sherylux',
+        title: 'ShopnShop by Sherylux',
         meta: [
             { charset: 'utf-8' },
             {
@@ -11,7 +11,7 @@ export default {
             {
                 hid: 'description',
                 name: 'description',
-                content: 'Porto - Multi-purpose eCommerce Vue Template',
+                content: 'ShopnShop by Sherylux',
             },
             {
                 name: 'author',
@@ -19,7 +19,7 @@ export default {
             },
             {
                 name: 'keywords',
-                content: 'Porto Vue eCommerce Template',
+                content: 'ShopnShop by Sherylux',
             },
             {
                 name: 'app-mobile-web-app-title',
@@ -27,7 +27,7 @@ export default {
             },
             {
                 name: 'application-name',
-                content: 'Porto Vue eCommerce Template',
+                content: 'ShopnShop by Sherylux',
             },
             {
                 name: 'msapplication-TileColor',

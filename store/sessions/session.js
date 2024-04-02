@@ -85,7 +85,10 @@ export const actions = {
         try {
             // Effectuez une requête API ou supprimez simplement les données utilisateur du stockage
             // Une fois l'utilisateur déconnecté, appelez la mutation clearUser
+            // Effacer tous les éléments stockés dans localStorage
+
             commit('clearUser');
+            return localStorage.clear();
         } catch (error) {
             console.error(
                 "Erreur lors de la déconnexion de l'utilisateur :",

@@ -33,6 +33,10 @@
                                 class="product-row"
                                 v-for="(product, index) in cartItems"
                                 :key="'cart-product-' + index"
+                                style="
+                                    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+                                    border-radius: 10px;
+                                "
                             >
                                 <td>
                                     <figure class="product-image-container">
@@ -101,7 +105,8 @@
                                             }}
                                         </nuxt-link>
                                     </h5>
-                                    <h6>
+                                    <h6 v-if="product.variant">
+                                        <span>Variantes: </span>
                                         {{
                                             product.product
                                                 ? ''
@@ -110,6 +115,26 @@
                                                 : 0
                                         }}
                                     </h6>
+                                    <h5 style="color: red">
+                                        <div
+                                            @click="
+                                                removeFromCart({
+                                                    product: product,
+                                                })
+                                            "
+                                            style="
+                                                width: 40%;
+                                                padding: 4px;
+                                                background-color: #f4cfcf;
+                                                padding-left: 12px;
+                                                border-radius: 3px;
+                                                cursor: pointer;
+                                            "
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                            SUPPRIMER
+                                        </div>
+                                    </h5>
                                 </td>
 
                                 <td>
@@ -196,12 +221,13 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="cart-summary">
-                    <h3>TOTAL DU PANIER</h3>
+                <div>
+                    <div class="cart-summary" style="border-radius: 10px">
+                        <h3>RÉSUMÉ DU PANIER</h3>
 
-                    <table class="table table-totals">
-                        <tbody>
-                            <!-- <tr>
+                        <table class="table table-totals">
+                            <tbody>
+                                <!-- <tr>
                                 <td>Total</td>
                                 <td>
                                     {{
@@ -212,11 +238,11 @@
                                 </td>
                             </tr> -->
 
-                            <tr>
-                                <td colspan="2" class="text-left">
-                                    <!-- <h4>Shipping</h4> -->
+                                <tr>
+                                    <td colspan="2" class="text-left">
+                                        <!-- <h4>Shipping</h4> -->
 
-                                    <!-- <div
+                                        <!-- <div
                                         class="form-group form-group-custom-control"
                                     >
                                         <div
@@ -234,7 +260,7 @@
                                         </div>
                                     </div> -->
 
-                                    <!-- <div
+                                        <!-- <div
                                         class="form-group form-group-custom-control mb-0"
                                     >
                                         <div
@@ -251,7 +277,7 @@
                                         </div>
                                     </div> -->
 
-                                    <!-- <form action="#">
+                                        <!-- <form action="#">
                                         <div class="form-group form-group-sm">
                                             <label>
                                                 Shipping to
@@ -318,46 +344,54 @@
                                             Update Totals
                                         </button>
                                     </form> -->
-                                </td>
-                            </tr>
-                        </tbody>
+                                    </td>
+                                </tr>
+                            </tbody>
 
-                        <tfoot>
-                            <tr>
-                                <td>Total Hors Taxe</td>
-                                <td style="font-size: 17px">
-                                    {{ numberWithSpaces(cartAmount.ht_amount) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Montant Taxe 18%</td>
-                                <td style="font-size: 17px">
-                                    {{
-                                        numberWithSpaces(cartAmount.tax_amount)
-                                    }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Total</td>
-                                <td style="font-size: 20px">
-                                    {{
-                                        numberWithSpaces(
-                                            cartAmount.total_amount
-                                        )
-                                    }}
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                            <tfoot>
+                                <tr>
+                                    <td>Total Hors Taxe</td>
+                                    <td style="font-size: 17px">
+                                        {{
+                                            numberWithSpaces(
+                                                cartAmount.ht_amount
+                                            )
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Montant Taxe 18%</td>
+                                    <td style="font-size: 17px">
+                                        {{
+                                            numberWithSpaces(
+                                                cartAmount.tax_amount
+                                            )
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td style="font-size: 20px">
+                                        {{
+                                            numberWithSpaces(
+                                                cartAmount.total_amount
+                                            )
+                                        }}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
 
-                    <div class="checkout-methods">
-                        <nuxt-link
-                            to="/pages/checkout"
-                            class="btn btn-block btn-dark"
-                        >
-                            PASSER AU VERIFICATION
-                            <i class="fa fa-arrow-right"></i>
-                        </nuxt-link>
+                        <div class="checkout-methods">
+                            <nuxt-link
+                                to="/pages/checkout"
+                                class="btn btn-block btn-dark"
+                                style="border-radius: 10px"
+                            >
+                                PASSER AU VERIFICATION
+                                <i class="fa fa-arrow-right"></i>
+                            </nuxt-link>
+                        </div>
                     </div>
                 </div>
             </div>

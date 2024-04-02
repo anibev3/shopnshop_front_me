@@ -123,7 +123,6 @@ export const actions = {
             await Api.get(`${baseUrl2}${apiEndpoints.products}`)
                 .then((response) => {
                     const products = response.data.data;
-                    console.log('GETTER', products);
 
                     commit(SET_PRODUCTS, products);
                 })

@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div style="padding: 15px">
+        <div class="d-flex justify-content-center" style="padding: 15px">
+            MODIFICAATION DE L'ADRESSE
+        </div>
         <form class="mb-2" @submit.prevent="submitBillingAddress">
             <div class="select-custom">
                 <label>
@@ -12,9 +15,6 @@
                     v-model="selectedCountry"
                     @change="updateCities"
                 >
-                    <!-- <option value selected="selected">
-                                            British Indian Ocean Territory
-                                        </option> -->
                     <option
                         v-for="country in GET_COUNTRY"
                         :value="country.uuid"
@@ -95,13 +95,6 @@
                     v-model="billingData.postal_code"
                 />
             </div>
-
-            <!-- <div
-                                                        class="form-footer mb-0"
-                                                    > -->
-            <!-- <div
-                                                        class="form-footer-right"
-                                                    > -->
             <button
                 type="submit"
                 class="btn btn-dark py-4"
@@ -113,8 +106,6 @@
             >
                 Continuer
             </button>
-            <!-- </div> -->
-            <!-- </div> -->
         </form>
     </div>
 </template>

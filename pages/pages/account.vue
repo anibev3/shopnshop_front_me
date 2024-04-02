@@ -92,7 +92,7 @@
                                     >
                                 </li>
 
-                                <li>
+                                <li @click="logoutUser()">
                                     <nuxt-link to="/">Déconnexion</nuxt-link>
                                 </li>
 
@@ -231,7 +231,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-6 col-md-4">
+                                <div
+                                    class="col-6 col-md-4"
+                                    @click="logoutUser()"
+                                >
                                     <div class="feature-box text-center pb-4">
                                         <nuxt-link to="/">
                                             <i class="sicon-logout"></i>
@@ -642,6 +645,7 @@ export default {
     },
     methods: {
         ...mapActions('place', ['get_countries']),
+        ...mapActions('session', ['logoutUser']),
         ...mapActions('billing', [
             'add_billing_address',
             'get_billing_address',
@@ -721,6 +725,10 @@ export default {
             const userId = this.user.uuid;
             await this.get_billing_address(userId);
             await this.get_shipping_address(userId);
+        },
+
+        logoutUser_() {
+            this.logoutUser();
         },
     },
 };

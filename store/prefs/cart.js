@@ -4,6 +4,7 @@ import Api, { constant, apiEndpoints, baseUrl2 } from '~/api';
 import {
     isLoggedIn,
     retrieveAndDecryptData,
+    openLoginModal,
 } from '../../utils/storage/crypto.service';
 
 // Cart
@@ -84,10 +85,11 @@ export const actions = {
                         console.log('USER DATA 3', error);
                     });
                 return;
+            } else {
+                // return openLoginModal();
             }
-            console.log('USER DATA 2', response);
         } catch (error) {
-            console.error("Erreur lors de l'ajout aux favoris :", error);
+            console.error("Erreur lors de l'ajout à la cart :", error);
             // Gérez les erreurs d'ajout aux favoris si nécessaire
         }
     },

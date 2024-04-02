@@ -336,6 +336,11 @@ import {
     intervalPriceFormatService,
     priceFormatService,
 } from '~/utils/service';
+import {
+    isLoggedIn,
+    retrieveAndDecryptData,
+    openLoginModal,
+} from '~/utils/storage/crypto.service';
 
 export default {
     components: {
@@ -548,24 +553,34 @@ export default {
                     };
                 }
 
-                this.addToCart({ product: saledProduct });
+                const isConnected = isLoggedIn();
+                if (isConnected) {
+                    this.addToCart({ product: saledProduct });
+                } else {
+                    this.openLoginModal();
+                }
             }
         },
         addWishlist: function (e) {
-            e.currentTarget.classList.add('load-more-overlay', 'loading');
-
-            setTimeout(() => {
-                this.addToWishlist({ product: this.product });
-                document
-                    .querySelector('.wishlist-popup')
-                    .classList.add('active');
+            const isConnected = isLoggedIn();
+            if (isConnected) {
+                e.currentTarget.classList.add('load-more-overlay', 'loading');
 
                 setTimeout(() => {
+                    this.addToWishlist({ product: this.product });
                     document
                         .querySelector('.wishlist-popup')
-                        .classList.remove('active');
+                        .classList.add('active');
+
+                    setTimeout(() => {
+                        document
+                            .querySelector('.wishlist-popup')
+                            .classList.remove('active');
+                    }, 1000);
                 }, 1000);
-            }, 1000);
+            } else {
+                this.openLoginModal();
+            }
         },
         isDisabled: function (color, size) {
             if (!color.name || !size.name) return false;
@@ -625,6 +640,21 @@ export default {
         },
         intervalNumberWithSpaces(intervalPrice) {
             return intervalPriceFormatService(intervalPrice);
+        },
+
+        openLoginModal() {
+            this.$modal.show(
+                () => import('~/components/features/modal/PvLoginModal'),
+                {},
+                {
+                    // style: {
+                    // 'max-width': '40rem',
+                    width: '400',
+                    height: 'auto',
+                    // },
+                    adaptive: true,
+                }
+            );
         },
     },
 };

@@ -184,8 +184,7 @@ export const actions = {
                     return this.$router.push({
                         path: '/pages/order-complete',
                         query: {
-                            search_term: 'yes',
-                            category: 'Tout est accomplit',
+                            token: 'hzrfbuygzefiuhiygeqgfzgfeiuzgfuygezgfutzegfvzzuihfoihzGBFULQYVDUGTEFYUEHFiyegzeufuzgeygfuzebuygfez',
                         },
                     });
                 })

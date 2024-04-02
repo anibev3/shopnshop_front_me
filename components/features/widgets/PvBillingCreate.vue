@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="padding: 15px">
         <div class="address account-content mt-0 pt-2">
             <h4 class="title">Adresse de facturation</h4>
 

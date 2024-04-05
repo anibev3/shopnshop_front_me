@@ -46,10 +46,172 @@
                         }"
                         @click.prevent="changeToggle(0)"
                     >
-                        Date et heure
+                        Article & Marque
                     </a>
 
                     <vue-slide-toggle :open="toggleState[0]">
+                        <div class="card-body">
+                            <div style="margin-top: 15px">
+                                <div>
+                                    <div class="mb-2 text-center">
+                                        <h6 class="text-gray-600 font-medium">
+                                            Veuillez sélection le type de
+                                            produit aini que la marque concernée
+                                        </h6>
+                                    </div>
+                                    <div class="row">
+                                        <div
+                                            class="class col-lg-4"
+                                            v-for="category in GET_CATEGORIES"
+                                            :key="category.uuid"
+                                            @click="showSubCategories(category)"
+                                            :style="{
+                                                borderColor:
+                                                    isSelectedProductAttribut(
+                                                        category
+                                                    )
+                                                        ? 'rgb(132, 18, 132)'
+                                                        : '',
+                                                borderWidth:
+                                                    isSelectedProductAttribut(
+                                                        category
+                                                    )
+                                                        ? '3px'
+                                                        : '0px', // Ajout de la bordure de 3 pixels
+                                            }"
+                                        >
+                                            <div class="heure-container">
+                                                <div class="heure">
+                                                    <span
+                                                        class="heure__"
+                                                        style="
+                                                            text-transform: uppercase;
+                                                        "
+                                                        :style="{
+                                                            color: isSelectedProductAttribut(
+                                                                category
+                                                            )
+                                                                ? 'rgb(132, 18, 132)'
+                                                                : '',
+                                                        }"
+                                                        >{{
+                                                            category.name
+                                                        }}</span
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div >
+                                            <h2>
+                                                Sous-catégories de
+                                                {{ selectedCategory.name }}
+                                            </h2>
+                                            <ul>
+                                                <li
+                                                    
+                                                >
+                                                    
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div> -->
+                                    <div class="row" style="margin-top: 10px">
+                                        <div class="class col-lg-6">
+                                            <div class="text-center">
+                                                <h5>
+                                                    Sélectionner la categorie
+                                                </h5>
+                                            </div>
+                                            <div v-if="selectedCategory">
+                                                <div
+                                                    class="heure-container"
+                                                    v-for="subCategory in selectedCategory.sub_categories"
+                                                    :key="subCategory.uuid"
+                                                    @click="
+                                                        selectedSubCategories(
+                                                            subCategory
+                                                        )
+                                                    "
+                                                >
+                                                    <div class="heure">
+                                                        <span class="heure__">{{
+                                                            subCategory.name
+                                                        }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div v-if="!selectedCategory">
+                                                <Skeleton
+                                                    height="4.2rem"
+                                                ></Skeleton>
+                                            </div>
+                                        </div>
+                                        <div class="class col-lg-6">
+                                            <div
+                                                class="text-center"
+                                                style="
+                                                    /* margin-top: 20px;
+                                                    margin-bottom: 10px; */
+                                                "
+                                            >
+                                                <h5>Sélectionner la marque</h5>
+                                            </div>
+
+                                            <!-- <input
+                                                type="brand"
+                                                class="form-input form-wide mb-2"
+                                                id="brand"
+                                                required
+                                            /> -->
+
+                                            <div v-if="GET_BRANDS.length > 0">
+                                                <AutoComplete
+                                                    id="autocomplete"
+                                                    v-model="selectedBrand"
+                                                    :suggestions="
+                                                        filteredBrands
+                                                    "
+                                                    field="name"
+                                                    @complete="filterBrands"
+                                                    style="width: 300px"
+                                                ></AutoComplete>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="d-flex justify-content-end"
+                                style="margin-top: 20px"
+                            >
+                                <button
+                                    type="submit"
+                                    class="btn btn-dark btn-place-order"
+                                    form="checkout-form"
+                                    @click="submitProductAttribut()"
+                                >
+                                    CONTINUER
+                                </button>
+                            </div>
+                        </div>
+                    </vue-slide-toggle>
+                </div>
+                <div class="card card-accordion">
+                    <a
+                        href="#"
+                        class="card-header"
+                        :class="{
+                            expanded: toggleState[1],
+                            collapsed: !toggleState[1],
+                        }"
+                        @click.prevent="changeToggle(1)"
+                    >
+                        Date et heure
+                    </a>
+
+                    <vue-slide-toggle :open="toggleState[1]">
                         <div class="card-body">
                             <div style="margin-top: 15px">
                                 <div>
@@ -116,7 +278,7 @@
                                     class="btn btn-dark btn-place-order"
                                     form="checkout-form"
                                 >
-                                    Place order
+                                    CONTINUER
                                 </button>
                             </div>
                         </div>
@@ -128,42 +290,72 @@
                         href="#"
                         class="card-header"
                         :class="{
-                            expanded: toggleState[1],
-                            collapsed: !toggleState[1],
+                            expanded: toggleState[2],
+                            collapsed: !toggleState[2],
                         }"
-                        @click.prevent="changeToggle(1)"
+                        @click.prevent="changeToggle(2)"
                     >
                         Information personnel
                     </a>
 
-                    <vue-slide-toggle :open="toggleState[1]">
+                    <vue-slide-toggle :open="toggleState[2]">
                         <div class="card-body">
-                            <div class="login-form-container login-area">
-                                <h4 class="">
-                                    Déjà client ?
-                                    <button
-                                        data-toggle="collapse"
-                                        data-target="#collapseOne"
-                                        aria-expanded="true"
-                                        aria-controls="collapseOne"
-                                        class="btn btn-link btn-toggle"
-                                        @click="loginOpened = !loginOpened"
+                            <div
+                                class="login-form-container login-area"
+                                v-if="!isConnected"
+                            >
+                                <div
+                                    class="d-flex justify-content-between align-items-center;"
+                                    style="align-items: baseline"
+                                    v-if="!loginOpened"
+                                >
+                                    <h4 class="">Veuillez vous connecter</h4>
+
+                                    <div
+                                        class="for_me_oh"
+                                        style="
+                                            margin-bottom: 0;
+                                            padding-top: 0rem;
+                                            padding-bottom: 0rem;
+                                        "
                                     >
-                                        Se connecter
-                                    </button>
-                                </h4>
+                                        <button
+                                            type="submit"
+                                            class="btn"
+                                            @click="loginOpened = !loginOpened"
+                                            style="margin-top: 0rem"
+                                        >
+                                            SE CONNECTER
+                                        </button>
+                                    </div>
+                                </div>
 
                                 <vue-slide-toggle :open="loginOpened">
                                     <div class="login-section feature-box">
                                         <div class="feature-box-content">
-                                            <form action="#" id="login-form">
+                                            <div
+                                                class="d-flex justify-content-end"
+                                            >
+                                                <i
+                                                    @click="
+                                                        loginOpened =
+                                                            !loginOpened
+                                                    "
+                                                    class="fas fa-xmark"
+                                                    style="
+                                                        font-size: 26px;
+                                                        margin-bottom: -3px;
+                                                    "
+                                                ></i>
+                                            </div>
+                                            <form
+                                                @submit.prevent="submitLogin"
+                                                style="padding-top: 0rem"
+                                            >
                                                 <p>
-                                                    If you have shopped with us
-                                                    before, please enter your
-                                                    details below. If you are a
-                                                    new customer, please proceed
-                                                    to the Billing & Shipping
-                                                    section.
+                                                    Vous devez vous connecter
+                                                    pour faire appel à un
+                                                    personnal shopper
                                                 </p>
 
                                                 <div class="row">
@@ -172,7 +364,6 @@
                                                             <label
                                                                 class="mb-0 pb-1"
                                                             >
-                                                                Username or
                                                                 email
                                                                 <span
                                                                     class="required"
@@ -183,6 +374,9 @@
                                                                 type="email"
                                                                 class="form-control"
                                                                 required
+                                                                v-model="
+                                                                    loginData.email
+                                                                "
                                                             />
                                                         </div>
                                                     </div>
@@ -192,13 +386,16 @@
                                                             <label
                                                                 class="mb-0 pb-1"
                                                             >
-                                                                Password
+                                                                Mot de passe
                                                                 <span
                                                                     class="required"
                                                                     >*</span
                                                                 >
                                                             </label>
                                                             <input
+                                                                v-model="
+                                                                    loginData.password
+                                                                "
                                                                 type="password"
                                                                 class="form-control"
                                                                 required
@@ -206,37 +403,86 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <button
-                                                    type="submit"
-                                                    class="btn"
+                                                <div
+                                                    class="d-flex justify-content-between"
+                                                    style="
+                                                        align-items: baseline;
+                                                    "
                                                 >
-                                                    LOGIN
-                                                </button>
-
-                                                <div class="form-footer mb-1">
-                                                    <div
-                                                        class="custom-control custom-checkbox mb-0 mt-0"
-                                                    >
-                                                        <input
-                                                            type="checkbox"
-                                                            class="custom-control-input"
-                                                            id="lost-password"
-                                                        />
-                                                        <label
-                                                            class="custom-control-label mb-0"
-                                                            for="lost-password"
-                                                        >
-                                                            Remember me
-                                                        </label>
-                                                    </div>
-
                                                     <nuxt-link
                                                         to="/pages/forgot-password"
                                                         class="forget-password"
-                                                        >Lost your
-                                                        password?</nuxt-link
+                                                        >Mot de passe Oublié
+                                                        ?</nuxt-link
                                                     >
+                                                    <button
+                                                        type="submit"
+                                                        class="btn"
+                                                    >
+                                                        <span
+                                                            v-if="!isConnecting"
+                                                        >
+                                                            SE CONNECTER
+                                                        </span>
+                                                        <div
+                                                            v-if="isConnecting"
+                                                        >
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                width="32"
+                                                                height="32"
+                                                                viewBox="0 0 24 24"
+                                                            >
+                                                                <circle
+                                                                    cx="4"
+                                                                    cy="12"
+                                                                    r="3"
+                                                                    fill="currentColor"
+                                                                >
+                                                                    <animate
+                                                                        id="svgSpinners3DotsBounce0"
+                                                                        attributeName="cy"
+                                                                        begin="0;svgSpinners3DotsBounce1.end+0.25s"
+                                                                        calcMode="spline"
+                                                                        dur="0.6s"
+                                                                        keySplines=".33,.66,.66,1;.33,0,.66,.33"
+                                                                        values="12;6;12"
+                                                                    />
+                                                                </circle>
+                                                                <circle
+                                                                    cx="12"
+                                                                    cy="12"
+                                                                    r="3"
+                                                                    fill="currentColor"
+                                                                >
+                                                                    <animate
+                                                                        attributeName="cy"
+                                                                        begin="svgSpinners3DotsBounce0.begin+0.1s"
+                                                                        calcMode="spline"
+                                                                        dur="0.6s"
+                                                                        keySplines=".33,.66,.66,1;.33,0,.66,.33"
+                                                                        values="12;6;12"
+                                                                    />
+                                                                </circle>
+                                                                <circle
+                                                                    cx="20"
+                                                                    cy="12"
+                                                                    r="3"
+                                                                    fill="currentColor"
+                                                                >
+                                                                    <animate
+                                                                        id="svgSpinners3DotsBounce1"
+                                                                        attributeName="cy"
+                                                                        begin="svgSpinners3DotsBounce0.begin+0.2s"
+                                                                        calcMode="spline"
+                                                                        dur="0.6s"
+                                                                        keySplines=".33,.66,.66,1;.33,0,.66,.33"
+                                                                        values="12;6;12"
+                                                                    />
+                                                                </circle>
+                                                            </svg>
+                                                        </div>
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
@@ -244,17 +490,17 @@
                                 </vue-slide-toggle>
                             </div>
 
-                            <div>
+                            <div v-if="isConnected">
                                 <ul class="checkout-steps">
                                     <li>
                                         <h2 class="step-title">Détails</h2>
 
                                         <form action="#" id="checkout-form">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label>
-                                                            First name
+                                                            Nom et Prénom
                                                             <abbr
                                                                 class="required"
                                                                 title="required"
@@ -262,17 +508,21 @@
                                                             >
                                                         </label>
                                                         <input
+                                                            v-model="user.name"
                                                             type="text"
                                                             class="form-control"
                                                             required
+                                                            disabled
                                                         />
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-7">
                                                     <div class="form-group">
                                                         <label>
-                                                            Last name
+                                                            Email
                                                             <abbr
                                                                 class="required"
                                                                 title="required"
@@ -280,7 +530,30 @@
                                                             >
                                                         </label>
                                                         <input
-                                                            type="text"
+                                                            v-model="user.email"
+                                                            type="email"
+                                                            class="form-control"
+                                                            required
+                                                            disabled
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            Contact
+                                                            <abbr
+                                                                class="required"
+                                                                title="required"
+                                                                >*</abbr
+                                                            >
+                                                        </label>
+                                                        <input
+                                                            v-model="
+                                                                user.call_phone
+                                                            "
+                                                            disabled
+                                                            type="tel"
                                                             class="form-control"
                                                             required
                                                         />
@@ -288,95 +561,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label
-                                                    >Company name
-                                                    (optional)</label
-                                                >
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                />
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>
-                                                    Phone
-                                                    <abbr
-                                                        class="required"
-                                                        title="required"
-                                                        >*</abbr
-                                                    >
-                                                </label>
-                                                <input
-                                                    type="tel"
-                                                    class="form-control"
-                                                    required
-                                                />
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>
-                                                    Email address
-                                                    <abbr
-                                                        class="required"
-                                                        title="required"
-                                                        >*</abbr
-                                                    >
-                                                </label>
-                                                <input
-                                                    type="email"
-                                                    class="form-control"
-                                                    required
-                                                />
-                                            </div>
-
-                                            <div class="form-group mb-1">
-                                                <div
-                                                    class="custom-control custom-checkbox"
-                                                >
-                                                    <input
-                                                        type="checkbox"
-                                                        class="custom-control-input"
-                                                        id="create-account"
-                                                    />
-                                                    <label
-                                                        class="custom-control-label"
-                                                        data-toggle="collapse"
-                                                        data-target="#collapseThree"
-                                                        aria-controls="collapseThree"
-                                                        for="create-account"
-                                                        @click="
-                                                            accountOpened =
-                                                                !accountOpened
-                                                        "
-                                                        >Create an
-                                                        account?</label
-                                                    >
-                                                </div>
-                                            </div>
-
-                                            <vue-slide-toggle
-                                                :open="accountOpened"
-                                            >
-                                                <div class="form-group">
-                                                    <label>
-                                                        Create account password
-                                                        <abbr
-                                                            class="required"
-                                                            title="required"
-                                                            >*</abbr
-                                                        >
-                                                    </label>
-                                                    <input
-                                                        type="password"
-                                                        placeholder="Password"
-                                                        class="form-control"
-                                                        required
-                                                    />
-                                                </div>
-                                            </vue-slide-toggle>
-                                            <hr />
                                             <div class="form-group">
                                                 <label class="order-comments"
                                                     >Raison de
@@ -393,7 +577,7 @@
                                                 class="btn btn-dark btn-place-order"
                                                 form="checkout-form"
                                             >
-                                                Continuer
+                                                SOUMETTRE
                                             </button>
                                         </form>
                                     </li>
@@ -404,19 +588,19 @@
                 </div>
 
                 <div class="card card-accordion">
-                    <a
+                    <!-- <a
                         href="#"
                         class="card-header"
                         :class="{
-                            expanded: toggleState[4],
-                            collapsed: !toggleState[4],
+                            expanded: toggleState[3],
+                            collapsed: !toggleState[3],
                         }"
-                        @click.prevent="changeToggle(4)"
+                        @click.prevent="changeToggle(3)"
                     >
                         Soumission
-                    </a>
+                    </a> -->
 
-                    <vue-slide-toggle :open="toggleState[4]">
+                    <vue-slide-toggle :open="toggleState[3]">
                         <div class="card-body">
                             <div class="order-summary">
                                 <h3>YOUR ORDER</h3>
@@ -604,11 +788,23 @@ import Vue from 'vue';
 import { VueSlideToggle } from 'vue-slide-toggle';
 import Calendar from 'vue2-slot-calendar';
 import { setCookie } from '~/utils/index';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
+import { GET_BRANDS } from '~/store/prefs/brand';
+import {
+    retrieveAndDecryptData,
+    encryptAndStoreData,
+    isLoggedIn,
+} from '~/utils/storage/crypto.service';
+import Api, { baseUrl2, apiEndpoints, constant } from '~/api';
 
 export default {
     data() {
         return {
+            userData: null,
+            isConnected: false,
+            user: Object,
+            isConnecting: false,
+
             toggleState: [true, false, false],
             active: 0,
             selectedHour: null,
@@ -616,13 +812,29 @@ export default {
             codeOpened: false,
             accountOpened: false,
             addressOpened: false,
+            selectedCategory: null,
 
             // -----------------
             date: new Date(),
             today: new Date(),
             disabledDates: [],
-
+            brandsList: [],
             timezone: '',
+
+            // (--------------------)
+            selectedBrand: null,
+            brands: [], // Vos données de marques
+            filteredBrands: [],
+            loginData: {
+                email: '',
+                password: '',
+            },
+            product_attribut: {
+                category_uuid: '',
+                sub_category_uuid: '',
+                brand_uuid: '',
+                rank: 1,
+            },
         };
     },
     components: {
@@ -630,7 +842,10 @@ export default {
         Calendar,
     },
     computed: {
+        ...mapGetters('product', ['GET_CATEGORIES']),
         ...mapGetters('cart', ['cartList', 'totalCount', 'totalPrice']),
+        ...mapGetters('brand', ['GET_BRANDS']),
+
         disablePastDates() {
             // Calculer la date du jour et désactiver toutes les dates antérieures
             let dates = [];
@@ -646,9 +861,84 @@ export default {
     },
     mounted() {
         this.disabledDates = this.disablePastDates;
+        // alert(this.GET_BRANDS);
+        // if (this.GET_BRANDS) {
+        //     this.brandsList = this.GET_BRANDS;
+        // }
+    },
+    created() {
+        this.isConnectedStatus();
+
+        this.get_categories();
+        this.get_brands();
     },
 
     methods: {
+        ...mapActions('product', ['get_categories']),
+        ...mapActions('brand', ['get_brands']),
+
+        isConnectedStatus() {
+            this.isConnected = isLoggedIn();
+            if (this.isConnected) {
+                this.user = retrieveAndDecryptData(constant.USER_DATA);
+                console.log(this.user);
+            }
+        },
+        async submitLogin() {
+            this.isConnecting = true;
+            try {
+                Api.post(`${baseUrl2}${apiEndpoints.login}`, this.loginData)
+                    .then(async (response) => {
+                        const token = response.data.accessToken;
+                        encryptAndStoreData(constant.USER_TOKEN, token);
+                        return await this.getUserData(token);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } catch (error) {
+                console.error(
+                    "Erreur lors du chargement des données depuis l'API :",
+                    error
+                );
+                this.isConnecting = false;
+            }
+        },
+
+        async getUserData(token) {
+            this.isConnecting = true;
+
+            try {
+                Api.get(`${baseUrl2}${apiEndpoints.user}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(async (response) => {
+                        encryptAndStoreData(constant.USER_DATA, response.data);
+                        window.location.reload();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        this.isConnecting = false;
+                    });
+            } catch (error) {
+                console.error(
+                    "Erreur lors du chargement des données depuis l'API :",
+                    error
+                );
+                this.isConnecting = false;
+            }
+        },
+
+        filterBrands(event) {
+            const query = event.query.toLowerCase();
+            this.filteredBrands = this.GET_BRANDS.filter((brand) =>
+                brand.name.toLowerCase().includes(query)
+            );
+        },
+
         removeNewsletter: function (e) {
             setCookie('newsletter', !e.target.checked);
         },
@@ -679,6 +969,43 @@ export default {
             // alert(hour);
             this.selectedHour = hour;
             // Vous pouvez ajouter d'autres logiques ici en fonction de la sélection de l'heure
+        },
+
+        showSubCategories(category) {
+            this.selectedCategory = category;
+            this.product_attribut.category_uuid = category.uuid;
+        },
+
+        selectedSubCategories(sub_category) {
+            this.product_attribut.sub_category_uuid = sub_category.uuid;
+        },
+
+        // selectedbrand(brand) {
+        //     this.product_attribut.brand_uuid = brand.uuid;
+        // },
+
+        async submitProductAttribut() {
+            if (!this.product_attribut.category_uuid) {
+                console.log('Sélectionné une categorie');
+                return;
+            } else if (!this.product_attribut.sub_category_uuid) {
+                console.log('Sélectionné une sous categorie');
+                return;
+            } else if (!this.selectedBrand) {
+                console.log('Sélectionné une marque');
+                return;
+            }
+            this.product_attribut.brand_uuid = this.selectedBrand.uuid;
+            await encryptAndStoreData(
+                constant.PRODUCT_ATTRIBUT,
+                this.product_attribut
+            );
+            this.changeToggle(1);
+            console.log(this.product_attribut);
+        },
+
+        isSelectedProductAttribut(category) {
+            return this.selectedCategory === category;
         },
     },
 };
@@ -778,9 +1105,14 @@ export default {
 }
 
 .login-area {
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.125);
     padding: 10px;
     border-radius: 10px;
     margin-top: 20px;
+}
+.form-input {
+    height: 42px;
+    border-radius: 10px !important;
+    border-color: #1c1818;
 }
 </style>

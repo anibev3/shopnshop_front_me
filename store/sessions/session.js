@@ -81,14 +81,10 @@ export const actions = {
         }
     },
     // Action pour déconnecter un utilisateur
-    async logoutUser({ commit }) {
+    async logoutUser() {
         try {
-            // Effectuez une requête API ou supprimez simplement les données utilisateur du stockage
-            // Une fois l'utilisateur déconnecté, appelez la mutation clearUser
-            // Effacer tous les éléments stockés dans localStorage
-
-            commit('clearUser');
-            return localStorage.clear();
+            localStorage.clear();
+            return window.location.reload();
         } catch (error) {
             console.error(
                 "Erreur lors de la déconnexion de l'utilisateur :",

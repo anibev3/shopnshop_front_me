@@ -7,7 +7,7 @@
         </div>
 
         <div class="container">
-            <div class="cart-message carted" style="display: none">
+            <!-- <div class="cart-message carted" style="display: none">
                 <strong class="single-cart-notice" v-if="currentProduct"
                     >“{{ currentProduct.name }}”</strong
                 >
@@ -19,7 +19,7 @@
                     >“{{ currentProduct.name }}”</strong
                 >
                 <span>has been successfully removed.</span>
-            </div>
+            </div> -->
 
             <div
                 class="wishlist-table-container"
@@ -32,15 +32,18 @@
                             <th class="thumbnail-col">N° CMDE</th>
                             <th class="product-col">DATE</th>
                             <th class="price-col">TOTAL</th>
-                            <th class="status-col">STATUS</th>
-                            <th class="action-col">Actions</th>
+                            <th class="status-col">STATUT</th>
+                            <th class="action-col">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr
                             class="product-row"
-                            v-for="(product, index) in GET_USER_ORDER"
-                            :key="'wishlist-' + index"
+                            v-for="(product, index) in GET_USER_ORDER.slice(
+                                0,
+                                6
+                            )"
+                            :key="'order-' + index"
                         >
                             <td>
                                 <h5 class="product-title">
@@ -164,7 +167,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import { baseUrl, currentDemo } from '~/api';
 import {
     priceFormatService,
     intervalPriceFormatService,
@@ -173,98 +175,17 @@ import {
 export default {
     data: function () {
         return {
-            baseUrl: baseUrl,
-            currentDemo: currentDemo,
-            wishItems: [],
             orderItems: [],
-            currentProduct: null,
         };
     },
     computed: {
-        ...mapGetters('wishlist', ['wishList']),
         ...mapGetters('order', ['GET_USER_ORDER']),
     },
-    watch: {
-        wishList: function () {
-            this.makeCartItems();
-        },
-    },
     mounted: function () {
-        this.makeCartItems();
         this.getOrders();
     },
     methods: {
-        ...mapActions('wishlist', ['removeFromWishlist', 'getWishlist']),
-        ...mapActions('cart', ['addToCartFromWishlist']),
         ...mapActions('order', ['getOrders']),
-        makeCartItems: function () {
-            this.wishItems = this.wishList;
-            console.log('LES WISHLIST', this.wishItems);
-            this.wishItems = this.wishList.reduce((acc, product) => {
-                let minPrice = 0,
-                    maxPrice = 0;
-                console.log('WISHLIST_PRODUCT', product.product);
-                if (
-                    product.product.variants.length > 0
-                    // && !this.product.price
-                ) {
-                    console.log('DEMARAGE 1');
-
-                    minPrice = product.product.variants[0].price;
-                    console.log('DEMARAGE 2', minPrice);
-
-                    product.product.variants.forEach((item) => {
-                        let itemPrice = item.sale_price
-                            ? item.sale_price
-                            : item.price;
-                        if (minPrice > itemPrice) minPrice = itemPrice;
-                        if (maxPrice < itemPrice) maxPrice = itemPrice;
-                    });
-                    console.log('DEMARAGE 3', minPrice);
-                    console.log('DEMARAGE 4', maxPrice);
-                }
-
-                return [
-                    ...acc,
-                    {
-                        ...product,
-                        minPrice: minPrice,
-                        maxPrice: maxPrice,
-                    },
-                ];
-            }, []);
-        },
-        openQuickview: function (product) {
-            this.$modal.show(
-                () => import('~/components/features/product/PvQuickview'),
-                { slug: product.slug },
-                {
-                    width: '931',
-                    height: 'auto',
-                    adaptive: true,
-                    class: 'quickview-modal',
-                }
-            );
-        },
-        addCart: function (product) {
-            this.currentProduct = product;
-            console.log(product.uuid);
-            document.querySelector('.cart-message.removed').style.display =
-                'none';
-            document.querySelector('.cart-message.carted').style.display =
-                'block';
-            this.addToCartFromWishlist({ product: product });
-            this.removeFromWishlist({ id: product.uuid });
-        },
-        removeWishlist: function (product) {
-            this.currentProduct = product;
-            document.querySelector('.cart-message.carted').style.display =
-                'none';
-            document.querySelector('.cart-message.removed').style.display =
-                'block';
-            this.removeFromWishlist({ id: product.product.uuid });
-        },
-
         numberWithSpaces(price) {
             return priceFormatService(price);
         },

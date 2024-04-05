@@ -73,6 +73,8 @@ const storageConstant = {
     STRIPE_SESSION_ID: '0003',
     ORDER_RESPONSE: '0004',
     SHIP_BILL_ADDRESS: '0005',
+    PRODUCT_ATTRIBUT: '0006',
+    RDV_ATTRIBUT: '0007',
 };
 
 // Exportez l'objet contenant les endpoints

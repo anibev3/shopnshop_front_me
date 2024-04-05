@@ -9,7 +9,7 @@
                     @click.prevent="mmenuAddHandler"
                 >
                     <i class="custom-icon-toggle-menu d-inline-table"></i
-                    ><span>TOUTE CATEGORIES</span></a
+                    ><span>TOUTES CATEGORIES</span></a
                 >
                 <div
                     class="menu-depart-overlay"
@@ -29,6 +29,7 @@
                                     query: { category: category.slug },
                                 }"
                                 class="sf-with-ul"
+                                style="text-transform: uppercase"
                             >
                                 <i class="icon-category-fashion"></i
                                 >{{ category.name }}

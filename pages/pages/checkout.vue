@@ -401,8 +401,8 @@
                                     </tr>
                                 </thead>
 
-                                <tbody v-if="cartList.length > 0">
-                                    <tr v-for="(product, index) in cartItems" :key="'cart-product-' + index">
+                                <tbody v-if="extractedDataList.length > 0">
+                                    <tr v-for="(product, index) in extractedDataList" :key="'cart-product-' + index">
                                         <!-- <h4 v-if="product."> -->
 
                                         <!-- </h4> -->
@@ -411,28 +411,10 @@
                                                 <figure class="product-image-container">
                                                     <nuxt-link
                                                         :to="'/product/default/' +
-                                                        (product.product ?
-                                                            product
-                                                            .product
-                                                            .slug :
-                                                            product.variant ?
-                                                            product
-                                                            .variant
-                                                            .slug :
-                                                            0)"
+                                                        (product.slug)"
                                                         class="product-image">
-                                                        <img :src="`${
-                                                                                                                                                                                                                                                                                                                                                        product.product
-                                                                                                                                                                                                                                                                                                                                                            ? product
-                                                                                                                                                                                                                                                                                                                                                                  .product
-                                                                                                                                                                                                                                                                                                                                                                  .pictures[0]
-                                                                                                                                                                                                                                                                                                                                                            : product.variant
-                                                                                                                                                                                                                                                                                                                                                            ? product
-                                                                                                                                                                                                                                                                                                                                                                  .variant
-                                                                                                                                                                                                                                                                                                                                                                  .pictures[0]
-                                                                                                                                                                                                                                                                                                                                                            : 0
-                                                                                                                                                                                                                                                                                                                                                    }`"
-                                                            width="100" height="100" alt="product" />
+                                                        <img :src="`${product.thumbnail}`" width="100"
+                                                            height="100" alt="product" />
                                                     </nuxt-link>
                                                 </figure>
 
@@ -442,21 +424,13 @@
                                                         ×
                                                         <nuxt-link
                                                             :to="'/product/default/' +
-                                                            (product.product ?
-                                                                product
-                                                                .product
-                                                                .slug :
-                                                                product.variant ?
-                                                                product
-                                                                .variant
-                                                                .slug :
-                                                                '0')">
-                                                            {{ (product . product ? product . product . name : product . variant) ? product . variant . title : 0 }}
+                                                            (product.slug)">
+                                                            {{ product . name }}
                                                         </nuxt-link>
                                                     </h2>
 
                                                     <h6>
-                                                        {{ (product . product ? '' : product . variant) ? product . variant . combinaisons : 0 }}
+                                                        {{ product . combination }}
                                                     </h6>
                                                     <h3 @click="
                                                             removeFromCart({
@@ -485,12 +459,10 @@
                                         </td>
 
                                         <td class="price-col">
-                                            <span>{{ numbertotalWithSpaces(
-                                                (product . product ? product . product . price : product . variant) ? product . variant . price : 0,
-                                                product . quantity,
-                                            ) }}</span>
+
+                                            <span>{{ numbertotalWithSpaces(product . price, product . quantity) }}</span>
                                             <div style="margin-top: 8px">
-                                                <pv-quantity-input :qty="product.quantity" :product="product"
+                                                <pv-quantity-input :qty="product.quantity" :product="product.product"
                                                     @changeQty="changeQty"></pv-quantity-input>
                                             </div>
                                         </td>
@@ -589,10 +561,17 @@
                                 </span>
                                 <span v-if="isOrderLoading">
                                     INITILISATION AU PAIEMENT
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z"><animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                        viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
+                                            <animateTransform attributeName="transform" dur="0.75s"
+                                                repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
+                                        </path>
+                                    </svg>
                                 </span>
-                            
-                            
+
+
                             </button>
                         </div>
                     </div>
@@ -678,6 +657,7 @@
         priceFormatService,
         intervalPriceFormatService,
         totalpriceFormatService,
+        extractCartData
     } from '~/utils/service';
 
     export default {
@@ -732,10 +712,11 @@
                 selectedShippingAddress: null,
                 selectedShippingAddress_uuid: null,
                 billing_uuid: null,
+                extractedDataList: [],
             };
         },
         computed: {
-            ...mapGetters('cart', ['cartList', 'totalPrice', 'cartAmount']),
+            ...mapGetters('cart', ['cartList', 'totalPrice', 'cartAmount', 'cartListExtrated']),
             ...mapGetters('session', ['GET_USER_DATA', 'GET_USER_STATUS']),
             ...mapGetters('place', ['GET_COUNTRY']),
             ...mapGetters('billing', ['GET_BILLING']),
@@ -760,6 +741,16 @@
 
             if (this.GET_BILLING) {
                 this.initializeBillingData();
+            }
+          
+            if (this.cartListExtrated) {
+                console.log("EXTRATED 1");
+                if (this.cartListExtrated.length >= 1) {
+                    console.log("EXTRATED 2");
+                    this.extractedDataList = this.cartListExtrated
+                    console.log("EXTRATED DATA", this.extractedDataList);
+
+                }
             }
         },
         methods: {
@@ -856,6 +847,9 @@
             },
             intervalNumberWithSpaces(intervalPrice) {
                 return intervalPriceFormatService(intervalPrice);
+            },
+            extractCartDataFunction(data) {
+                return extractCartData(data);
             },
             next() {
                 this.shippingInfoToggle = true;
@@ -1071,6 +1065,7 @@
         padding-top: 5px;
         padding-bottom: 5px;
     }
+
     .address-box {
         padding-bottom: 45px !important;
         margin-bottom: 0px !important

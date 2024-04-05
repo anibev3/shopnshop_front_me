@@ -1,7 +1,7 @@
 <template>
     <div style="padding: 15px">
         <div class="d-flex justify-content-center" style="padding: 15px">
-            MODIFICAATION DE L'ADRESSE
+            MODIFICATION DE L'ADRESSE
         </div>
         <form class="mb-2" @submit.prevent="submitBillingAddress">
             <div class="select-custom">

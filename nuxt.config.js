@@ -123,6 +123,8 @@ export default {
                     'Toast',
                     'Accordion',
                     'AccordionTab',
+                    'Skeleton',
+                    'AutoComplete',
                 ],
                 directives: ['Tooltip', 'Badge'],
             },
@@ -143,6 +145,7 @@ export default {
         base: '/',
         linkActiveClass: '',
         linkExactActiveClass: 'active',
+        // middleware: 'authenticated',
     },
 
     build: {

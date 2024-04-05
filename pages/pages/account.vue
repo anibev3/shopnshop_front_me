@@ -92,8 +92,11 @@
                                     >
                                 </li>
 
-                                <li @click="logoutUser()">
-                                    <nuxt-link to="/">Déconnexion</nuxt-link>
+                                <li
+                                    @click="logoutUser_()"
+                                    style="cursor: pointer"
+                                >
+                                    Déconnexion
                                 </li>
 
                                 <li class="nav-item d-none">
@@ -233,12 +236,11 @@
 
                                 <div
                                     class="col-6 col-md-4"
-                                    @click="logoutUser()"
+                                    @click="logoutUser_()"
+                                    style="cursor: pointer"
                                 >
                                     <div class="feature-box text-center pb-4">
-                                        <nuxt-link to="/">
-                                            <i class="sicon-logout"></i>
-                                        </nuxt-link>
+                                        <i class="sicon-logout"></i>
                                         <div class="feature-box-content">
                                             <h3>DECONNEXION</h3>
                                         </div>
@@ -317,12 +319,8 @@
                                     </div>
 
                                     <a
-                                        href="#address"
                                         class="btn btn-default address-action link-to-tab"
-                                        data-toggle="billing"
-                                        @click.prevent="
-                                            tabClicked($event), handler($event)
-                                        "
+                                        @click="openCreateBillingModal()"
                                         v-if="!GET_BILLING"
                                         >Ajouter une Adresse</a
                                     >
@@ -332,24 +330,76 @@
                                         style="margin-top: 10px"
                                     >
                                         <div
+                                            class="d-flex justify-content-between"
                                             style="
                                                 border-radius: 10px;
                                                 border: 1px solid black;
                                                 padding: 10px;
                                             "
                                         >
-                                            <div>{{ GET_BILLING.country }}</div>
-                                            <div>{{ GET_BILLING.city }}</div>
-                                            <div>{{ GET_BILLING.sate }}</div>
+                                            <div>
+                                                <div>
+                                                    {{ GET_BILLING.country }}
+                                                </div>
+                                                <div>
+                                                    {{ GET_BILLING.city }}
+                                                </div>
+                                                <div>
+                                                    {{ GET_BILLING.sate }}
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div>
+                                                    <a
+                                                        class="btn btn-default address-action link-to-tab"
+                                                        style="
+                                                            margin-bottom: 5px;
+                                                            width: 100%;
+                                                        "
+                                                        @click="
+                                                            openUpdateBillingModal()
+                                                        "
+                                                        v-if="
+                                                            GET_SHIPPING.length >
+                                                            0
+                                                        "
+                                                        >MODIFIER</a
+                                                    >
+                                                </div>
+                                                <div>
+                                                    <a
+                                                        class="btn btn-default address-action-del link-to-tab"
+                                                        @click="openBasic"
+                                                        v-if="
+                                                            GET_SHIPPING.length >
+                                                            0
+                                                        "
+                                                        >SUPPRIMER</a
+                                                    >
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="address col-md-6 mt-5 mt-md-0">
-                                    <div class="heading d-flex">
+                                    <div
+                                        class="heading d-flex justify-content-between"
+                                    >
                                         <h4 class="text-dark mb-0">
                                             Adresse de livraison
                                         </h4>
+                                        <div>
+                                            <a
+                                                class="btn btn-default address-action link-to-tab"
+                                                @click="
+                                                    openCreateShippingModal()
+                                                "
+                                                v-if="GET_SHIPPING.length > 0"
+                                                >Ajouter une Adresse</a
+                                            >
+                                        </div>
                                     </div>
 
                                     <div
@@ -542,29 +592,52 @@
                         </div>
                     </div>
                     <!-- End .tab-pane -->
-
-                    <div
-                        class="tab-pane fade"
-                        id="billing"
-                        role="tabpanel"
-                        aria-labelledby="billing-tab"
-                    >
-                        <pv-billing-create></pv-billing-create>
-                    </div>
-                    <!-- End .tab-pane -->
-
-                    <div
-                        class="tab-pane fade"
-                        id="shipping"
-                        role="tabpanel"
-                        aria-labelledby="shipping-tab"
-                    >
-                        <pv-shipping-create></pv-shipping-create>
-                    </div>
-                    <!-- End .tab-pane -->
                 </div>
             </div>
         </div>
+        <Dialog
+            header="Voullez vous supprimer ?"
+            :visible.sync="displayBasic"
+            :containerStyle="{ width: '20vw' }"
+        >
+            <div class="d-flex justify-content-around">
+                <div>
+                    <a
+                        class="btn btn-default address-action link-to-tab"
+                        style="
+                            margin-bottom: 5px;
+                            width: 100%;
+                            margin-bottom: 5px;
+                            width: 100%;
+                            font-size: 13px;
+                            border: 1px solid #c4c4c4;
+                            background-color: #dfd7d7;
+                            color: #6a6464;
+                        "
+                        @click="openUpdateBillingModal()"
+                        >MODIFIER</a
+                    >
+                </div>
+                <div></div>
+                <div>
+                    <a
+                        style="
+                            font-size: 13px;
+                            border: 1px solid #eaa7a7;
+                            background-color: #eec9c9;
+                            color: #d92424;
+                        "
+                        class="btn btn-default address-action-del link-to-tab"
+                        @click="deleteBilling(GET_BILLING.uuid)"
+                        >SUPPRIMER</a
+                    >
+                </div>
+            </div>
+            <!-- <template #footer>
+        <Button label="No" icon="pi pi-times" @click="closeBasic" class="p-button-text"/>
+        <Button label="Yes" icon="pi pi-check" @click="closeBasic" autofocus />
+    </template> -->
+        </Dialog>
     </main>
 </template>
 
@@ -583,6 +656,7 @@ import {
 import { constant } from '~/api';
 
 export default {
+    middleware: 'authenticated',
     directives: {
         Sticky,
     },
@@ -594,6 +668,7 @@ export default {
     },
     data: function () {
         return {
+            displayBasic: false,
             isSticky: false,
             isConnected: false,
             countries: [], // Pour stocker les pays
@@ -642,6 +717,17 @@ export default {
         ...mapGetters('place', ['GET_COUNTRY']),
         ...mapGetters('billing', ['GET_BILLING']),
         ...mapGetters('shipping', ['GET_SHIPPING']),
+        chekBillingChange() {
+            console.log('aaaaaaaaaaaaaaaaaaaaa');
+            if (this.GET_BILLING == false) {
+                this.displayBasic = false;
+
+                console.log(
+                    'EN COURS R4ECOIS FALLLLLLLLLLLLLL',
+                    this.displayBasic
+                );
+            }
+        },
     },
     methods: {
         ...mapActions('place', ['get_countries']),
@@ -649,11 +735,15 @@ export default {
         ...mapActions('billing', [
             'add_billing_address',
             'get_billing_address',
+            'delete_billing_address',
         ]),
         ...mapActions('shipping', [
             'add_shipping_address',
             'get_shipping_address',
         ]),
+        openBasic() {
+            this.displayBasic = true;
+        },
         tabClicked: function (e) {
             let linkId = e.target.getAttribute('data-toggle');
             if (!linkId)
@@ -729,6 +819,53 @@ export default {
 
         logoutUser_() {
             this.logoutUser();
+        },
+        openCreateShippingModal: function () {
+            this.$modal.show(
+                () => import('~/components/features/widgets/PvShippingCreate'),
+                {
+                    slug: 'une_variable_ici',
+                },
+                {
+                    width: '931',
+                    height: 'auto',
+                    adaptive: true,
+                    class: 'quickview-modal',
+                }
+            );
+        },
+
+        openCreateBillingModal: function () {
+            this.$modal.show(
+                () => import('~/components/features/widgets/PvBillingCreate'),
+                {
+                    slug: 'une_variable_ici',
+                },
+                {
+                    width: '931',
+                    height: 'auto',
+                    adaptive: true,
+                    class: 'quickview-modal',
+                }
+            );
+        },
+
+        openUpdateBillingModal: function () {
+            this.$modal.show(
+                () => import('~/components/features/widgets/PvBillingUpdate'),
+                {
+                    slug: 'une_variable_ici',
+                },
+                {
+                    width: '931',
+                    height: 'auto',
+                    adaptive: true,
+                    class: 'quickview-modal',
+                }
+            );
+        },
+        deleteBilling(uuid) {
+            this.delete_billing_address(uuid);
         },
     },
 };

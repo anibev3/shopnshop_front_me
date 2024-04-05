@@ -21,14 +21,20 @@
                                     <div
                                         class="d-flex align-items-center w-100 justify-content-between"
                                     >
-                                        <h5>Order Number: #1026</h5>
+                                        <h5>
+                                            Numéro de commande : #{{
+                                                GET_USER_SIMPLE_ORDER.uuid.slice(
+                                                    0,
+                                                    6
+                                                )
+                                            }}
+                                        </h5>
                                         <div class="right-option">
                                             <!----><a
-                                                download="download"
                                                 class="btn btn-md fw-bold text-light theme-bg-color ms-auto ng-star-inserted"
-                                                href="https://laravel.pixelstrap.net/fastkart-v2/order/invoice/1026"
+                                                href="#"
                                             >
-                                                Invoice
+                                                Facture
                                                 <i
                                                     class="ri-download-2-fill ms-2"
                                                 ></i></a
@@ -327,8 +333,8 @@
                                                                 class="col-sm-6 ng-star-inserted"
                                                             >
                                                                 <label
-                                                                    >Billing
-                                                                    Address:</label
+                                                                    >Adresse de
+                                                                    Fact.:</label
                                                                 >
                                                                 <h4
                                                                     class="ng-star-inserted"
@@ -351,8 +357,8 @@
                                                                 class="col-sm-6 ng-star-inserted"
                                                             >
                                                                 <label
-                                                                    >Shipping
-                                                                    Address:</label
+                                                                    >Adresse de
+                                                                    Liv.:</label
                                                                 >
                                                                 <h4
                                                                     class="ng-star-inserted"
@@ -375,8 +381,8 @@
                                                                 class="col-sm-6 ng-star-inserted"
                                                             >
                                                                 <label
-                                                                    >Delivery
-                                                                    Slot:</label
+                                                                    >Créneau de
+                                                                    Livraison:</label
                                                                 >
                                                                 <h4>
                                                                     Standard
@@ -389,9 +395,8 @@
                                                             <li
                                                                 class="col-sm-3 ng-star-inserted"
                                                             >
-                                                                <label
-                                                                    >Payment
-                                                                    Mode:</label
+                                                                <label>
+                                                                    Paiement:</label
                                                                 >
                                                                 <div
                                                                     class="d-flex align-items-center gap-2"
@@ -404,8 +409,7 @@
                                                                 class="col-sm-3 ng-star-inserted"
                                                             >
                                                                 <label
-                                                                    >Payment
-                                                                    Status:</label
+                                                                    >Statut</label
                                                                 >
                                                                 <div
                                                                     class="d-flex align-items-center gap-2"
@@ -429,7 +433,7 @@
                                                     <h3
                                                         class="fw-semibold mb-3"
                                                     >
-                                                        Summary
+                                                        Montant
                                                     </h3>
                                                     <div
                                                         class="tracking-total tracking-wrapper"
@@ -798,7 +802,9 @@
                                 form="checkout-form"
                                 style="background-color: red"
                             >
-                                ANNULLER LA COMMANDE
+                                <span style="color: whitesmoke">
+                                    ANNULLER LA COMMANDE</span
+                                >
                             </button>
                         </div>
                     </div>
@@ -830,6 +836,7 @@ import {
 } from '~/utils/service';
 
 export default {
+    middleware: 'authenticated',
     components: {
         VueSlideToggle,
         PvQuantityInput,

@@ -69,3 +69,41 @@ export function totalpriceFormatService(price, qty) {
     totalAmount = totalAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     return `${totalAmount} ${curency}`;
 }
+
+// CartService.js
+
+export function extractCartData(cartData) {
+    const extractedData = [];
+
+    cartData.forEach((item) => {
+        let itemData = {};
+
+        if (item.product) {
+            itemData.type = 'Product';
+            itemData.name = item.product.name;
+            itemData.price = item.product.price;
+            itemData.thumbnail = item.product.thumbnail;
+            itemData.slug = item.product.slug;
+            itemData.combination = null;
+            // Ajoutez d'autres propriétés du produit ici
+        } else if (item.variant) {
+            itemData.type = 'Variant';
+            itemData.name = item.variant.title;
+            itemData.price = item.variant.price;
+            itemData.slug = item.variant.slug;
+            if (item.variant.pictures && item.variant.pictures.length > 0) {
+                itemData.thumbnail = item.variant.pictures[0];
+            }
+            itemData.combination = JSON.parse(item.variant.combinaisons);
+            // Ajoutez d'autres propriétés de la variante ici
+        }
+
+        // Ajoutez d'autres informations que vous souhaitez extraire ici
+        itemData.quantity = item.quantity;
+        itemData.product = item;
+
+        extractedData.push(itemData);
+    });
+
+    return extractedData;
+}

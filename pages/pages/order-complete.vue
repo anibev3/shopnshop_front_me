@@ -109,6 +109,7 @@ import {
 } from '~/utils/service';
 
 export default {
+    middleware: 'authenticated',
     components: {
         VueSlideToggle,
     },

@@ -7,14 +7,18 @@ import {
     openLoginModal,
 } from '../../utils/storage/crypto.service';
 
+import { extractCartData } from '~/utils/service';
+
 // Cart
 export const ADD_TO_CART = 'ADD_TO_CART';
+export const ADD_TO_CART_EXTRATED = 'ADD_TO_CART_EXTRATED';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const UPDATE_CART = 'UPDATE_CART';
 
 export function state() {
     return {
         data: [],
+        dataExtrated: [],
         cartAmountState: null,
     };
 }
@@ -22,6 +26,9 @@ export function state() {
 export const getters = {
     cartList: (state) => {
         return state.data;
+    },
+    cartListExtrated: (state) => {
+        return state.dataExtrated;
     },
     totalPrice: (state) => {
         return state.data.reduce((acc, cur) => {
@@ -291,8 +298,9 @@ export const actions = {
                 )
                     .then((response) => {
                         const data = response.data.data;
-                        console.log('CartList : >>>>>>>>>>>', data);
+                        const extractedCartData = extractCartData(data.items);
                         commit(ADD_TO_CART, data);
+                        commit(ADD_TO_CART_EXTRATED, extractedCartData);
                     })
                     .catch((error) => {
                         console.log('USER DATA 3', error);
@@ -317,6 +325,9 @@ export const mutations = {
     [ADD_TO_CART](state, payload) {
         state.data = payload.items;
         state.cartAmountState = payload.amounts;
+    },
+    [ADD_TO_CART_EXTRATED](state, payload) {
+        state.dataExtrated = payload;
     },
     [REMOVE_FROM_CART](state, payload) {
         let index = state.data.findIndex((item) => item.name === payload.name);

@@ -37,7 +37,8 @@ export const actions = {
                     const billing = response;
                     console.log('BILLING RESPONSE', billing);
 
-                    // let formData = null;
+                    window.location.reload();
+
                     if (isConnected) {
                         userData = retrieveAndDecryptData(constant.USER_DATA);
 
@@ -64,6 +65,34 @@ export const actions = {
 
                     commit(SET_BILLING, billing);
                     return billing;
+                })
+                .catch((error) => {
+                    console.log('kjjk', error);
+                    commit(SET_BILLING, false);
+                });
+        } catch (error) {
+            console.error(
+                "Erreur lors du chargement des données depuis l'API :",
+                error
+            );
+        }
+    },
+
+    async delete_billing_address({ commit, dispatch }, payload) {
+        const isConnected = isLoggedIn();
+        let userData = null;
+        try {
+            await Api.delete(`${baseUrl2}${apiEndpoints.billing}/${payload}`)
+                .then((response) => {
+                    commit(SET_BILLING, false);
+
+                    window.location.reload();
+
+                    if (isConnected) {
+                        userData = retrieveAndDecryptData(constant.USER_DATA);
+
+                        return dispatch('get_billing_address', userData.uuid);
+                    }
                 })
                 .catch((error) => {
                     console.log('kjjk', error);

@@ -1113,7 +1113,7 @@ export default {
     },
 };
 </script>
-<style>
+<style scoped>
 @import url(../../static/css/style-new.css);
 .principal {
     background-color: #f0f0f0;

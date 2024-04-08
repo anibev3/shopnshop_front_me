@@ -235,7 +235,7 @@
 
                     <ul class="mobile-menu">
                         <li>
-                            <nuxt-link to="/pages/dashboard"
+                            <nuxt-link to="/pages/account"
                                 >My Account</nuxt-link
                             >
                         </li>

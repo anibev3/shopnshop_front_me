@@ -85,6 +85,7 @@ export default {
         '~/static/vendor/simple-line-icons/css/simple-line-icons.min.css',
         '~/static/sass/style.scss',
         '@fortawesome/fontawesome-free/css/all.css',
+        'vue-select/dist/vue-select.css',
     ],
 
     plugins: [
@@ -96,6 +97,7 @@ export default {
         { src: '~/plugins/directives/sticky.js', ssr: false },
         { src: '~/plugins/vue2-slot-calendar.js', ssr: false },
         { src: '~/plugins/v-calendar.js', ssr: false },
+        { src: '~/plugins/vue-select.js', ssr: false },
         // { src: '~/plugins/antd.js', ssr: false },
         // '~/plugins/antd.js',
     ],

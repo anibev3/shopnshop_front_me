@@ -65,6 +65,10 @@ const endpoints = {
 
     //  STRIPE PAYMENT ENDPOINT
     go_to_stripe: '/api/sendtopay',
+
+    // APPOINTMENTS
+    p_appointments: '/appointments',
+    g_appointments: '/get_user_appointments',
 };
 
 const storageConstant = {

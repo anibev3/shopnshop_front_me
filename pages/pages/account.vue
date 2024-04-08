@@ -59,6 +59,11 @@
                                         >Commandes</a
                                     >
                                 </li>
+                                <li>
+                                    <nuxt-link to="/pages/personnal-shopper"
+                                        >Personnal shopper</nuxt-link
+                                    >
+                                </li>
 
                                 <li class="nav-item">
                                     <a
@@ -222,7 +227,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-6 col-md-4">
                                     <div class="feature-box text-center pb-4">
                                         <nuxt-link to="/pages/wishlist">
@@ -232,6 +236,20 @@
                                             <h3>FAVORIS</h3>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="col-6 col-md-4">
+                                    <nuxt-link to="/pages/personnal-shopper">
+                                        <div
+                                            class="feature-box text-center pb-4"
+                                        >
+                                            <i class="sicon-heart"></i>
+
+                                            <div class="feature-box-content">
+                                                <h3>PERSONNAL SHOPPER</h3>
+                                            </div>
+                                        </div></nuxt-link
+                                    >
                                 </div>
 
                                 <div
@@ -283,6 +301,50 @@
                         <!------------------>
                         <pv-user-order></pv-user-order>
                         <!-- End .tab-pane -->
+                    </div>
+
+                    <div
+                        class="tab-pane fade"
+                        id="order"
+                        role="tabpanel"
+                        aria-labelledby="order-tab"
+                    >
+                        <!------------------>
+                        <!------------------>
+                        <!--- USER ORDER --->
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <!------------------>
+                        <pv-user-order></pv-user-order>
+                        <!-- End .tab-pane -->
+
+                        <div
+                            class="tab-pane fade"
+                            id="personnal"
+                            role="tabpanel"
+                            aria-labelledby="personnal-tab"
+                        >
+                            <pv-user-order></pv-user-order>
+                            <!-- End .tab-pane -->
+                        </div>
                     </div>
                     <!-- End .tab-pane -->
 
@@ -591,7 +653,6 @@
                             </form>
                         </div>
                     </div>
-                    <!-- End .tab-pane -->
                 </div>
             </div>
         </div>

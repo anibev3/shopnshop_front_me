@@ -61,18 +61,18 @@
                 </div>
             </div>
 
-            <!-- <div class="skel-group" v-else>
+            <div class="skel-group" v-else>
                 <div class="summary-before col-lg-5 col-md-6"></div>
                 <div class="summary entry-summary col-lg-7 col-md-6"></div>
                 <div class="tab-content col-lg-12 mb-7"></div>
-            </div> -->
+            </div>
 
-            <!-- <pv-desc-one :product="product" v-if="product"></pv-desc-one> -->
+            <pv-desc-one :product="product" v-if="product"></pv-desc-one>
 
-            <!-- <pv-related-products
-                :products="relatedProducts"
+            <pv-related-products
+                :products="product"
                 class="mb-1"
-            ></pv-related-products> -->
+            ></pv-related-products>
 
             <hr class="mt-0 m-b-5" />
 

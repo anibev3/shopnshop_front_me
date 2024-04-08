@@ -1,5 +1,5 @@
 <template>
-	<div class="products-section pt-0 pb-0">
+    <!-- <div class="products-section pt-0 pb-0">
 		<h2
 			class="section-title"
 			v-if="products"
@@ -36,7 +36,7 @@
 		>
 			<p>No products were found matching your selection.</p>
 		</div>
-	</div>
+	</div> -->
 </template>
 
 <script>
@@ -45,17 +45,17 @@ import PvCarousel from '~/components/features/PvCarousel';
 import { productSliderThree } from '~/utils/data/carousel';
 
 export default {
-	components: {
-		PvProductThree,
-		PvCarousel
-	},
-	data: function() {
-		return {
-			productSliderThree: productSliderThree
-		};
-	},
-	props: {
-		products: Array
-	}
+    components: {
+        PvProductThree,
+        PvCarousel,
+    },
+    data: function () {
+        return {
+            productSliderThree: productSliderThree,
+        };
+    },
+    props: {
+        products: Array,
+    },
 };
 </script>
